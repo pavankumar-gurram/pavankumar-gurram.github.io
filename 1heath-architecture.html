@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en-IN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>High-Level and Low-Level Design · Pawan Kalyan</title>
+<meta name="description" content="The components of 1Heath, how a consultation flows through them, the data model, the verification rules and the technology stack.">
+<link rel="canonical" href="https://pawankalyan.dev/1heath-architecture">
+<meta name="author" content="Pawan Kalyan">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pawan Kalyan">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="High-Level and Low-Level Design · Pawan Kalyan">
+<meta property="og:description" content="The components of 1Heath, how a consultation flows through them, the data model, the verification rules and the technology stack.">
+<meta property="og:url" content="https://pawankalyan.dev/1heath-architecture">
+<meta property="og:image" content="https://pawankalyan.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pawan Kalyan: ML/AI Engineer, Full-Stack Engineer, Founder of 1Heath">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>(function(){var d=document.documentElement;try{d.setAttribute('data-theme',localStorage.getItem('theme')==='dark'?'dark':'light')}catch(e){d.setAttribute('data-theme','light')}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,500&display=swap">
+<style>/* Layout: a single reading column of about 70 characters. Long pages add a sticky contents rail on wide screens and a contents list at the top on phones. Light theme by default with a switch; accent is prescription-pad blue ink; green, amber and red appear only for 1Heath's real safety states. */
+:root{
+  --paper:#ffffff; --wash:#f6f7f9; --surface:#ffffff; --ink:#1a1d21; --body:#2b3036; --muted:#5d6670; --rule:#e2e5e9; --rule-strong:#cfd4da;
+  --rx:#1f4fbf; --rx-soft:#edf2fd;
+  --ok:#17704a; --ok-soft:#e5f4ec; --warn:#8a5200; --warn-soft:#fdf2df; --stop:#ad1f27; --stop-soft:#fde8e9;
+  --f-display:"Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --f-body:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --f-te:"Noto Sans Telugu", "Telugu Sangam MN", "Nirmala UI", "Gautami", sans-serif;
+  --s-xs:.8125rem; --s-sm:.9375rem; --s-0:1.125rem; --s-1:1.3125rem; --s-2:1.625rem; --s-3:2.375rem;
+  --gutter:16px; --measure:44rem;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121417; --wash:#181b1f; --surface:#1b1f24; --ink:#eceef1; --body:#d5d9de; --muted:#9aa3ad; --rule:#2a2f36; --rule-strong:#3a414a;
+  --rx:#8fb0ff; --rx-soft:#1b2540;
+  --ok:#62d29a; --ok-soft:#132a1f; --warn:#f1b65e; --warn-soft:#2b2213; --stop:#ff8d92; --stop-soft:#301819;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121417; --wash:#181b1f; --surface:#1b1f24; --ink:#eceef1; --body:#d5d9de; --muted:#9aa3ad; --rule:#2a2f36; --rule-strong:#3a414a;
+  --rx:#8fb0ff; --rx-soft:#1b2540;
+  --ok:#62d29a; --ok-soft:#132a1f; --warn:#f1b65e; --warn-soft:#2b2213; --stop:#ff8d92; --stop-soft:#301819;
+  color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:5rem}
+body{margin:0;background:var(--paper);color:var(--body);font:400 var(--s-0)/1.7 var(--f-body);-webkit-font-smoothing:antialiased;overflow-wrap:break-word;font-kerning:normal}
+img,svg{max-width:100%;height:auto}
+a{color:var(--rx);text-decoration-thickness:1px;text-underline-offset:.2em;text-decoration-color:color-mix(in srgb, var(--rx) 45%, transparent)}
+a:hover{text-decoration-color:currentColor}
+:focus-visible{outline:2px solid var(--rx);outline-offset:3px;border-radius:2px}
+h1,h2,h3,h4{font-family:var(--f-display);color:var(--ink);font-weight:600;line-height:1.22;margin:0;text-wrap:balance}
+h1{font-size:var(--s-3);letter-spacing:-.012em}
+h2{font-size:var(--s-2);letter-spacing:-.005em}
+h3{font-size:var(--s-1);line-height:1.3}
+h4{font-family:var(--f-body);font-size:var(--s-0);font-weight:700}
+p,ul,ol,figure,dl,dd{margin:0}
+b,strong{font-weight:650;color:var(--ink)}
+sup{line-height:0}
+.flow>*+*{margin-top:1.05rem}
+.muted{color:var(--muted)}
+.small{font-size:var(--s-sm)}
+.mono{font-family:var(--f-mono);font-size:.84em}
+.label{font-family:var(--f-mono);font-size:var(--s-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400}
+[lang="te"]{font-family:var(--f-te)}
+.nowrap{white-space:nowrap}
+
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--paper);padding:.6rem 1rem;z-index:20}
+.skip:focus{left:var(--gutter);top:.5rem}
+
+.pad{padding-left:var(--gutter);padding-right:var(--gutter);padding-left:max(var(--gutter), env(safe-area-inset-left, 0px));padding-right:max(var(--gutter), env(safe-area-inset-right, 0px))}
+.col{max-width:var(--measure);margin:0 auto}
+.wide{max-width:72rem;margin:0 auto}
+
+/* top bar */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--paper)}
+.topbar{position:sticky;top:0;top:env(safe-area-inset-top, 0px);z-index:9;background:var(--paper);border-bottom:1px solid var(--rule)}
+@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))) and (background:color-mix(in srgb, red 50%, blue)){.topbar{background:color-mix(in srgb, var(--paper) 90%, transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}}
+.topbar .wide{display:flex;align-items:center;gap:1rem;min-height:3.5rem}
+.brand{font-family:var(--f-display);font-weight:600;font-size:1.125rem;color:var(--ink);text-decoration:none;white-space:nowrap;padding:.6rem 0;margin-right:auto}
+.menu{display:flex;flex-wrap:wrap;list-style:none;margin:0;padding:0}
+.menu a{display:block;padding:.8rem .65rem;font-size:var(--s-sm);color:var(--muted);text-decoration:none;white-space:nowrap}
+.menu a:hover{color:var(--ink)}
+.menu a[aria-current="page"],.menu a.here{color:var(--ink);box-shadow:inset 0 -2px 0 var(--rx)}
+.theme{display:inline-flex;align-items:center;justify-content:center;width:2.75rem;height:2.75rem;border:1px solid var(--rule);background:var(--surface);color:var(--ink);border-radius:999px;cursor:pointer;flex:none}
+.theme:hover{border-color:var(--rule-strong)}
+.theme svg{width:1.15rem;height:1.15rem}
+.theme .moon{display:none}
+:root[data-theme="dark"] .theme .sun{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}
+@media (max-width:760px){
+  .topbar .wide{flex-wrap:wrap;gap:0 .5rem;padding-top:.35rem}
+  .brand{padding:.5rem 0}
+  .menu{order:3;width:100%;margin-top:-.2rem}
+  .menu a{padding:.55rem .9rem .65rem 0}
+}
+
+main{padding-block:2.75rem 1rem}
+
+/* home hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 10.5rem;gap:2.5rem;align-items:start}
+.hero .who{min-width:0;display:flex;flex-direction:column;gap:.9rem}
+.hero .role{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:var(--s-1);color:var(--muted);line-height:1.4}
+.photo{width:10.5rem;height:13.1rem;max-width:100%;border-radius:12px;overflow:hidden;background:var(--rx-soft);display:flex;align-items:center;justify-content:center;border:1px solid var(--rule)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .mark{font-family:var(--f-display);font-size:2.9rem;color:var(--rx);font-weight:600}
+.linkrow{display:flex;flex-wrap:wrap;align-items:center;font-size:var(--s-sm)}
+.linkrow a{padding:.35rem 0}
+.linkrow span{color:var(--muted);padding:.35rem .6rem}
+@media (max-width:640px){.hero{grid-template-columns:1fr;gap:1.4rem}.photo{order:-1;width:8.75rem;height:10.9rem}}
+
+/* sections */
+section{margin-top:3.5rem}
+section>h2{padding-bottom:.6rem;border-bottom:1px solid var(--rule);margin-bottom:1.3rem}
+section h3{margin-top:2rem;margin-bottom:.75rem}
+section h3:first-of-type{margin-top:1.75rem}
+
+/* dated lists */
+.dated{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.5rem}
+.dated>li{display:grid;grid-template-columns:6.75rem minmax(0,1fr);gap:1rem}
+.dated .when{font-family:var(--f-mono);font-size:var(--s-xs);color:var(--muted);padding-top:.32rem;font-variant-numeric:tabular-nums}
+.dated .what{min-width:0;display:flex;flex-direction:column;gap:.4rem}
+.dated .what h3{margin:0}
+.dated.tight{gap:.8rem}
+@media (max-width:640px){.dated>li{grid-template-columns:1fr;gap:.15rem}.dated .when{padding-top:0}}
+
+.tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{font-family:var(--f-mono);font-size:.75rem;line-height:1.5;padding:.1rem .45rem;border-radius:4px;border:1px solid var(--rule-strong);color:var(--muted)}
+.tag.wip{border-color:var(--warn);color:var(--warn);background:var(--warn-soft)}
+.tag.live{border-color:var(--ok);color:var(--ok);background:var(--ok-soft)}
+
+/* section cards on the 1Heath hub */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.card{display:flex;flex-direction:column;gap:.55rem;padding:1.25rem 1.3rem;border:1px solid var(--rule);border-radius:12px;background:var(--surface);color:inherit;text-decoration:none;min-width:0}
+.card:hover{border-color:var(--rx)}
+.card .num{font-family:var(--f-mono);font-size:var(--s-xs);color:var(--rx)}
+.card h3{margin:0;font-size:1.2rem}
+.card p{font-size:var(--s-sm);line-height:1.6}
+.card .go{margin-top:auto;font-size:var(--s-sm);color:var(--rx);padding-top:.35rem}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+
+.feature{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:.8rem}
+
+.principles{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.9rem}
+.principles li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.5rem}
+.principles li>span{font-family:var(--f-mono);color:var(--rx);font-size:var(--s-xs);padding-top:.3rem}
+ul.plain,ol.plain{padding-left:1.2rem;display:flex;flex-direction:column;gap:.5rem}
+ul.plain li::marker{color:var(--muted)}
+
+/* article pages */
+.band{background:var(--wash);border-bottom:1px solid var(--rule)}
+.band .col{padding-block:2.25rem 2.25rem;display:flex;flex-direction:column;gap:.8rem}
+.crumbs{display:flex;flex-wrap:wrap;gap:.2rem .5rem;font-size:var(--s-sm);color:var(--muted);list-style:none;padding:0;margin:0}
+.crumbs li+li::before{content:"/";margin-right:.5rem;color:var(--rule-strong)}
+.crumbs a{color:var(--muted)}
+.dek{font-size:var(--s-1);line-height:1.5;color:var(--muted)}
+.byline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;padding-block:1.2rem;border-bottom:1px solid var(--rule)}
+.byline div{display:flex;flex-direction:column;gap:.1rem;min-width:0;font-size:var(--s-sm)}
+@media (max-width:520px){.byline{grid-template-columns:1fr 1fr}}
+.tldr{margin-top:1.75rem;background:var(--wash);border:1px solid var(--rule);border-radius:12px;padding:1.2rem 1.35rem;display:flex;flex-direction:column;gap:.55rem}
+
+.layout{display:block}
+.toc{margin-top:1.5rem;border:1px solid var(--rule);border-radius:12px;padding:1rem 1.2rem}
+.toc ol{list-style:none;margin:.5rem 0 0;padding:0;display:flex;flex-direction:column;gap:.1rem;counter-reset:t}
+.toc li{counter-increment:t;display:grid;grid-template-columns:1.6rem minmax(0,1fr);font-size:var(--s-sm)}
+.toc li::before{content:counter(t);font-family:var(--f-mono);font-size:.75rem;color:var(--muted);padding-top:.45rem}
+.toc a{display:block;padding:.3rem 0;color:var(--body);text-decoration:none;line-height:1.4}
+.toc a:hover,.toc a.active{color:var(--rx)}
+@media (min-width:1180px){
+  .layout{display:grid;grid-template-columns:14rem minmax(0,var(--measure));gap:3.5rem;max-width:calc(var(--measure) + 17.5rem);margin:0 auto}
+  .layout>.col{margin:0;max-width:none;min-width:0}
+  .toc-rail{position:relative}
+  .toc{position:sticky;top:5.25rem;margin-top:2.25rem;border:0;padding:0;max-height:calc(100vh - 7rem);overflow:auto}
+  .toc-top{display:none}
+}
+@media (max-width:1179px){.toc-rail{display:none}}
+
+/* figures */
+figure.fig{margin-top:1.6rem;display:flex;flex-direction:column;gap:.75rem}
+figcaption{font-size:var(--s-sm);color:var(--muted);line-height:1.55}
+figcaption b{color:var(--ink)}
+
+/* flow diagrams built from HTML so text stays readable at any width */
+.flowchart{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:.6rem}
+.flowchart li{position:relative;background:var(--surface);border:1px solid var(--rule-strong);border-radius:10px;padding:.8rem .75rem;display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.flowchart li b{font-size:var(--s-sm);line-height:1.3}
+.flowchart li span{font-size:.84rem;color:var(--muted);line-height:1.45}
+.flowchart li .k{font-family:var(--f-mono);font-size:.7rem;color:var(--rx);letter-spacing:.05em}
+.flowchart li.key{border-color:var(--rx);box-shadow:inset 0 0 0 1px var(--rx)}
+.flowchart li+li::before{content:"→";position:absolute;left:-.6rem;top:50%;transform:translate(-50%,-50%);color:var(--muted);font-size:.85rem;background:var(--paper);line-height:1}
+@media (max-width:760px){
+  .flowchart{grid-template-columns:1fr}
+  .flowchart li+li::before{content:"↓";left:50%;top:-.3rem;transform:translate(-50%,-50%)}
+}
+
+/* layered architecture diagram */
+.layers{display:flex;flex-direction:column;gap:.55rem}
+.layer{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:.75rem;align-items:stretch}
+.layer>.lname{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding-top:.75rem}
+.layer>.boxes{display:flex;flex-wrap:wrap;gap:.5rem;min-width:0}
+.box{flex:1 1 9rem;border:1px solid var(--rule-strong);background:var(--surface);border-radius:10px;padding:.65rem .75rem;display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.box b{font-size:var(--s-sm)}
+.box span{font-size:.84rem;color:var(--muted);line-height:1.45}
+.box.plan{border-style:dashed}
+.box.key{border-color:var(--rx);box-shadow:inset 0 0 0 1px var(--rx)}
+.down{text-align:center;color:var(--muted);font-size:.85rem;line-height:1}
+@media (max-width:640px){.layer{grid-template-columns:1fr;gap:.3rem}.layer>.lname{padding-top:0}}
+
+/* bar charts drawn with HTML: one scale per chart */
+.bars{display:flex;flex-direction:column;gap:.9rem}
+.bar{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:.85rem;align-items:center}
+.bar .name{font-size:var(--s-sm);line-height:1.3;color:var(--ink)}
+.bar .name small{display:block;color:var(--muted);font-size:.8rem;margin-top:.1rem}
+.track{position:relative;height:1.55rem;background:var(--wash);border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.fill{position:absolute;top:0;bottom:0;left:0;background:var(--rx)}
+.fill.range{opacity:.3}
+.fill.warn{background:var(--warn)}
+.fill.muted{background:var(--muted);opacity:.55}
+.axis{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:.85rem}
+.axis div:last-child{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+@media (max-width:560px){.bar,.axis{grid-template-columns:1fr;gap:.3rem}.axis div:first-child{display:none}}
+
+/* tables */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:var(--s-sm);line-height:1.55}
+th,td{text-align:left;vertical-align:top;padding:.75rem .9rem;border-bottom:1px solid var(--rule)}
+th{font-family:var(--f-mono);font-size:.72rem;font-weight:500;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;background:var(--wash)}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;color:var(--ink)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:600px){
+  table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table.stack tr{display:block;padding:.65rem .9rem;border-bottom:1px solid var(--rule)}
+  table.stack tbody tr:last-child{border-bottom:0}
+  table.stack td{display:block;border:0;padding:.15rem 0;text-align:left}
+  table.stack td[data-label]::before{content:attr(data-label);display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:400}
+}
+
+/* prescription specimen */
+.rx{background:var(--surface);border:1px solid var(--rule-strong);border-radius:12px;overflow:hidden}
+.rx-head{display:flex;justify-content:space-between;gap:.5rem 1rem;flex-wrap:wrap;padding:.75rem 1.1rem;border-bottom:1px dashed var(--rule-strong);background:var(--wash)}
+.rx-line{display:grid;grid-template-columns:2.1rem minmax(0,1fr) auto;gap:.85rem;padding:1rem 1.1rem;border-bottom:1px solid var(--rule);align-items:start}
+.rx-line:last-child{border-bottom:0}
+.rx-sym{font-family:var(--f-display);font-style:italic;font-weight:600;font-size:1.05rem;color:var(--rx);line-height:1.5}
+.rx-brand{font-weight:650;color:var(--ink)}
+.rx-generic{font-family:var(--f-mono);font-size:.8125rem;letter-spacing:.03em}
+.rx-dose{font-family:var(--f-mono);font-size:.8125rem;margin-top:.25rem}
+.rx-pt{font-size:var(--s-sm);color:var(--muted);margin-top:.2rem}
+.rx-said{font-size:.9rem;color:var(--muted);font-style:italic;margin-top:.35rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.55rem}
+.chip{font-family:var(--f-mono);font-size:.78rem;padding:.3rem .7rem;border:1px solid var(--warn);color:var(--warn);border-radius:999px}
+.state{font-family:var(--f-mono);font-size:.75rem;padding:.15rem .5rem;border-radius:4px;border:1px solid transparent;display:inline-block}
+.state.ok{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.state.amber{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.state.block{background:var(--stop-soft);color:var(--stop);border-color:var(--stop)}
+@media (max-width:520px){.rx-line{grid-template-columns:1.8rem minmax(0,1fr)}.rx-line .state{grid-column:2;justify-self:start}}
+
+/* key figures */
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.facts.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.fact{background:var(--surface);padding:1.1rem 1.15rem;display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.fact .n{font-family:var(--f-display);font-size:1.85rem;font-weight:600;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.fact .t{font-size:var(--s-sm);line-height:1.45}
+.fact .src{font-size:.8rem;color:var(--muted)}
+@media (max-width:760px){.facts.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.facts,.facts.three{grid-template-columns:1fr}}
+
+.callout{border-left:3px solid var(--rx);background:var(--rx-soft);padding:1rem 1.15rem;border-radius:0 10px 10px 0}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-soft)}
+
+details.more{border:1px solid var(--rule);border-radius:12px;background:var(--surface);margin-top:1rem}
+details.more>summary{cursor:pointer;padding:.85rem 1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:1rem}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"+";font-family:var(--f-mono);color:var(--rx)}
+details.more[open]>summary::after{content:"−"}
+details.more>div{padding:0 1.1rem 1.1rem}
+
+/* citations */
+a.cite{font-family:var(--f-mono);font-size:.68em;text-decoration:none;padding:0 .1em;vertical-align:super}
+.refs{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.55rem;font-size:var(--s-sm);counter-reset:r}
+.refs li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.25rem;counter-increment:r;line-height:1.5}
+.refs li::before{content:"[" counter(r) "]";font-family:var(--f-mono);font-size:.78rem;color:var(--muted);padding-top:.15rem}
+.refs li:target{background:var(--rx-soft);border-radius:6px}
+.refs a{overflow-wrap:anywhere}
+
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem}
+.pager a{display:flex;flex-direction:column;gap:.15rem;border:1px solid var(--rule);border-radius:12px;padding:.9rem 1.1rem;text-decoration:none;color:var(--ink);min-width:0}
+.pager a:hover{border-color:var(--rx)}
+.pager a.next{text-align:right;grid-column:2}
+.pager span{font-size:var(--s-xs);color:var(--muted);font-family:var(--f-mono)}
+@media (max-width:520px){.pager{grid-template-columns:1fr}.pager a.next{grid-column:1}}
+
+.email{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.email .mono{overflow-wrap:anywhere;min-width:0}
+.copy{font:500 .8125rem var(--f-mono);background:var(--surface);border:1px solid var(--rule-strong);color:var(--ink);border-radius:8px;padding:.5rem .85rem;min-height:2.6rem;cursor:pointer}
+.copy:hover{border-color:var(--rx)}
+
+footer{margin-top:4.5rem;border-top:1px solid var(--rule);background:var(--wash)}
+footer .wide{padding-block:1.5rem 2.25rem;display:flex;justify-content:space-between;gap:.5rem 1.5rem;flex-wrap:wrap;font-size:var(--s-xs);color:var(--muted)}
+footer a{color:var(--muted)}
+
+@media (min-width:1600px){:root{--s-0:1.1875rem}}
+@media (prefers-reduced-motion:no-preference){a,.card,.pager a{transition:color .15s,border-color .15s}}
+@media (forced-colors:active){.fill{background:CanvasText;forced-color-adjust:none}.state,.chip,.tag{border:1px solid CanvasText}}
+@media print{
+  :root{--paper:#fff;--wash:#fff;--surface:#fff;--ink:#000;--body:#111;--muted:#444}
+  .topbar,.skip,.copy,.theme,.toc-rail,.toc,.pager,body::before{display:none!important}
+  body{font-size:11pt}
+  a{color:#000}
+  section,figure,.rx-line,tr,.card{break-inside:avoid}
+}
+
+/* review fixes */
+.band .band-grid>.col{padding-block:2.25rem;display:flex;flex-direction:column;gap:.8rem}
+section .card h3,section .dated .what h3,.feature h3{margin:0}
+@media (max-width:760px){.menu li:first-child{display:none}.menu a{padding-right:.8rem}}
+
+/* project entries on the home page: a small real visual beside each project */
+.project{display:grid;grid-template-columns:15rem minmax(0,1fr);gap:1.5rem;padding-block:1.5rem;border-bottom:1px solid var(--rule)}
+.project:first-of-type{padding-top:.25rem}
+.project:last-child{border-bottom:0}
+.project-body{min-width:0;display:flex;flex-direction:column;gap:.55rem}
+section .project-body h3{margin:0}
+.project-body h3 a{color:var(--ink);text-decoration:none}
+.project-body h3 a:hover{color:var(--rx)}
+.project-visual{overflow:hidden;border:1px solid var(--rule);border-radius:12px;background:var(--wash);padding:.75rem;align-self:start;min-width:0}
+.mini-rx{display:flex;flex-direction:column;gap:.45rem}
+.mini-line{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:.45rem .55rem}
+.mini-line div{display:flex;flex-direction:column;min-width:0}
+.mini-line b{font-size:.78rem;color:var(--ink)}
+.mini-line span{font-family:var(--f-mono);font-size:.62rem;color:var(--muted);line-height:1.4}
+.mini-line .state{font-style:normal;font-size:.6rem;padding:.05rem .35rem;white-space:nowrap}
+.mini-match{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;font-size:.78rem}
+.mini-match .said{font-style:italic;color:var(--muted)}
+.mini-match .arrow{color:var(--muted);padding-left:.4rem;line-height:1}
+.mini-match .got{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok);border-radius:6px;padding:.2rem .45rem;margin-bottom:.45rem}
+.mini-match .got b{color:inherit}
+.mini-match .ask{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);border-radius:6px;padding:.2rem .45rem}
+.mini-match .ask i{font-style:normal;text-decoration:underline}
+.mini-scan{position:relative;height:8.5rem}
+.mini-scan span{position:absolute;left:calc(var(--i) * 12%);top:calc(var(--i) * 1.25rem);width:52%;padding:.45rem .55rem;border:1px solid var(--rule-strong);background:var(--surface);border-radius:8px;font-family:var(--f-mono);font-size:.68rem;color:var(--muted);box-shadow:0 1px 0 var(--rule)}
+.mini-scan span:last-child{border-color:var(--rx);color:var(--rx)}
+@media (max-width:700px){.project{grid-template-columns:1fr;gap:.9rem}.project-visual{max-width:20rem}}
+
+/* key points in place of a paragraph summary */
+.tldr ul{margin:0;padding-left:1.15rem;display:flex;flex-direction:column;gap:.4rem}
+.tldr li::marker{color:var(--rx)}
+
+/* glossary */
+dl.glossary{display:grid;grid-template-columns:8rem minmax(0,1fr);gap:.55rem 1rem;font-size:var(--s-sm)}
+dl.glossary dt{font-weight:700;color:var(--ink)}
+dl.glossary dd{margin:0;color:var(--body)}
+@media (max-width:520px){dl.glossary{grid-template-columns:1fr;gap:.1rem}dl.glossary dd{margin-bottom:.6rem}}
+abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:help}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "High-Level and Low-Level Design", "description": "The components of 1Heath, how a consultation flows through them, the data model, the verification rules and the technology stack.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-05", "inLanguage": "en-IN"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar pad"><nav class="wide" aria-label="Site"><a class="brand" href="index.html">Pawan Kalyan</a><ul class="menu"><li><a href="index.html">Home</a></li><li><a href="1heath.html" aria-current="page">1Heath</a></li><li><a href="india-health.html">India</a></li><li><a href="health-systems-compared.html">World</a></li><li><a href="index.html#contact">Contact</a></li></ul><button class="theme" type="button" id="theme" aria-label="Switch to dark theme" title="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button></nav></header>
+<div class="band"><div class="layout band-grid pad"><div class="toc-rail" aria-hidden="true"></div><div class="col"><ol class="crumbs"><li><a href="index.html">Home</a></li><li><a href="1heath.html">1Heath</a></li><li aria-current="page">Architecture</li></ol><h1>High-Level and Low-Level Design</h1><p class="dek">The components of 1Heath, how a consultation flows through them, the data model, the verification rules and the technology stack.</p></div></div></div>
+<div class="layout pad"><aside class="toc-rail"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#hld-h">High-Level Design</a></li><li><a href="#flow-h">One Consultation, End to End</a></li><li><a href="#cost-h">Cost and Connectivity</a></li><li><a href="#lld-h">Low-Level Design: The Data Model</a></li><li><a href="#matcher-h">Low-Level Design: Matching Medicine Names</a></li><li><a href="#verifier-h">Low-Level Design: The Verifier's Rules</a></li><li><a href="#stack-h">Technology Stack</a></li><li><a href="#engineering-h">How It Is Built and Tested</a></li><li><a href="#sources">Sources</a></li></ol></nav></aside><main id="main" class="col" style="padding-top:0"><div class="byline"><div><span class="label">Author</span><a href="index.html">Pawan Kalyan</a></div><div><span class="label">Updated</span><span>5 November 2026</span></div><div><span class="label">Reading time</span><span>6 min</span></div></div><div class="tldr"><span class="label">Key Points</span><ul>
+<li>Four layers: apps, an on-phone engine and encrypted vault, an AI gateway, and (planned) a server linked to ABDM.</li>
+<li>The model drafts in the cloud; <b>verification runs on the phone</b>.</li>
+<li>Nothing reaches the signed record without passing the rules, and a signed record never changes.</li>
+</ul></div><div class="toc-top"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#hld-h">High-Level Design</a></li><li><a href="#flow-h">One Consultation, End to End</a></li><li><a href="#cost-h">Cost and Connectivity</a></li><li><a href="#lld-h">Low-Level Design: The Data Model</a></li><li><a href="#matcher-h">Low-Level Design: Matching Medicine Names</a></li><li><a href="#verifier-h">Low-Level Design: The Verifier's Rules</a></li><li><a href="#stack-h">Technology Stack</a></li><li><a href="#engineering-h">How It Is Built and Tested</a></li><li><a href="#sources">Sources</a></li></ol></nav></div>
+<section id="hld" aria-labelledby="hld-h">
+  <h2 id="hld-h">High-Level Design</h2>
+  <figure class="fig" style="margin-top:0">
+    <div class="layers">
+      <div class="layer"><div class="lname">Apps</div><div class="boxes">
+        <div class="box key"><b>Doctor app</b><span>Listen, review, sign, PDF · built</span></div>
+        <div class="box plan"><b>Desk app</b><span>Register, consent, vitals</span></div>
+        <div class="box plan"><b>Pharmacy app</b><span>Dispense what was signed</span></div>
+        <div class="box plan"><b>Patient app</b><span>Record, reminders, emergency card</span></div>
+      </div></div>
+      <div class="down" aria-hidden="true">↓ ↑</div>
+      <div class="layer"><div class="lname">On the phone</div><div class="boxes">
+        <div class="box"><b>Audio pipeline</b><span>16 kHz capture, voice activity detection, chunks of up to ~10 s</span></div>
+        <div class="box key"><b>Rules engine</b><span>Name matching, verification, safety checks, note assembly</span></div>
+        <div class="box"><b>Encrypted vault</b><span>Consultations, signed records, catalogue</span></div>
+      </div></div>
+      <div class="down" aria-hidden="true">↓ ↑ HTTPS</div>
+      <div class="layer"><div class="lname">Gateway</div><div class="boxes">
+        <div class="box"><b>AI gateway</b><span>Holds all service keys, routes speech and drafting, meters usage, enforces limits</span></div>
+      </div></div>
+      <div class="down" aria-hidden="true">↓ ↑</div>
+      <div class="layer"><div class="lname">AI services</div><div class="boxes">
+        <div class="box"><b>Speech to text</b><span>Translate and code-mixed modes, India-hosted</span></div>
+        <div class="box"><b>Drafting model</b><span>Sarvam-105B, India-hosted</span></div>
+      </div></div>
+      <div class="down" aria-hidden="true">· · ·</div>
+      <div class="layer"><div class="lname">Planned server</div><div class="boxes">
+        <div class="box plan"><b>Record server</b><span>Sync, backup, sharing between apps · India region</span></div>
+        <div class="box plan"><b>ABDM link</b><span>ABHA, health facility and professional registries, FHIR R4, consent manager</span></div>
+        <div class="box plan"><b>Drug registry</b><span>National Drug Registry lookups</span></div>
+      </div></div>
+    </div>
+    <figcaption><b>Figure 1.</b> Components. Solid boxes exist in the demo; dashed boxes are designed but not built. Keys for AI services live only in the gateway, never on the phone.</figcaption>
+  </figure>
+</section>
+
+<section id="flow" aria-labelledby="flow-h">
+  <h2 id="flow-h">One Consultation, End to End</h2>
+  <ol class="plain">
+    <li><b>Swipe to start.</b> Consent is already recorded at the desk. Listening begins.</li>
+    <li><b>Capture and chunk.</b> The phone records 16 kHz mono audio; a voice-activity detector cuts it at natural pauses into chunks of up to about 10 seconds.</li>
+    <li><b>Transcribe.</b> Each chunk goes through the gateway to speech recognition in translate mode, which returns English in natural word order.</li>
+    <li><b>Gate.</b> If the English contains a catalogue name, a molecule, a number or a dosing word, the same audio is sent once more in code-mixed mode to keep the original words and numbers. The last chunk after Stop is sent to both at once.</li>
+    <li><b>Live strips.</b> As chunks return, the screen fills two strips: "Already taking" (what the patient says they take) and "Today's orders".</li>
+    <li><b>Draft.</b> On Stop, both transcripts go to the drafting model, which returns a structured note: complaints, history, examination, diagnosis, current medicines with an action, and prescription lines with every field.</li>
+    <li><b>Verify on the phone.</b> The rules engine checks every line and assigns a state: verified, confirm, or cannot sign.</li>
+    <li><b>History paragraph.</b> Written only from verified facts.</li>
+    <li><b>Fallback.</b> If the model fails or takes longer than 10 seconds, a rules-only note is shown and every medicine needs confirmation.</li>
+    <li><b>Review and sign.</b> The doctor resolves flagged lines and slides to sign.</li>
+    <li><b>Store and print.</b> The signed record, each line's spoken words, its interpretation, every reason given and the catalogue source are stored; the prescription PDF is generated.</li>
+  </ol>
+  <figure class="fig">
+    <div class="table-wrap"><table class="stack">
+      <thead><tr><th scope="col">Measure</th><th class="num" scope="col">Value</th><th scope="col">Status</th></tr></thead>
+      <tbody>
+        <tr><td>Name matching per consultation</td><td class="num" data-label="Value">about 0.16 s</td><td data-label="Status">Measured on a laptop; target under 0.2 s on the phone</td></tr>
+        <tr><td>Note on screen after Stop</td><td class="num" data-label="Value">5 s or less</td><td data-label="Status">Target, not yet measured on the phone</td></tr>
+        <tr><td>Model fallback threshold</td><td class="num" data-label="Value">10 s</td><td data-label="Status">Design rule</td></tr>
+        <tr><td>Lines that block signing</td><td class="num" data-label="Value">3 or fewer</td><td data-label="Status">Target; a real block is never downgraded to meet it</td></tr>
+        <tr><td>Invented medicines allowed</td><td class="num" data-label="Value">0</td><td data-label="Status">Any invention fails a test run</td></tr>
+      </tbody>
+    </table></div>
+    <figcaption><b>Figure 2.</b> Performance targets and what has actually been measured.</figcaption>
+  </figure>
+</section>
+
+<section id="cost" aria-labelledby="cost-h">
+  <h2 id="cost-h">Cost and Connectivity</h2>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Question</th><th scope="col">Answer</th></tr></thead>
+    <tbody>
+      <tr><td>Speech cost per consultation</td><td data-label="Answer">About ₹0.50 a minute for translation alone, about ₹0.81 a minute with the second original-language pass<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>. A two- to five-minute consultation costs roughly ₹1 to ₹4 in speech fees.</td></tr>
+      <tr><td>Drafting cost per consultation</td><td data-label="Answer">Not yet measured; it will be measured on recorded consultations before any pricing decision.</td></tr>
+      <tr><td>What if the internet is slow or down?</td><td data-label="Answer">The demo needs internet to transcribe. If the drafting model fails or takes longer than 10 seconds, the doctor gets a rules-only note in which every medicine must be confirmed. There is no offline mode yet; whether one is needed is a question for the pilot.</td></tr>
+      <tr><td>Can the model run on India's own infrastructure?</td><td data-label="Answer">Yes in principle: the drafting model's weights are open<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a>, so it can be self-hosted if a hospital or the law requires it.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="lld" aria-labelledby="lld-h">
+  <h2 id="lld-h">Low-Level Design: The Data Model</h2>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Entity</th><th scope="col">Holds</th><th scope="col">Rule</th></tr></thead>
+    <tbody>
+      <tr><td>Patient</td><td data-label="Holds">Identity, ABHA link, allergies with reactions, long-term conditions, "also taking" list</td><td data-label="Rule">A phone number is never treated as unique; patients are never merged automatically</td></tr>
+      <tr><td>Consent</td><td data-label="Holds">What was consented to, consent text version, who recorded it, when</td><td data-label="Rule">No recording without it</td></tr>
+      <tr><td>Consultation</td><td data-label="Holds">Doctor, patient, start and stop, vitals from the desk</td><td data-label="Rule">One consultation, one note</td></tr>
+      <tr><td>Transcript chunk</td><td data-label="Holds">Audio reference, English text, original-language text, timing</td><td data-label="Rule">Audio deleted after signing (planned for pilot)</td></tr>
+      <tr><td>Draft line</td><td data-label="Holds">Brand, generic, strength, dose, grid, frequency, food timing, duration, when-needed condition and daily maximum, route</td><td data-label="Rule">Every field links to the words that support it</td></tr>
+      <tr><td>Verification result</td><td data-label="Holds">State per line, rule that fired, candidate choices</td><td data-label="Rule">The model's label is checked, never silently changed</td></tr>
+      <tr><td>Signed record</td><td data-label="Holds">Final lines, spoken words, interpretations, reasons, catalogue sources, signature, time</td><td data-label="Rule">Immutable; a correction is a new signed version</td></tr>
+      <tr><td>Audit event</td><td data-label="Holds">Every confirmation, override reason and allergy-record change, with person and time</td><td data-label="Rule">Append-only</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="matcher" aria-labelledby="matcher-h">
+  <h2 id="matcher-h">Low-Level Design: Matching Medicine Names</h2>
+  <ul class="plain">
+    <li>A spoken word becomes a confirmed name only if it matches exactly, or is close in both spelling (score of at least 0.80) and sound (at least 0.90), and beats the next candidate by at least 0.10.</li>
+    <li>Ordinary English words are never replaced: "shall call" can only suggest Shelcal, never become it.</li>
+    <li>Suffixes are part of the name. Pan and Pan-D, or Telma and Telma-H, are different medicines; a suffix is never dropped or added.</li>
+    <li>Merged numbers are split only when the catalogue confirms the strength: "Pan 40100" becomes Pan 40, 1-0-0.</li>
+    <li>Uncertain names become up to three one-tap choices, each shown with its composition. 90 sourced look-alike pairs always appear together. Context may rank choices, never fill one in.</li>
+    <li>The matching list covers about 500 common outpatient brands with spoken forms in English, Hindi and Telugu and spellings in five Indian scripts (4,649 spellings), plus the clinic's own stock list.</li>
+  </ul>
+</section>
+
+<section id="verifier" aria-labelledby="verifier-h">
+  <h2 id="verifier-h">Low-Level Design: The Verifier's Rules</h2>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Check</th><th scope="col">Rule</th><th scope="col">Result</th></tr></thead>
+    <tbody>
+      <tr><td>New order or current medicine</td><td data-label="Rule">"I take X" is a current medicine, never a new order; a brand with dosing detail from the doctor is an order</td><td data-label="Result">Confirm if unclear</td></tr>
+      <tr><td>Negation</td><td data-label="Rule">"Not Dolo" applies only to that medicine</td><td data-label="Result">Removed, with the words shown</td></tr>
+      <tr><td>Missing strength, dose, frequency or duration</td><td data-label="Rule">Never auto-completed; never filled in by popularity</td><td data-label="Result">Confirm with choices</td></tr>
+      <tr><td>Strength the model made up</td><td data-label="Rule">A strength not in the words is treated as invented</td><td data-label="Result">Blocks signing</td></tr>
+      <tr><td>When-needed (SOS) medicine</td><td data-label="Rule">Needs a condition and a daily maximum</td><td data-label="Result">Choices: if fever, if pain, if needed</td></tr>
+      <tr><td>Allergy</td><td data-label="Rule">Checked by ingredient and drug class</td><td data-label="Result">Cannot sign</td></tr>
+      <tr><td>Banned combination</td><td data-label="Rule">Against 711 notified combinations, by ingredients and form</td><td data-label="Result">Cannot sign</td></tr>
+      <tr><td>Weekly drug written daily</td><td data-label="Rule">For example methotrexate or vitamin D 60,000 IU</td><td data-label="Result">Confirm with a reason</td></tr>
+      <tr><td>Children's liquid medicines</td><td data-label="Rule">Need concentration and weight; anyone under 18 until a paediatrician rules otherwise</td><td data-label="Result">Blocks until added</td></tr>
+      <tr><td>Duplicates</td><td data-label="Rule">Same ingredient in today's orders or in what the patient already takes</td><td data-label="Result">Confirm</td></tr>
+      <tr><td>Drug outside the doctor's system</td><td data-label="Rule">For example an allopathic drug by an AYUSH doctor</td><td data-label="Result">Warning, not a block</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="stack" aria-labelledby="stack-h">
+  <h2 id="stack-h">Technology Stack</h2>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Layer</th><th scope="col">Technology</th></tr></thead>
+    <tbody>
+      <tr><td>Apps</td><td data-label="Technology">Flutter (Dart) with Kotlin for Android platform code; Material 3 design</td></tr>
+      <tr><td>On-phone engine</td><td data-label="Technology">Python rules engine embedded in the app; Dart audio pipeline</td></tr>
+      <tr><td>On-phone storage</td><td data-label="Technology">SQLCipher encrypted database</td></tr>
+      <tr><td>Gateway</td><td data-label="Technology">Cloudflare Workers, with key-value storage for key state and a SQL database for usage metering</td></tr>
+      <tr><td>AI services</td><td data-label="Technology">Sarvam speech recognition and Sarvam-105B</td></tr>
+      <tr><td>Server (planned)</td><td data-label="Technology">Python and PostgreSQL in an India region; FHIR R4 for ABDM</td></tr>
+      <tr><td>Standards</td><td data-label="Technology">ABHA, ABDM registries and consent, SNOMED CT India extensions, NAMASTE, ICD-11</td></tr>
+      <tr><td>Wearables (planned)</td><td data-label="Technology">Android Health Connect and Apple HealthKit</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="engineering" aria-labelledby="engineering-h">
+  <h2 id="engineering-h">How It Is Built and Tested</h2>
+  <ul class="plain">
+    <li><b>Rulings live in the repository.</b> Every product decision is written down, and a build checklist fails the build if a rule is broken.</li>
+    <li><b>About 1,788 automated tests</b> across the apps and the engine, plus image tests that guard approved screens at normal size, 200% text, tablet and stress layouts.</li>
+    <li><b>A frozen clinical test set</b> of 131 cases; any change to an existing test needs the founder's written acceptance.</li>
+    <li><b>A benchmark harness</b> that replays cached transcripts, so most accuracy changes are measured without new speech costs.</li>
+    <li><b>Done means verified on a real Android phone</b> through the real app with a real gesture.</li>
+  </ul>
+</section>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">1Heath internal benchmarks, October to November 2026. Synthetic consultations; method described on the Models and data page. <a href="https://pawankalyan.dev/1heath-models-data">pawankalyan.dev</a></li><li id="ref-2">Artificial Analysis. Sarvam 105B and Sarvam 30B: everything you need to know, 2 April 2026. <a href="https://artificialanalysis.ai/articles/sarvam-105b-Sarvam-30b-everything-you-need-to-know">artificialanalysis.ai</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-models-data.html"><span>← Previous</span>Models and Data</a><a class="next" href="1heath-security-privacy.html"><span>Next →</span>Security and Privacy</a></nav></main></div>
+<footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 5 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
+<script>
+(function(){var d=document.documentElement,b=document.getElementById('theme');
+function sync(){var dark=d.getAttribute('data-theme')==='dark';if(b){b.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',dark?'true':'false')}}
+sync();if(b)b.addEventListener('click',function(){var t=d.getAttribute('data-theme')==='dark'?'light':'dark';d.setAttribute('data-theme',t);try{localStorage.setItem('theme',t)}catch(e){}sync()});
+var c=document.getElementById('copy-email'),e=document.getElementById('email');
+if(c&&e){c.hidden=false;c.addEventListener('click',function(){var t=e.textContent;function ok(){c.textContent='Copied';setTimeout(function(){c.textContent='Copy'},1500)}
+function sel(){var r=document.createRange();r.selectNodeContents(e);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+try{navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t).then(ok,sel):sel()}catch(x){sel()}})}
+var links=[].slice.call(document.querySelectorAll('.toc-rail .toc a'));
+if(links.length&&'IntersectionObserver' in window){var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){links.forEach(function(a){a.classList.remove('active')});var a=map[x.target.id];if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)io.observe(s)})}
+})();
+</script>
+</body>
+</html>
