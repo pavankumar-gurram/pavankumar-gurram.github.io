@@ -360,6 +360,19 @@ dl.glossary dt{font-weight:700;color:var(--ink)}
 dl.glossary dd{margin:0;color:var(--body)}
 @media (max-width:520px){dl.glossary{grid-template-columns:1fr;gap:.1rem}dl.glossary dd{margin-bottom:.6rem}}
 abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:help}
+
+/* formulas and worked arithmetic */
+.formula{font-family:var(--f-mono);font-size:.86rem;line-height:1.7;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:.9rem 1.1rem;margin:1rem 0;overflow-wrap:anywhere;white-space:normal}
+.formula b{color:var(--rx);font-weight:600}
+.formula .eq{display:block}
+.formula .eq + .eq{margin-top:.35rem}
+.formula .note{display:block;color:var(--muted);font-family:var(--f-body);font-size:.8rem;margin-top:.5rem}
+td.num, th.num{white-space:nowrap}
+@media (max-width:520px){td.num, th.num{white-space:normal}}
+figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
+td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
+td.range b{color:var(--ink)}
+@media (max-width:520px){td.range{white-space:normal}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "1Heath", "applicationCategory": "MedicalApplication", "operatingSystem": "Android", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}}</script>
 </head>
@@ -378,13 +391,13 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
 <div class="byline">
   <div><span class="label">Founder</span><a href="index.html">Pawan Kalyan</a></div>
   <div><span class="label">Status</span><span>Working demo, not yet in clinics</span></div>
-  <div><span class="label">Updated</span><span>5 November 2026</span></div>
+  <div><span class="label">Updated</span><span>6 November 2026</span></div>
 </div>
 
 <div class="tldr">
   <span class="label">Key Points</span>
   <ul>
-    <li>Indian doctors usually treat patients without their history.</li>
+    <li>Indian doctors usually treat patients without their history. Our estimate: about 6,400 hospital deaths and 1.6 lakh severe harms a year in India come from medication errors caused by an incomplete history (<a href="1heath-burden.html">method and ranges</a>).</li>
     <li>1Heath listens to the consultation, drafts the record with an India-hosted language model, and <b>checks every line with a rules engine</b> before the doctor signs.</li>
     <li>On simulated tests, no invented allergy, refused medicine or wrong dose reached a note without being flagged.</li>
     <li>It is not ready for real patients yet; the sections below say exactly what is missing.</li>
@@ -396,13 +409,17 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
   <p class="muted small" style="margin-bottom:1.1rem">Each card is a short summary. Open it for the full detail, sources and figures.</p>
   <div class="cards">
     <a class="card" href="1heath-problem.html"><span class="num">01 · Problem</span><h3>Doctors Treat Patients Without Their History</h3><p>Two-minute visits, paper slips, care split across clinics and systems of medicine, and no shared record.</p><span class="go">Read the problem →</span></a>
-    <a class="card" href="1heath-solution.html"><span class="num">02 · Solution</span><h3>The Visit Writes the History</h3><p>How 1Heath answers each root cause, the alternatives we compared, and why this design.</p><span class="go">Read the solution →</span></a>
-    <a class="card" href="1heath-design.html"><span class="num">03 · Product design</span><h3>Four Apps, One Record</h3><p>Design principles, what each app shows, what never crosses between them, and a clickable prototype.</p><span class="go">See the design →</span></a>
-    <a class="card" href="1heath-medicine-systems.html"><span class="num">04 · Systems of medicine</span><h3>Allopathy, Ayurveda, Homeopathy, One Record</h3><p>About half of Indians use a traditional system. How 1Heath records it fairly and safely.</p><span class="go">Read more →</span></a>
-    <a class="card" href="1heath-models-data.html"><span class="num">05 · Models and data</span><h3>How the AI Works and How Far to Trust It</h3><p>Which models, what test data, what we measured, and what synthetic tests cannot tell us.</p><span class="go">Read more →</span></a>
-    <a class="card" href="1heath-architecture.html"><span class="num">06 · Architecture</span><h3>High-Level and Low-Level Design</h3><p>Components, the path of one consultation, the data model, the verification rules and the stack.</p><span class="go">Read the design →</span></a>
-    <a class="card" href="1heath-security-privacy.html"><span class="num">07 · Security and privacy</span><h3>How Patient Data Is Protected</h3><p>What is in place, what must exist before a real patient, and the laws that apply.</p><span class="go">Read more →</span></a>
-    <a class="card" href="1heath-go-to-market.html"><span class="num">08 · Go to market</span><h3>How 1Heath Reaches Doctors</h3><p>First users, channels, rules we will not break, and what the pilot must prove.</p><span class="go">Read more →</span></a>
+    <a class="card" href="1heath-burden.html"><span class="num">02 · Burden</span><h3>How Much Harm It Causes</h3><p>Deaths and severe harm from history-related medication errors, estimated with formulas, ranges and sources.</p><span class="go">See the estimate →</span></a>
+    <a class="card" href="1heath-impact.html"><span class="num">03 · Impact</span><h3>What Changes When the History Is There</h3><p>Harm avoided per 1,000 doctors, at scale and nationally, and how the system changes.</p><span class="go">See the impact →</span></a>
+    <a class="card" href="1heath-solution.html"><span class="num">04 · Solution</span><h3>The Visit Writes the History</h3><p>How 1Heath answers each root cause, the alternatives we compared, and why this design.</p><span class="go">Read the solution →</span></a>
+    <a class="card" href="1heath-design.html"><span class="num">05 · Product design</span><h3>Four Apps, One Record</h3><p>Design principles, what each app shows, what never crosses between them, and a clickable prototype.</p><span class="go">See the design →</span></a>
+    <a class="card" href="1heath-medicine-systems.html"><span class="num">06 · Systems of medicine</span><h3>Allopathy, Ayurveda, Homeopathy, One Record</h3><p>About half of Indians use a traditional system. How 1Heath records it fairly and safely.</p><span class="go">Read more →</span></a>
+    <a class="card" href="1heath-models-data.html"><span class="num">07 · Models and data</span><h3>How the AI Works and How Far to Trust It</h3><p>Which models, what test data, what we measured, and what synthetic tests cannot tell us.</p><span class="go">Read more →</span></a>
+    <a class="card" href="1heath-architecture.html"><span class="num">08 · Architecture</span><h3>High-Level and Low-Level Design</h3><p>Components, the path of one consultation, the data model, the verification rules and the stack.</p><span class="go">Read the design →</span></a>
+    <a class="card" href="1heath-security-privacy.html"><span class="num">09 · Security and privacy</span><h3>How Patient Data Is Protected</h3><p>Who sees what, encryption, consent-based sharing, patient rights, threats and the laws that apply.</p><span class="go">Read more →</span></a>
+    <a class="card" href="1heath-go-to-market.html"><span class="num">10 · Go to market</span><h3>Doctors First, Then Patients</h3><p>Who adopts first, where we meet them, the funnel in numbers, and what the pilot must prove.</p><span class="go">Read more →</span></a>
+    <a class="card" href="1heath-business.html"><span class="num">11 · Business model</span><h3>Revenue, with Every Formula</h3><p>Two cases at 1,000 doctors, unit economics, levers, a five-year path, and the firewall between money and medicine.</p><span class="go">See the numbers →</span></a>
+    <a class="card" href="1heath-roadmap.html"><span class="num">12 · Roadmap</span><h3>From Scribe to Health Research Company</h3><p>Prevention features to come, and research on consented data that is never sold.</p><span class="go">See the roadmap →</span></a>
   </div>
 </section>
 
@@ -414,9 +431,28 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
     <li><span class="when">Context</span><div class="what"><h3><a href="india-health.html">India's Health in Numbers</a></h3><p class="small muted">Causes of death, road accidents, cancer, chronic disease, and who pays for care.</p></div></li>
     <li><span class="when">Context</span><div class="what"><h3><a href="india-diseases.html">India's Biggest Diseases</a></h3><p class="small muted">Diabetes, blood pressure, TB, cancer and anaemia: why they are high, and what works elsewhere.</p></div></li>
     <li><span class="when">Context</span><div class="what"><h3><a href="india-medicines.html">Medicines and Pharmacy</a></h3><p class="small muted">Drug quality, antibiotic misuse and resistance, prices, and what a signed prescription changes.</p></div></li>
+    <li><span class="when">Context</span><div class="what"><h3><a href="india-pharma-industry.html">How the Pharma Industry Works</a></h3><p class="small muted">From factory to clinic: margins, how companies reach doctors, price control and how new medicines are funded.</p></div></li>
     <li><span class="when">Context</span><div class="what"><h3><a href="traditional-medicine.html">Traditional Medicine</a></h3><p class="small muted">Ayurveda, homeopathy and more: who uses them, the evidence, safety, and other countries' approaches.</p></div></li>
     <li><span class="when">Context</span><div class="what"><h3><a href="health-systems-compared.html">What India Can Learn from Other Countries</a></h3><p class="small muted">The best emergency, cancer and coverage systems, why they work, and India's position.</p></div></li>
   </ul>
+</section>
+
+<section id="portals" aria-labelledby="portals-h">
+  <h2 id="portals-h">Official Portals and Useful Links</h2>
+  <p class="muted small" style="margin-bottom:1rem">Government systems 1Heath builds on, and where to read the rules. Each link was opened on 5 November 2026.</p>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Portal</th><th scope="col">What it is</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://abdm.gov.in/">ABDM</a></td><td data-label="What it is">Ayushman Bharat Digital Mission: health IDs, registries and consent-based record exchange</td></tr>
+      <tr><td><a href="https://abha.abdm.gov.in/abha/v3/">ABHA</a></td><td data-label="What it is">Create or find your 14-digit Ayushman Bharat Health Account</td></tr>
+      <tr><td><a href="https://nhpr.abdm.gov.in/nhpr/v4/home">National Healthcare Providers Registry</a></td><td data-label="What it is">Registries of verified healthcare professionals (HPR) and health facilities (HFR)</td></tr>
+      <tr><td><a href="https://sandbox.abdm.gov.in/sandbox/v3">ABDM Sandbox</a></td><td data-label="What it is">Where software like 1Heath is tested and certified for ABDM integration</td></tr>
+      <tr><td><a href="https://dashboard.abdm.gov.in/abdm/">ABDM Insights dashboard</a></td><td data-label="What it is">Live counts: 98.9 crore ABHA accounts, 127.5 crore linked records, 6.09 lakh verified facilities and 13.98 lakh verified professionals on 5 November 2026<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a></td></tr>
+      <tr><td><a href="https://www.nrces.in/">NRCeS</a></td><td data-label="What it is">National Resource Centre for EHR Standards: FHIR profiles and SNOMED CT for India</td></tr>
+      <tr><td><a href="https://cdsco.gov.in/opencms/opencms/en/Home/">CDSCO</a></td><td data-label="What it is">India's drug and medical-device regulator, including software as a medical device</td></tr>
+      <tr><td><a href="https://janaushadhi.gov.in/">Jan Aushadhi</a></td><td data-label="What it is">Government generic medicine stores and price list</td></tr>
+    </tbody>
+  </table></div>
 </section>
 
 <section id="see" aria-labelledby="see-h">
@@ -473,9 +509,10 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
   <p>I am looking for general physicians, paediatricians and gynaecologists willing to try the demo; native Telugu and Hindi speakers to review patient instructions; and pharmacists who can explain how clinic dispensaries really work. <a href="index.html#contact">Get in touch →</a></p>
 </section>
 
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in</a></li></ol></section>
 </div>
 </main>
-<footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 5 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
+<footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');
 function sync(){var dark=d.getAttribute('data-theme')==='dark';if(b){b.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',dark?'true':'false')}}

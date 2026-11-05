@@ -360,18 +360,34 @@ dl.glossary dt{font-weight:700;color:var(--ink)}
 dl.glossary dd{margin:0;color:var(--body)}
 @media (max-width:520px){dl.glossary{grid-template-columns:1fr;gap:.1rem}dl.glossary dd{margin-bottom:.6rem}}
 abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:help}
+
+/* formulas and worked arithmetic */
+.formula{font-family:var(--f-mono);font-size:.86rem;line-height:1.7;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:.9rem 1.1rem;margin:1rem 0;overflow-wrap:anywhere;white-space:normal}
+.formula b{color:var(--rx);font-weight:600}
+.formula .eq{display:block}
+.formula .eq + .eq{margin-top:.35rem}
+.formula .note{display:block;color:var(--muted);font-family:var(--f-body);font-size:.8rem;margin-top:.5rem}
+td.num, th.num{white-space:nowrap}
+@media (max-width:520px){td.num, th.num{white-space:normal}}
+figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
+td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
+td.range b{color:var(--ink)}
+@media (max-width:520px){td.range{white-space:normal}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How Patient Data Is Protected", "description": "What is in place today, what must be in place before a real patient is recorded, and the laws that apply.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-05", "inLanguage": "en-IN"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How Patient Data Is Protected", "description": "What is in place today, what must be in place before a real patient is recorded, and the laws that apply.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar pad"><nav class="wide" aria-label="Site"><a class="brand" href="index.html">Pawan Kalyan</a><ul class="menu"><li><a href="index.html">Home</a></li><li><a href="1heath.html" aria-current="page">1Heath</a></li><li><a href="india-health.html">India</a></li><li><a href="health-systems-compared.html">World</a></li><li><a href="index.html#contact">Contact</a></li></ul><button class="theme" type="button" id="theme" aria-label="Switch to dark theme" title="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button></nav></header>
 <div class="band"><div class="layout band-grid pad"><div class="toc-rail" aria-hidden="true"></div><div class="col"><ol class="crumbs"><li><a href="index.html">Home</a></li><li><a href="1heath.html">1Heath</a></li><li aria-current="page">Security and Privacy</li></ol><h1>How Patient Data Is Protected</h1><p class="dek">What is in place today, what must be in place before a real patient is recorded, and the laws that apply.</p></div></div></div>
-<div class="layout pad"><aside class="toc-rail"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#principles-h">Principles</a></li><li><a href="#today-h">What Is in Place Today (Demo)</a></li><li><a href="#before-h">Before the First Real Patient</a></li><li><a href="#law-h">Laws and Standards That Apply</a></li><li><a href="#breach-h">If Something Goes Wrong, and How Long Records Are Kept</a></li><li><a href="#emergency-h">The Emergency Card and Privacy</a></li><li><a href="#sources">Sources</a></li></ol></nav></aside><main id="main" class="col" style="padding-top:0"><div class="byline"><div><span class="label">Author</span><a href="index.html">Pawan Kalyan</a></div><div><span class="label">Updated</span><span>5 November 2026</span></div><div><span class="label">Reading time</span><span>3 min</span></div></div><div class="tldr"><span class="label">Key Points</span><ul>
+<div class="layout pad"><aside class="toc-rail"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#principles-h">Principles</a></li><li><a href="#today-h">What Is in Place Today (Demo)</a></li><li><a href="#before-h">Before the First Real Patient</a></li><li><a href="#data-map-h">Who Sees What</a></li><li><a href="#encryption-h">Encryption and Keys</a></li><li><a href="#consent-flow-h">How a Record Is Shared, Step by Step</a></li><li><a href="#rights-h">The Patient's Rights</a></li><li><a href="#threats-h">What Could Go Wrong, and the Control for Each</a></li><li><a href="#law-h">Laws and Standards That Apply</a></li><li><a href="#breach-h">If Something Goes Wrong, and How Long Records Are Kept</a></li><li><a href="#emergency-h">The Emergency Card and Privacy</a></li><li><a href="#sources">Sources</a></li></ol></nav></aside><main id="main" class="col" style="padding-top:0"><div class="byline"><div><span class="label">Author</span><a href="index.html">Pawan Kalyan</a></div><div><span class="label">Updated</span><span>6 November 2026</span></div><div><span class="label">Reading time</span><span>6 min</span></div></div><div class="tldr"><span class="label">Key Points</span><ul>
 <li>No real patient has been recorded, and none will be until the safeguards on this page exist.</li>
 <li>Today: encrypted storage on the phone, HTTPS, service keys only in the gateway, signed records that cannot be edited.</li>
-<li>India's data protection law applies in full from May 2027<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>; 1Heath intends to comply before its first real patient.</li>
-</ul></div><div class="toc-top"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#principles-h">Principles</a></li><li><a href="#today-h">What Is in Place Today (Demo)</a></li><li><a href="#before-h">Before the First Real Patient</a></li><li><a href="#law-h">Laws and Standards That Apply</a></li><li><a href="#breach-h">If Something Goes Wrong, and How Long Records Are Kept</a></li><li><a href="#emergency-h">The Emergency Card and Privacy</a></li><li><a href="#sources">Sources</a></li></ol></nav></div>
+<li>Each app sees only what its user needs: the pharmacy sees the signed prescription, never the consultation note.</li>
+<li>Records move between providers only through ABDM's consent flow, encrypted end to end with a fresh key for each exchange<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>.</li>
+<li>Patients can see, correct, erase and nominate someone to manage their data, as India's law requires<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a>.</li>
+<li>India's data protection law applies in full from May 2027<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a>; 1Heath intends to comply before its first real patient.</li>
+</ul></div><div class="toc-top"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#principles-h">Principles</a></li><li><a href="#today-h">What Is in Place Today (Demo)</a></li><li><a href="#before-h">Before the First Real Patient</a></li><li><a href="#data-map-h">Who Sees What</a></li><li><a href="#encryption-h">Encryption and Keys</a></li><li><a href="#consent-flow-h">How a Record Is Shared, Step by Step</a></li><li><a href="#rights-h">The Patient's Rights</a></li><li><a href="#threats-h">What Could Go Wrong, and the Control for Each</a></li><li><a href="#law-h">Laws and Standards That Apply</a></li><li><a href="#breach-h">If Something Goes Wrong, and How Long Records Are Kept</a></li><li><a href="#emergency-h">The Emergency Card and Privacy</a></li><li><a href="#sources">Sources</a></li></ol></nav></div>
 <section id="principles" aria-labelledby="principles-h">
   <h2 id="principles-h">Principles</h2>
   <ul class="principles">
@@ -412,13 +428,84 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
   </ul>
 </section>
 
+<section id="data-map" aria-labelledby="data-map-h">
+  <h2 id="data-map-h">Who Sees What</h2>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Data</th><th scope="col">Doctor</th><th scope="col">Desk</th><th scope="col">Pharmacy</th><th scope="col">Patient</th></tr></thead>
+    <tbody>
+      <tr><td>Audio of the consultation</td><td data-label="Doctor">Until signed, then deleted</td><td data-label="Desk">Never</td><td data-label="Pharmacy">Never</td><td data-label="Patient">Never stored</td></tr>
+      <tr><td>Consultation note and diagnosis</td><td data-label="Doctor">Yes</td><td data-label="Desk">No</td><td data-label="Pharmacy">No</td><td data-label="Patient">Yes, in their language</td></tr>
+      <tr><td>Signed prescription</td><td data-label="Doctor">Yes</td><td data-label="Desk">No</td><td data-label="Pharmacy">Yes</td><td data-label="Patient">Yes</td></tr>
+      <tr><td>Allergies and current medicines</td><td data-label="Doctor">Yes</td><td data-label="Desk">No</td><td data-label="Pharmacy">Allergy flags only</td><td data-label="Patient">Yes</td></tr>
+      <tr><td>Contact details, vitals, consent</td><td data-label="Doctor">Vitals</td><td data-label="Desk">Yes</td><td data-label="Pharmacy">Name and phone</td><td data-label="Patient">Yes</td></tr>
+      <tr><td>Payments</td><td data-label="Doctor">No</td><td data-label="Desk">Yes</td><td data-label="Pharmacy">Their own</td><td data-label="Patient">Their own</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="encryption" aria-labelledby="encryption-h">
+  <h2 id="encryption-h">Encryption and Keys</h2>
+  <ul class="plain">
+    <li><b>On the phone:</b> the record database is encrypted with SQLCipher (AES-256). Before the pilot, its key moves into the phone's hardware-backed keystore.</li>
+    <li><b>In transit:</b> HTTPS with modern TLS to a single gateway; the app talks to no AI service directly.</li>
+    <li><b>Between providers:</b> ABDM exchanges health records with a fresh key pair for every request: both sides use elliptic-curve key agreement (Curve25519), derive a 256-bit key, and encrypt the record with AES-GCM, so even the exchange in the middle cannot read it<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>.</li>
+    <li><b>Service keys:</b> held only in the gateway's secret store, rotated, never logged, never shipped in the app.</li>
+  </ul>
+</section>
+
+<section id="consent-flow" aria-labelledby="consent-flow-h">
+  <h2 id="consent-flow-h">How a Record Is Shared, Step by Step</h2>
+  <figure class="fig">
+    <ol class="flowchart" style="--n:5">
+      <li><span class="k">1</span><b>Request</b><span>A new doctor asks for the patient's records through ABDM</span></li>
+      <li><span class="k">2</span><b>Consent</b><span>The patient sees who is asking, for what, and for how long, and approves or refuses</span></li>
+      <li><span class="k">3</span><b>Artefact</b><span>A signed consent record states exactly what may be shared</span></li>
+      <li><span class="k">4</span><b>Encrypted transfer</b><span>The record is encrypted for that doctor alone and sent</span></li>
+      <li class="key"><span class="k">5</span><b>Expiry</b><span>Access ends when the consent expires or is withdrawn</span></li>
+    </ol>
+    <figcaption><b>Figure 1.</b> Consent-based exchange under ABDM. 1Heath will act as a provider that holds records and as a user that requests them, through ABDM's certified interfaces.</figcaption>
+  </figure>
+</section>
+
+<section id="rights" aria-labelledby="rights-h">
+  <h2 id="rights-h">The Patient's Rights</h2>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Right under the DPDP Act</th><th scope="col">How the patient uses it in 1Heath</th></tr></thead>
+    <tbody>
+      <tr><td>Information about processing (section 11)<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a></td><td data-label="In 1Heath">A plain-language list of what is held, who has seen it and why</td></tr>
+      <tr><td>Correction and erasure (section 12)</td><td data-label="In 1Heath">Request a correction (the doctor signs a new version; the old one stays in the audit trail as medical law requires) or erasure where no law requires keeping it</td></tr>
+      <tr><td>Grievance redressal (section 13)</td><td data-label="In 1Heath">A named grievance contact, with escalation to the Data Protection Board</td></tr>
+      <tr><td>Nomination (section 14)</td><td data-label="In 1Heath">Name a family member to manage the record if the patient dies or cannot act</td></tr>
+      <tr><td>Children's data (Rule 10)</td><td data-label="In 1Heath">A parent's verifiable consent before a child's record is created<a class="cite" href="#ref-4" aria-label="Source 4">[4]</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="threats" aria-labelledby="threats-h">
+  <h2 id="threats-h">What Could Go Wrong, and the Control for Each</h2>
+  <p>Some controls are built; the rest are conditions for the first real patient, as listed above.</p>
+  <div class="table-wrap"><table class="stack">
+    <thead><tr><th scope="col">Threat</th><th scope="col">Control</th></tr></thead>
+    <tbody>
+      <tr><td>A lost or stolen phone</td><td data-label="Control">Encrypted database, device lock required, remote sign-out, short session lifetimes</td></tr>
+      <tr><td>Someone signs as the doctor</td><td data-label="Control">Person-bound signing with a PIN or biometric before production; every signature logged with time and device</td></tr>
+      <tr><td>A staff member browses records</td><td data-label="Control">Role-based access; every view logged; patients can see who opened their record</td></tr>
+      <tr><td>The AI invents a medicine or dose</td><td data-label="Control">The rules engine checks every line against the words spoken; unverified lines cannot be signed</td></tr>
+      <tr><td>Malicious text in a transcript tries to steer the AI</td><td data-label="Control">The model only drafts; it cannot act. Output is parsed into fixed fields and verified by rules</td></tr>
+      <tr><td>A vendor keeps or trains on audio</td><td data-label="Control">Zero-day retention and training off, confirmed in writing before any real patient</td></tr>
+      <tr><td>A leaked service key</td><td data-label="Control">Keys only in the gateway; usage caps; automatic rotation; secret scanning on every code change</td></tr>
+      <tr><td>A breach</td><td data-label="Control">Written response plan; notify patients and the Board, with a detailed report within 72 hours<a class="cite" href="#ref-5" aria-label="Source 5">[5]</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
 <section id="law" aria-labelledby="law-h">
   <h2 id="law-h">Laws and Standards That Apply</h2>
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">Law or standard</th><th scope="col">What it requires</th><th scope="col">When</th></tr></thead>
     <tbody>
-      <tr><td>Digital Personal Data Protection Act 2023 and Rules 2025</td><td data-label="Requires">Notice, consent, security safeguards, breach notification, data retention and erasure, parental consent for children; penalties up to ₹250 crore per breach<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a></td><td data-label="When">Consent-manager rules from November 2026; most obligations from May 2027<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a></td></tr>
-      <tr><td>CDSCO guidance on medical device software</td><td data-label="Requires">Software with a medical purpose is regulated in risk classes A to D; pure record-keeping is generally excluded, but each function is judged separately<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td><td data-label="When">Issued 21 July 2026; 1Heath will seek a classification opinion, because its safety checks may count</td></tr>
+      <tr><td>Digital Personal Data Protection Act 2023 and Rules 2025</td><td data-label="Requires">Notice, consent, security safeguards, breach notification, data retention and erasure, parental consent for children; penalties up to ₹250 crore per breach<a class="cite" href="#ref-6" aria-label="Source 6">[6]</a></td><td data-label="When">Consent-manager rules from November 2026; most obligations from May 2027<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td></tr>
+      <tr><td>CDSCO guidance on medical device software</td><td data-label="Requires">Software with a medical purpose is regulated in risk classes A to D; pure record-keeping is generally excluded, but each function is judged separately<a class="cite" href="#ref-7" aria-label="Source 7">[7]</a></td><td data-label="When">Issued 21 July 2026; 1Heath will seek a classification opinion, because its safety checks may count</td></tr>
       <tr><td>ABDM</td><td data-label="Requires">Registered facilities and professionals, FHIR records, consent-based exchange</td><td data-label="When">Before records are shared between providers</td></tr>
       <tr><td>Medical ethics and prescription rules</td><td data-label="Requires">Registration number, generic names in capitals, patient details, total quantity</td><td data-label="When">Built into the prescription format</td></tr>
       <tr><td>Information Technology Act 2000</td><td data-label="Requires">Rules for electronic signatures and records</td><td data-label="When">Before signed prescriptions are used in practice</td></tr>
@@ -431,8 +518,8 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
 <section id="breach" aria-labelledby="breach-h">
   <h2 id="breach-h">If Something Goes Wrong, and How Long Records Are Kept</h2>
   <ul class="plain">
-    <li><b>Breach reporting.</b> Under the DPDP Rules, a breach must be reported promptly to every affected person and to the Data Protection Board, with a detailed report to the Board within 72 hours<a class="cite" href="#ref-4" aria-label="Source 4">[4]</a>. 1Heath will have a written breach plan before its first real patient.</li>
-    <li><b>Record keeping.</b> Doctors must keep in-patient records for three years and provide copies within 72 hours of a request<a class="cite" href="#ref-5" aria-label="Source 5">[5]</a>. 1Heath will keep signed records at least as long as the law requires, delete audio once a note is signed, and let patients see and request a copy of their own record at any time.</li>
+    <li><b>Breach reporting.</b> Under the DPDP Rules, a breach must be reported promptly to every affected person and to the Data Protection Board, with a detailed report to the Board within 72 hours<a class="cite" href="#ref-5" aria-label="Source 5">[5]</a>. 1Heath will have a written breach plan before its first real patient.</li>
+    <li><b>Record keeping.</b> Doctors must keep in-patient records for three years and provide copies within 72 hours of a request<a class="cite" href="#ref-8" aria-label="Source 8">[8]</a>. 1Heath will keep signed records at least as long as the law requires, delete audio once a note is signed, and let patients see and request a copy of their own record at any time.</li>
   </ul>
 </section>
 
@@ -440,8 +527,8 @@ abbr[title]{text-decoration:underline dotted;text-underline-offset:.2em;cursor:h
   <h2 id="emergency-h">The Emergency Card and Privacy</h2>
   <p>The emergency card is readable without unlocking the phone, so the patient chooses exactly what it shows. The default is blood group, allergies, long-term conditions, current medicines and two family contacts. Nothing else on the phone is exposed.</p>
 </section>
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">AZB & Partners. India's Digital Personal Data Protection Act: phased rollout and key compliance milestones. <a href="https://www.azbpartners.com/bank/indias-digital-personal-data-protection-act-phased-rollout-and-key-compliance-milestones/">www.azbpartners.com</a></li><li id="ref-2">YourStory. Govt notifies Digital Personal Data Protection Rules 2025; rollout stretched over 18 months, November 2025. <a href="https://yourstory.com/2025/11/digital-personal-data-protection-dpdp-rules-2025-rollout-over-18-months">yourstory.com</a></li><li id="ref-3">Nishith Desai Associates. From code to compliance: decoding India's medical device software guidance (CDSCO guidance of 21 July 2026). <a href="https://nishithdesai.com/research-and-articles/hotline/pharma-healthcare-update/from-code-to-compliance-decoding-indias-medical-device-software-guidance-15623">nishithdesai.com</a></li><li id="ref-4">Digital Personal Data Protection Rules, 2025, Rule 7: intimation of personal data breach. <a href="https://dpdpa.com/dpdparules/rule7.html">dpdpa.com</a></li><li id="ref-5">Indian Medical Council (Professional Conduct, Etiquette and Ethics) Regulations, 2002, clauses 1.3.1 to 1.3.4 (Indian Journal of Medical Ethics reprint). <a href="https://ijme.in/articles/the-indian-medical-council-professional-conduct-etiquette-and-ethics-regulations-2002/?galley=html">ijme.in</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-architecture.html"><span>← Previous</span>Architecture</a><a class="next" href="1heath-go-to-market.html"><span>Next →</span>Go to Market</a></nav></main></div>
-<footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 5 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">ABDM developer guide (community-maintained). Implementation guidelines for encrypting and decrypting FHIR data. <a href="https://kiranma72.github.io/abdm-docs/3-milestone2/encryption-decryption/implementation-guidelines">kiranma72.github.io</a></li><li id="ref-2">TCSA. DPDP Act data principal rights, sections 11 to 14. <a href="https://www.tcsa.in/frameworks/dpdp/data-principal-rights">www.tcsa.in</a></li><li id="ref-3">AZB & Partners. India's Digital Personal Data Protection Act: phased rollout and key compliance milestones. <a href="https://www.azbpartners.com/bank/indias-digital-personal-data-protection-act-phased-rollout-and-key-compliance-milestones/">www.azbpartners.com</a></li><li id="ref-4">Digital Personal Data Protection Rules, 2025, Rule 10: verifiable consent for processing personal data of a child. <a href="https://dpdpa.com/dpdparules/rule10.html">dpdpa.com</a></li><li id="ref-5">Digital Personal Data Protection Rules, 2025, Rule 7: intimation of personal data breach. <a href="https://dpdpa.com/dpdparules/rule7.html">dpdpa.com</a></li><li id="ref-6">YourStory. Govt notifies Digital Personal Data Protection Rules 2025; rollout stretched over 18 months, November 2025. <a href="https://yourstory.com/2025/11/digital-personal-data-protection-dpdp-rules-2025-rollout-over-18-months">yourstory.com</a></li><li id="ref-7">Nishith Desai Associates. From code to compliance: decoding India's medical device software guidance (CDSCO guidance of 21 July 2026). <a href="https://nishithdesai.com/research-and-articles/hotline/pharma-healthcare-update/from-code-to-compliance-decoding-indias-medical-device-software-guidance-15623">nishithdesai.com</a></li><li id="ref-8">Indian Medical Council (Professional Conduct, Etiquette and Ethics) Regulations, 2002, clauses 1.3.1 to 1.3.4 (Indian Journal of Medical Ethics reprint). <a href="https://ijme.in/articles/the-indian-medical-council-professional-conduct-etiquette-and-ethics-regulations-2002/?galley=html">ijme.in</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-architecture.html"><span>← Previous</span>Architecture</a><a class="next" href="1heath-go-to-market.html"><span>Next →</span>Go to Market</a></nav></main></div>
+<footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');
 function sync(){var dark=d.getAttribute('data-theme')==='dark';if(b){b.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',dark?'true':'false')}}

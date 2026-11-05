@@ -1,0 +1,210 @@
+"""1Heath burden, impact and revenue model.
+
+Every input is either sourced (key in refs.py) or marked ASSUMPTION.
+Uncertainty: triangular distributions (low, mode, high), 100,000 Monte Carlo draws,
+reported as median and 90% interval (5th to 95th percentile), as in GBD-style estimates.
+Run: python3 model/model.py  -> prints results and writes model/results.json
+"""
+import json, numpy as np
+
+rng = np.random.default_rng(20261105)
+N = 100_000
+
+def tri(lo, mode, hi):
+    return rng.triangular(lo, mode, hi, N)
+
+def summ(x):
+    return {'p5': float(np.percentile(x, 5)), 'median': float(np.median(x)), 'p95': float(np.percentile(x, 95))}
+
+# ---------------- Inputs ----------------
+P = 1463.9e6                      # population 2025, UNFPA SWOP 2025 [pop]
+child = 0.24                      # share aged 0-14 [pop]
+
+# Channel A: hospital
+h      = tri(0.026, 0.029, 0.034) # share of people treated as in-patients in a year, rural 2.6%, urban 3.4% [nss75]
+p_pmh  = tri(0.015, 0.025, 0.041) # preventable medication-related harm per in-patient:
+                                  #  WHO 10% harmed x 50% preventable x 50% medication = 2.5% [who_ps];
+                                  #  India: 6.89% ADR admissions x 59.6% avoidable = 4.1% [patel07]; low 1.5% ASSUMPTION
+f_hist = tri(0.05, 0.15, 0.27)    # share of medication errors due to incomplete medication history: up to 27% [tam05]; mode/low ASSUMPTION
+cfr    = tri(0.019, 0.03, 0.064)  # deaths per harm event: WHO LMIC 2.6M/134M = 1.9% [who_10facts]; 17/265 = 6.4% [patel07]
+
+# Channel B: clinics and outpatient care
+r15    = tri(0.07, 0.075, 0.09)   # share reporting an ailment in last 15 days, rural ~7%, urban ~9% [nss75]
+inc    = tri(0.015, 0.025, 0.035) # safety incidents per consultation, median 2-3 per 100 [panesar]
+med    = tri(0.25, 0.35, 0.50)    # share of incidents that are medication/prescribing: ASSUMPTION
+sev    = tri(0.01, 0.04, 0.08)    # share of incidents causing severe harm, median 4% [panesar]
+
+# Age groups (population shares) [pop]: 0-14 = 24%, 65+ = 7%, 15-64 = 69%
+pop_share = {'children': 0.24, 'adults': 0.69, 'older': 0.07}
+# Relative risk per person vs adults 15-64:
+rr_child = tri(0.5, 1.0, 3.0)     # children: per-order potential ADEs 3x adults [kaushal01]; fewer medicines per child, so low 0.5, mode 1: ASSUMPTION
+rr_old_out = tri(1.8, 2.4, 3.0)   # 65+: ED visits for drug harm, RR 2.4 (95% CI 1.8-3.0) [budnitz]
+rr_old_in  = tri(4.3, 6.8, 9.2)   # 65+: hospitalisation for drug harm, RR 6.8 (95% CI 4.3-9.2) [budnitz]
+# Lasting harm among hospital adverse events [brennan]: 2.6% permanent disability; 70.5% recovered within 6 months; 13.6% died
+perm = 0.026
+
+# ---------------- Burden ----------------
+H = P * h
+harm_in   = H * p_pmh * f_hist                 # in-patients harmed by a preventable, history-related medication error
+deaths_in = harm_in * cfr
+
+E = P * r15 * 365 / 15                         # ailment episodes a year, treated as one consultation each (conservative)
+inc_out   = E * inc * med * f_hist             # history-related medication incidents in outpatient care
+sev_out   = inc_out * sev                      # of which severe harm
+
+def shares(rr_old):
+    den = pop_share['children'] * rr_child + pop_share['adults'] + pop_share['older'] * rr_old
+    return {'children': pop_share['children'] * rr_child / den, 'adults': pop_share['adults'] / den, 'older': pop_share['older'] * rr_old / den}
+sh_in, sh_out = shares(rr_old_in), shares(rr_old_out)
+w_child = sh_in['children']
+perm_in = harm_in * perm                      # in-patients left permanently disabled
+
+burden = {
+    'hospital_patients': summ(H),
+    'harm_inpatient': summ(harm_in),
+    'deaths_inpatient': summ(deaths_in),
+    'deaths_children': summ(deaths_in * sh_in['children']),
+    'deaths_adults': summ(deaths_in * sh_in['adults']),
+    'deaths_older': summ(deaths_in * sh_in['older']),
+    'harm_in_children': summ(harm_in * sh_in['children']),
+    'harm_in_adults': summ(harm_in * sh_in['adults']),
+    'harm_in_older': summ(harm_in * sh_in['older']),
+    'permanent_disability': summ(perm_in),
+    'recovered_6m': summ(harm_in * 0.705),
+    'share_in_children': summ(sh_in['children']), 'share_in_older': summ(sh_in['older']),
+    'share_out_children': summ(sh_out['children']), 'share_out_older': summ(sh_out['older']),
+    'severe_out_adults': summ(sev_out * sh_out['adults']),
+    'severe_out_older': summ(sev_out * sh_out['older']),
+    'incidents_out_children': summ(inc_out * sh_out['children']),
+    'incidents_out_adults': summ(inc_out * sh_out['adults']),
+    'incidents_out_older': summ(inc_out * sh_out['older']),
+    'episodes_outpatient': summ(E),
+    'incidents_outpatient': summ(inc_out),
+    'severe_outpatient': summ(sev_out),
+    'severe_children': summ(sev_out * sh_out['children']),
+    'child_share': summ(w_child),
+    'per_day_deaths': summ(deaths_in / 365),
+    'per_day_severe': summ(sev_out / 365),
+}
+
+# Deterministic central (mode) values, for the worked example on the page
+c = dict(P=P, h=0.029, p_pmh=0.025, f_hist=0.15, cfr=0.03, r15=0.075, inc=0.025, med=0.35, sev=0.04)
+c['H'] = P * c['h']; c['harm_in'] = c['H'] * c['p_pmh'] * c['f_hist']; c['deaths_in'] = c['harm_in'] * c['cfr']
+c['E'] = P * c['r15'] * 365 / 15; c['inc_out'] = c['E'] * c['inc'] * c['med'] * c['f_hist']; c['sev_out'] = c['inc_out'] * c['sev']
+c['den_in'] = 0.24 * 1 + 0.69 + 0.07 * 6.8; c['w_child_in'] = 0.24 / c['den_in']; c['w_old_in'] = 0.07 * 6.8 / c['den_in']
+c['den_out'] = 0.24 + 0.69 + 0.07 * 2.4; c['w_child_out'] = 0.24 / c['den_out']; c['w_old_out'] = 0.07 * 2.4 / c['den_out']
+c['perm_in'] = c['harm_in'] * perm
+
+# ---------------- Impact of 1Heath ----------------
+k   = 30 * 300           # consultations per doctor a year: 30 a day, 300 days. ASSUMPTION (dossier review C3)
+vpp = 3                  # visits per patient a year -> unique patients per doctor = k / vpp. ASSUMPTION
+eff = tri(0.28, 0.48, 0.67)  # reduction in history-related error/harm when history is present and checked:
+                             #  ED visits RR 0.72 -> 28% [mekonnen]; CPOE 48% [radley]; ADE revisits RR 0.33 -> 67% [mekonnen]
+cov_by_year = {1: 0.3, 2: 0.5, 3: 0.7}   # share of consultations with relevant history on record. ASSUMPTION
+
+def impact(D, cov):
+    consults = D * k
+    patients = consults / vpp
+    inc_av   = consults * inc * med * f_hist * cov * eff
+    sev_av   = inc_av * sev
+    deaths_av = patients * h * p_pmh * f_hist * cfr * cov * eff
+    return {'consultations': consults, 'patients': patients,
+            'incidents_avoided': summ(inc_av), 'severe_avoided': summ(sev_av), 'deaths_avoided': summ(deaths_av)}
+
+impact_res = {
+    'd1000_y1': impact(1000, cov_by_year[1]),
+    'd1000_y3': impact(1000, cov_by_year[3]),
+    'd12500_y3': impact(12500, cov_by_year[3]),
+    'national_ceiling': {  # if every Indian's history were available and checked at every visit
+        'deaths_avoided': summ(deaths_in * eff), 'severe_avoided': summ(sev_out * eff), 'incidents_avoided': summ(inc_out * eff)},
+}
+
+# ---------------- Revenue ----------------
+def revenue(case, D=1000):
+    a = REV[case]
+    plan    = D * 168.64 * 12
+    med_gmv = D * a['attach'] * a['gmv_month'] * 12
+    medrev  = med_gmv * a['take']
+    labs    = D * k * a['p_test'] * a['p_book'] * a['aov'] * a['fee']
+    rev     = plan + medrev + labs
+    speech  = D * k * 2.58 * 0.81          # 2.58 min a consult (dossier: Rs1.16cr at Rs0.50/min, 1,000 doctors) x Rs0.81/min measured
+    llm     = D * k * a['llm']             # Rs1-4 a consultation for the drafting model (review C3)
+    var     = speech + llm
+    fixed   = a['other']
+    op      = rev - var - fixed
+    contrib_m = (rev - var) / D / 12
+    payback = a['cac'] / contrib_m if contrib_m > 0 else None
+    be = fixed / ((rev - var) / D) if rev > var else None
+    return dict(plan=plan, med_gmv=med_gmv, medrev=medrev, labs=labs, rev=rev, speech=speech, llm=llm,
+                fixed=fixed, op=op, rev_per_doc=rev / D, contrib_month=contrib_m, payback_months=payback, breakeven_doctors=be)
+
+REV = {
+    'conservative': dict(attach=0.3, gmv_month=40_000, take=0.025, p_test=0.15, p_book=0.10, aov=600, fee=0.10,
+                         llm=1.0, other=2.66e7, cac=20_000),
+    'plan':         dict(attach=0.6, gmv_month=150_000, take=0.06, p_test=0.20, p_book=0.15, aov=700, fee=0.10,
+                         llm=2.0, other=3.60e7, cac=20_000),
+}
+rev_res = {k_: revenue(k_) for k_ in REV}
+
+# Five-year path (targets, not forecasts): active doctors at year end
+path_doctors = [100, 1000, 4000, 10000, 20000]
+def five_year(case):
+    out, prev = [], 0
+    r = rev_res[case]
+    for y, d in enumerate(path_doctors, 1):
+        avg = (prev + d) / 2
+        scale_fixed = r['fixed'] * max(avg, 1000) / 1000 ** 1 if False else r['fixed'] * (avg / 1000) ** 0.6  # fixed costs grow sub-linearly. ASSUMPTION
+        revenue_y = r['rev_per_doc'] * avg
+        var_y = (r['speech'] + r['llm']) / 1000 * avg
+        cac_y = (d - prev) * REV[case]['cac']
+        out.append(dict(year=y, doctors_end=d, doctors_avg=avg, revenue=revenue_y, op=revenue_y - var_y - scale_fixed,
+                        acquisition=cac_y))
+        prev = d
+    return out
+path = {k_: five_year(k_) for k_ in REV}
+
+res = dict(burden=burden, central=c, impact=impact_res, revenue=rev_res, path=path,
+           inputs=dict(k=k, vpp=vpp, cov=cov_by_year))
+json.dump(res, open('model/results.json', 'w'), indent=1)
+
+def cr(x): return f"Rs {x/1e7:,.2f} cr"
+def n(x): return f"{x:,.0f}"
+if __name__ == '__main__':
+    print('== BURDEN (median [90% interval]) ==')
+    for key, v in burden.items():
+        print(f"{key:24s} {n(v['median']) if v['median']>1 else round(v['median'],3)}  [{n(v['p5']) if v['p5']>1 else round(v['p5'],3)} - {n(v['p95']) if v['p95']>1 else round(v['p95'],3)}]")
+    print('central worked example:', {k_: (round(v) if v > 1 else v) for k_, v in c.items()})
+    print('== IMPACT ==')
+    for key, v in impact_res.items():
+        print(key, {k2: (n(v2['median']) + f" [{n(v2['p5'])}-{n(v2['p95'])}]" if isinstance(v2, dict) else n(v2)) for k2, v2 in v.items()})
+    print('== REVENUE at 1,000 doctors ==')
+    for key, v in rev_res.items():
+        print(key, {k2: (cr(v2) if isinstance(v2, float) and abs(v2) > 1e5 else (round(v2, 1) if v2 is not None else None)) for k2, v2 in v.items()})
+    print('== FIVE-YEAR PATH ==')
+    for key, v in path.items():
+        for row in v:
+            print(key, row['year'], row['doctors_end'], cr(row['revenue']), 'op', cr(row['op']), 'acq', cr(row['acquisition']))
+
+# ---------------- Sensitivity: operating result at 1,000 doctors ----------------
+def op_with(case, **over):
+    saved = dict(REV[case]); REV[case].update(over)
+    r = revenue(case); REV[case].clear(); REV[case].update(saved)
+    return r['op']
+sens = {}
+for case in REV:
+    base = rev_res[case]['op']
+    sens[case] = {
+        'base': base,
+        'take_plus1pt': op_with(case, take=REV[case]['take'] + 0.01) - base,
+        'attach_plus10pt': op_with(case, attach=REV[case]['attach'] + 0.1) - base,
+        'gmv_plus50k': op_with(case, gmv_month=REV[case]['gmv_month'] + 50_000) - base,
+        'llm_zero': op_with(case, llm=0) - base,
+    }
+    # speech cost halved
+    sens[case]['speech_half'] = rev_res[case]['speech'] / 2
+res['sensitivity'] = sens
+json.dump(res, open('model/results.json', 'w'), indent=1)
+if __name__ == '__main__':
+    print('== SENSITIVITY (change in operating result, Rs cr) ==')
+    for case, v in sens.items():
+        print(case, {k_: round(x / 1e7, 2) for k_, x in v.items()})
