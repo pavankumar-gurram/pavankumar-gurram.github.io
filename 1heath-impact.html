@@ -373,6 +373,31 @@ figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
 td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.range b{color:var(--ink)}
 @media (max-width:520px){td.range{white-space:normal}}
+.refs .ref-body{min-width:0}
+.refs .ref-link{font-size:.92em}
+
+/* 5-step flowcharts never fit side by side in the reading column: always a vertical step list */
+.flowchart[style*="--n:5"]{grid-template-columns:1fr}
+.flowchart[style*="--n:5"] li+li::before{content:"↓";left:2.6rem;top:-.3rem;transform:translate(-50%,-50%)}
+.flowchart[style*="--n:5"] li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+.flowchart[style*="--n:5"] li .k{grid-row:1 / span 2;padding-top:.2rem}
+.flowchart[style*="--n:5"] li b, .flowchart[style*="--n:5"] li span:not(.k){grid-column:2}
+@media (max-width:760px){
+  .flowchart li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+  .flowchart li .k{grid-row:1 / span 2;padding-top:.2rem}
+  .flowchart li b, .flowchart li span:not(.k){grid-column:2}
+  .flowchart li+li::before{left:2.6rem}
+}
+/* tables: the first column is the row's name; never let it collapse to one word per line */
+@media (min-width:601px){ table.stack td:first-child{min-width:8.5rem} }
+td .tag{white-space:nowrap}
+@media (max-width:420px){ .tldr{padding:1rem .9rem} .tldr ul{padding-left:1rem} }
+/* news items are running text with inline links: never a flex column */
+.dated p.what{display:block}
+@media (max-width:700px){.project-visual{max-width:none}}
+td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
+th.num{white-space:normal}
+@media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "What Changes When the History Is There", "description": "How many errors, severe harms and deaths a shared record could prevent, per 1,000 doctors, at scale and nationally, and how the health system changes.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -418,9 +443,9 @@ td.range b{color:var(--ink)}
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">Avoided each year (median, 90% range)</th><th class="num" scope="col">Year one</th><th class="num" scope="col">Year three</th></tr></thead>
     <tbody>
-      <tr><td>History-related medication incidents</td><td class="num" data-label="Year one">1,740 (820 to 3,240)</td><td class="num" data-label="Year three">4,070 (1,910 to 7,550)</td></tr>
-      <tr><td>Severe harms</td><td class="num" data-label="Year one">72 (26 to 163)</td><td class="num" data-label="Year three">167 (61 to 381)</td></tr>
-      <tr><td>Deaths (through hospital admissions)</td><td class="num" data-label="Year one">2 (1 to 4)</td><td class="num" data-label="Year three">4 (2 to 9)</td></tr>
+      <tr><td>History-related medication incidents</td><td class="num" data-label="Year one">1,740<small>820 to 3,240</small></td><td class="num" data-label="Year three">4,070<small>1,910 to 7,550</small></td></tr>
+      <tr><td>Severe harms</td><td class="num" data-label="Year one">72<small>26 to 163</small></td><td class="num" data-label="Year three">167<small>61 to 381</small></td></tr>
+      <tr><td>Deaths (through hospital admissions)</td><td class="num" data-label="Year one">2<small>1 to 4</small></td><td class="num" data-label="Year three">4<small>2 to 9</small></td></tr>
     </tbody>
   </table></div>
   <p style="margin-top:1rem">Deaths here count only patients of 1Heath clinics who are later admitted and whose record travels with them. It is small at 1,000 doctors, and we state it as it is.</p>
@@ -439,9 +464,9 @@ td.range b{color:var(--ink)}
   <div class="table-wrap" style="margin-top:1.25rem"><table class="stack">
     <thead><tr><th scope="col">Avoided each year (median, 90% range)</th><th class="num" scope="col">12,500 doctors</th><th class="num" scope="col">Whole country</th></tr></thead>
     <tbody>
-      <tr><td>History-related medication incidents</td><td class="num" data-label="12,500 doctors">50,800 (23,800 to 94,400)</td><td class="num" data-label="Whole country">18 lakh (8.4 to 33.6 lakh)</td></tr>
-      <tr><td>Severe harms</td><td class="num" data-label="12,500 doctors">2,090 (770 to 4,760)</td><td class="num" data-label="Whole country">73,900 (27,000 to 1,69,400)</td></tr>
-      <tr><td>Hospital deaths</td><td class="num" data-label="12,500 doctors">54 (23 to 115)</td><td class="num" data-label="Whole country">2,990 (1,290 to 6,390)</td></tr>
+      <tr><td>History-related medication incidents</td><td class="num" data-label="12,500 doctors">50,800<small>23,800 to 94,400</small></td><td class="num" data-label="Whole country">18 lakh<small>8.4 to 33.6 lakh</small></td></tr>
+      <tr><td>Severe harms</td><td class="num" data-label="12,500 doctors">2,090<small>770 to 4,760</small></td><td class="num" data-label="Whole country">73,900<small>27,000 to 1,69,400</small></td></tr>
+      <tr><td>Hospital deaths</td><td class="num" data-label="12,500 doctors">54<small>23 to 115</small></td><td class="num" data-label="Whole country">2,990<small>1,290 to 6,390</small></td></tr>
     </tbody>
   </table></div>
   <p class="muted small" style="margin-top:.75rem">"Whole country" is a ceiling: the burden on the previous page multiplied by the effect, as if every visit had the full history. No single company reaches it; it is the size of the prize for India's digital health system as a whole.</p>
@@ -474,7 +499,7 @@ td.range b{color:var(--ink)}
     <li><span>4</span><p><b>Independent review:</b> a sample of flagged and unflagged consultations reviewed by a clinician who is not part of the team.</p></li>
   </ul>
 </section>
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">Radley DC, Wasserman MR, Olsho LE, et al. Reduction in medication errors in hospitals due to adoption of computerized provider order entry systems. JAMIA, 2013 (AHRQ PSNet summary). <a href="https://psnet.ahrq.gov/issue/reduction-medication-errors-hospitals-due-adoption-computerized-provider-order-entry-systems">psnet.ahrq.gov</a></li><li id="ref-2">Mekonnen AB, McLachlan AJ, Brien JE. Effectiveness of pharmacist-led medication reconciliation programmes on clinical outcomes at hospital transitions: a systematic review and meta-analysis. BMJ Open, 2016. <a href="https://bmjopen.bmj.com/content/6/2/e010003">bmjopen.bmj.com</a></li><li id="ref-3">BioSpectrum. Govt takes steps to contain anti-microbial resistance (Schedule H1), July 2014. <a href="https://biospectrumindia.com/news/95/7844/govt-takes-steps-to-contain-anti-microbial-resistance.html">biospectrumindia.com</a></li><li id="ref-4">PTI via The Week. Over 18K Jan Aushadhi Kendras opened in last 11 years, 24 March 2026. <a href="https://www.theweek.in/wire-updates/national/2026/03/24/over-18k-jan-aushadhi-kendras-opened-in-last-11-yrs-to-provide-generic-medicines-at-lower-rate.html">www.theweek.in</a></li><li id="ref-5">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-burden.html"><span>← Previous</span>The Burden</a><a class="next" href="1heath-solution.html"><span>Next →</span>The Solution</a></nav></main></div>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">Radley DC, Wasserman MR, Olsho LE, et al. Reduction in medication errors in hospitals due to adoption of computerized provider order entry systems. JAMIA, 2013 (AHRQ PSNet summary). <a class="ref-link" href="https://psnet.ahrq.gov/issue/reduction-medication-errors-hospitals-due-adoption-computerized-provider-order-entry-systems">psnet.ahrq.gov<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-2"><span class="ref-body">Mekonnen AB, McLachlan AJ, Brien JE. Effectiveness of pharmacist-led medication reconciliation programmes on clinical outcomes at hospital transitions: a systematic review and meta-analysis. BMJ Open, 2016. <a class="ref-link" href="https://bmjopen.bmj.com/content/6/2/e010003">bmjopen.bmj.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-3"><span class="ref-body">BioSpectrum. Govt takes steps to contain anti-microbial resistance (Schedule H1), July 2014. <a class="ref-link" href="https://biospectrumindia.com/news/95/7844/govt-takes-steps-to-contain-anti-microbial-resistance.html">biospectrumindia.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-4"><span class="ref-body">PTI via The Week. Over 18K Jan Aushadhi Kendras opened in last 11 years, 24 March 2026. <a class="ref-link" href="https://www.theweek.in/wire-updates/national/2026/03/24/over-18k-jan-aushadhi-kendras-opened-in-last-11-yrs-to-provide-generic-medicines-at-lower-rate.html">theweek.in<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-5"><span class="ref-body">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a class="ref-link" href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in<span aria-hidden="true"> ↗</span></a></span></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-burden.html"><span>← Previous</span>The Burden</a><a class="next" href="1heath-solution.html"><span>Next →</span>The Solution</a></nav></main></div>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');

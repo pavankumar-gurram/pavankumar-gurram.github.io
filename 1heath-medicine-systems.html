@@ -373,6 +373,31 @@ figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
 td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.range b{color:var(--ink)}
 @media (max-width:520px){td.range{white-space:normal}}
+.refs .ref-body{min-width:0}
+.refs .ref-link{font-size:.92em}
+
+/* 5-step flowcharts never fit side by side in the reading column: always a vertical step list */
+.flowchart[style*="--n:5"]{grid-template-columns:1fr}
+.flowchart[style*="--n:5"] li+li::before{content:"↓";left:2.6rem;top:-.3rem;transform:translate(-50%,-50%)}
+.flowchart[style*="--n:5"] li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+.flowchart[style*="--n:5"] li .k{grid-row:1 / span 2;padding-top:.2rem}
+.flowchart[style*="--n:5"] li b, .flowchart[style*="--n:5"] li span:not(.k){grid-column:2}
+@media (max-width:760px){
+  .flowchart li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+  .flowchart li .k{grid-row:1 / span 2;padding-top:.2rem}
+  .flowchart li b, .flowchart li span:not(.k){grid-column:2}
+  .flowchart li+li::before{left:2.6rem}
+}
+/* tables: the first column is the row's name; never let it collapse to one word per line */
+@media (min-width:601px){ table.stack td:first-child{min-width:8.5rem} }
+td .tag{white-space:nowrap}
+@media (max-width:420px){ .tldr{padding:1rem .9rem} .tldr ul{padding-left:1rem} }
+/* news items are running text with inline links: never a flex column */
+.dated p.what{display:block}
+@media (max-width:700px){.project-visual{max-width:none}}
+td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
+th.num{white-space:normal}
+@media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Allopathy, Ayurveda, Homeopathy and the Rest, in One Record", "description": "How 1Heath records what Indians actually take, and how it treats each system of medicine fairly and safely.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -454,7 +479,7 @@ td.range b{color:var(--ink)}
     <li><span>3</span><p>It shows evidence and official formulae, and labels what is unknown as unknown.</p></li>
   </ul>
 </section>
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">Ministry of Statistics and Programme Implementation. Press note: Survey on Ayush, NSS 79th round (July 2022 to June 2023), 13 June 2024. <a href="https://mospi.gov.in/sites/default/files/press_release/PressNote_Ayush_13062024N.pdf">mospi.gov.in</a></li><li id="ref-2">Ashwagandha-induced liver injury: a case series from India and literature review. Hepatology Communications, 2023;7(10). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10531359/">pmc.ncbi.nlm.nih.gov</a></li><li id="ref-3">NRCeS. SNOMED CT India AYUSH Extension release notes, 29 June 2026. <a href="https://www.nrces.in/download/files/pdf/doc_SnomedCT-IndiaAYUSHExtension-ReleaseNotes_Current-en-US_IN1000189_20260629.pdf">www.nrces.in</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-design.html"><span>← Previous</span>Product Design</a><a class="next" href="1heath-models-data.html"><span>Next →</span>Models and Data</a></nav></main></div>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">Ministry of Statistics and Programme Implementation. Press note: Survey on Ayush, NSS 79th round (July 2022 to June 2023), 13 June 2024. <a class="ref-link" href="https://mospi.gov.in/sites/default/files/press_release/PressNote_Ayush_13062024N.pdf">mospi.gov.in<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-2"><span class="ref-body">Ashwagandha-induced liver injury: a case series from India and literature review. Hepatology Communications, 2023;7(10). <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10531359/">pmc.ncbi.nlm.nih.gov<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-3"><span class="ref-body">NRCeS. SNOMED CT India AYUSH Extension release notes, 29 June 2026. <a class="ref-link" href="https://www.nrces.in/download/files/pdf/doc_SnomedCT-IndiaAYUSHExtension-ReleaseNotes_Current-en-US_IN1000189_20260629.pdf">nrces.in<span aria-hidden="true"> ↗</span></a></span></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-design.html"><span>← Previous</span>Product Design</a><a class="next" href="1heath-models-data.html"><span>Next →</span>Models and Data</a></nav></main></div>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');

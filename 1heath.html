@@ -373,6 +373,31 @@ figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
 td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.range b{color:var(--ink)}
 @media (max-width:520px){td.range{white-space:normal}}
+.refs .ref-body{min-width:0}
+.refs .ref-link{font-size:.92em}
+
+/* 5-step flowcharts never fit side by side in the reading column: always a vertical step list */
+.flowchart[style*="--n:5"]{grid-template-columns:1fr}
+.flowchart[style*="--n:5"] li+li::before{content:"↓";left:2.6rem;top:-.3rem;transform:translate(-50%,-50%)}
+.flowchart[style*="--n:5"] li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+.flowchart[style*="--n:5"] li .k{grid-row:1 / span 2;padding-top:.2rem}
+.flowchart[style*="--n:5"] li b, .flowchart[style*="--n:5"] li span:not(.k){grid-column:2}
+@media (max-width:760px){
+  .flowchart li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+  .flowchart li .k{grid-row:1 / span 2;padding-top:.2rem}
+  .flowchart li b, .flowchart li span:not(.k){grid-column:2}
+  .flowchart li+li::before{left:2.6rem}
+}
+/* tables: the first column is the row's name; never let it collapse to one word per line */
+@media (min-width:601px){ table.stack td:first-child{min-width:8.5rem} }
+td .tag{white-space:nowrap}
+@media (max-width:420px){ .tldr{padding:1rem .9rem} .tldr ul{padding-left:1rem} }
+/* news items are running text with inline links: never a flex column */
+.dated p.what{display:block}
+@media (max-width:700px){.project-visual{max-width:none}}
+td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
+th.num{white-space:normal}
+@media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "1Heath", "applicationCategory": "MedicalApplication", "operatingSystem": "Android", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}}</script>
 </head>
@@ -428,12 +453,12 @@ td.range b{color:var(--ink)}
   <h2 id="context-h">Background: Health in India and the World</h2>
   <p class="muted small" style="margin-bottom:1.1rem">The research behind 1Heath, sourced and readable on its own.</p>
   <ul class="dated">
-    <li><span class="when">Context</span><div class="what"><h3><a href="india-health.html">India's Health in Numbers</a></h3><p class="small muted">Causes of death, road accidents, cancer, chronic disease, and who pays for care.</p></div></li>
-    <li><span class="when">Context</span><div class="what"><h3><a href="india-diseases.html">India's Biggest Diseases</a></h3><p class="small muted">Diabetes, blood pressure, TB, cancer and anaemia: why they are high, and what works elsewhere.</p></div></li>
-    <li><span class="when">Context</span><div class="what"><h3><a href="india-medicines.html">Medicines and Pharmacy</a></h3><p class="small muted">Drug quality, antibiotic misuse and resistance, prices, and what a signed prescription changes.</p></div></li>
-    <li><span class="when">Context</span><div class="what"><h3><a href="india-pharma-industry.html">How the Pharma Industry Works</a></h3><p class="small muted">From factory to clinic: margins, how companies reach doctors, price control and how new medicines are funded.</p></div></li>
-    <li><span class="when">Context</span><div class="what"><h3><a href="traditional-medicine.html">Traditional Medicine</a></h3><p class="small muted">Ayurveda, homeopathy and more: who uses them, the evidence, safety, and other countries' approaches.</p></div></li>
-    <li><span class="when">Context</span><div class="what"><h3><a href="health-systems-compared.html">What India Can Learn from Other Countries</a></h3><p class="small muted">The best emergency, cancer and coverage systems, why they work, and India's position.</p></div></li>
+    <li><span class="when">Health</span><div class="what"><h3><a href="india-health.html">India's Health in Numbers</a></h3><p class="small muted">Causes of death, road accidents, cancer, chronic disease, and who pays for care.</p></div></li>
+    <li><span class="when">Diseases</span><div class="what"><h3><a href="india-diseases.html">India's Biggest Diseases</a></h3><p class="small muted">Diabetes, blood pressure, TB, cancer and anaemia: why they are high, and what works elsewhere.</p></div></li>
+    <li><span class="when">Medicines</span><div class="what"><h3><a href="india-medicines.html">Medicines and Pharmacy</a></h3><p class="small muted">Drug quality, antibiotic misuse and resistance, prices, and what a signed prescription changes.</p></div></li>
+    <li><span class="when">Pharma</span><div class="what"><h3><a href="india-pharma-industry.html">How the Pharma Industry Works</a></h3><p class="small muted">From factory to clinic: margins, how companies reach doctors, price control and how new medicines are funded.</p></div></li>
+    <li><span class="when">Traditional</span><div class="what"><h3><a href="traditional-medicine.html">Traditional Medicine</a></h3><p class="small muted">Ayurveda, homeopathy and more: who uses them, the evidence, safety, and other countries' approaches.</p></div></li>
+    <li><span class="when">World</span><div class="what"><h3><a href="health-systems-compared.html">What India Can Learn from Other Countries</a></h3><p class="small muted">The best emergency, cancer and coverage systems, why they work, and India's position.</p></div></li>
   </ul>
 </section>
 
@@ -443,14 +468,14 @@ td.range b{color:var(--ink)}
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">Portal</th><th scope="col">What it is</th></tr></thead>
     <tbody>
-      <tr><td><a href="https://abdm.gov.in/">ABDM</a></td><td data-label="What it is">Ayushman Bharat Digital Mission: health IDs, registries and consent-based record exchange</td></tr>
-      <tr><td><a href="https://abha.abdm.gov.in/abha/v3/">ABHA</a></td><td data-label="What it is">Create or find your 14-digit Ayushman Bharat Health Account</td></tr>
-      <tr><td><a href="https://nhpr.abdm.gov.in/nhpr/v4/home">National Healthcare Providers Registry</a></td><td data-label="What it is">Registries of verified healthcare professionals (HPR) and health facilities (HFR)</td></tr>
-      <tr><td><a href="https://sandbox.abdm.gov.in/sandbox/v3">ABDM Sandbox</a></td><td data-label="What it is">Where software like 1Heath is tested and certified for ABDM integration</td></tr>
-      <tr><td><a href="https://dashboard.abdm.gov.in/abdm/">ABDM Insights dashboard</a></td><td data-label="What it is">Live counts: 98.9 crore ABHA accounts, 127.5 crore linked records, 6.09 lakh verified facilities and 13.98 lakh verified professionals on 5 November 2026<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a></td></tr>
-      <tr><td><a href="https://www.nrces.in/">NRCeS</a></td><td data-label="What it is">National Resource Centre for EHR Standards: FHIR profiles and SNOMED CT for India</td></tr>
-      <tr><td><a href="https://cdsco.gov.in/opencms/opencms/en/Home/">CDSCO</a></td><td data-label="What it is">India's drug and medical-device regulator, including software as a medical device</td></tr>
-      <tr><td><a href="https://janaushadhi.gov.in/">Jan Aushadhi</a></td><td data-label="What it is">Government generic medicine stores and price list</td></tr>
+      <tr><td><a href="https://abdm.gov.in/">ABDM</a></td><td>Ayushman Bharat Digital Mission: health IDs, registries and consent-based record exchange</td></tr>
+      <tr><td><a href="https://abha.abdm.gov.in/abha/v3/">ABHA</a></td><td>Create or find your 14-digit Ayushman Bharat Health Account</td></tr>
+      <tr><td><a href="https://nhpr.abdm.gov.in/nhpr/v4/home">National Healthcare Providers Registry</a></td><td>Registries of verified healthcare professionals (HPR) and health facilities (HFR)</td></tr>
+      <tr><td><a href="https://sandbox.abdm.gov.in/sandbox/v3">ABDM Sandbox</a></td><td>Where software like 1Heath is tested and certified for ABDM integration</td></tr>
+      <tr><td><a href="https://dashboard.abdm.gov.in/abdm/">ABDM Insights dashboard</a></td><td>Live counts: 98.9 crore ABHA accounts, 127.5 crore linked records, 6.09 lakh verified facilities and 13.98 lakh verified professionals on 5 November 2026<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a></td></tr>
+      <tr><td><a href="https://www.nrces.in/">NRCeS</a></td><td>National Resource Centre for EHR Standards: FHIR profiles and SNOMED CT for India</td></tr>
+      <tr><td><a href="https://cdsco.gov.in/opencms/opencms/en/Home/">CDSCO</a></td><td>India's drug and medical-device regulator, including software as a medical device</td></tr>
+      <tr><td><a href="https://janaushadhi.gov.in/">Jan Aushadhi</a></td><td>Government generic medicine stores and price list</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -509,7 +534,7 @@ td.range b{color:var(--ink)}
   <p>I am looking for general physicians, paediatricians and gynaecologists willing to try the demo; native Telugu and Hindi speakers to review patient instructions; and pharmacists who can explain how clinic dispensaries really work. <a href="index.html#contact">Get in touch →</a></p>
 </section>
 
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in</a></li></ol></section>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a class="ref-link" href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in<span aria-hidden="true"> ↗</span></a></span></li></ol></section>
 </div>
 </main>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>

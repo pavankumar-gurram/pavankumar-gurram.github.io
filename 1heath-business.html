@@ -373,6 +373,31 @@ figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
 td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.range b{color:var(--ink)}
 @media (max-width:520px){td.range{white-space:normal}}
+.refs .ref-body{min-width:0}
+.refs .ref-link{font-size:.92em}
+
+/* 5-step flowcharts never fit side by side in the reading column: always a vertical step list */
+.flowchart[style*="--n:5"]{grid-template-columns:1fr}
+.flowchart[style*="--n:5"] li+li::before{content:"↓";left:2.6rem;top:-.3rem;transform:translate(-50%,-50%)}
+.flowchart[style*="--n:5"] li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+.flowchart[style*="--n:5"] li .k{grid-row:1 / span 2;padding-top:.2rem}
+.flowchart[style*="--n:5"] li b, .flowchart[style*="--n:5"] li span:not(.k){grid-column:2}
+@media (max-width:760px){
+  .flowchart li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+  .flowchart li .k{grid-row:1 / span 2;padding-top:.2rem}
+  .flowchart li b, .flowchart li span:not(.k){grid-column:2}
+  .flowchart li+li::before{left:2.6rem}
+}
+/* tables: the first column is the row's name; never let it collapse to one word per line */
+@media (min-width:601px){ table.stack td:first-child{min-width:8.5rem} }
+td .tag{white-space:nowrap}
+@media (max-width:420px){ .tldr{padding:1rem .9rem} .tldr ul{padding-left:1rem} }
+/* news items are running text with inline links: never a flex column */
+.dated p.what{display:block}
+@media (max-width:700px){.project-visual{max-width:none}}
+td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
+th.num{white-space:normal}
+@media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Business Model and Revenue, with Every Formula", "description": "How 1Heath earns, two cases at 1,000 doctors, unit economics, the levers that matter, a five-year path, and the firewall between money and medicine.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -472,7 +497,7 @@ td.range b{color:var(--ink)}
   <h2 id="path-h">Five Years, Plan Case</h2>
   <p>Doctor numbers are targets, not forecasts. Revenue uses the plan case per doctor; team and shared costs are assumed to grow more slowly than doctors (to the power 0.6, our assumption).</p>
   <div class="table-wrap"><table class="stack">
-    <thead><tr><th scope="col">Year</th><th class="num" scope="col">Doctors at year end</th><th class="num" scope="col">Revenue</th><th class="num" scope="col">Operating result</th><th class="num" scope="col">Spent winning doctors</th></tr></thead>
+    <thead><tr><th scope="col">Year</th><th class="num" scope="col">Doctors</th><th class="num" scope="col">Revenue</th><th class="num" scope="col">Operating result</th><th class="num" scope="col">Acquisition</th></tr></thead>
     <tbody>
       <tr><td>1</td><td class="num" data-label="Doctors">100</td><td class="num" data-label="Revenue">₹0.43 cr</td><td class="num" data-label="Operating">−₹0.35 cr</td><td class="num" data-label="Acquisition">₹0.20 cr</td></tr>
       <tr><td>2</td><td class="num" data-label="Doctors">1,000</td><td class="num" data-label="Revenue">₹4.71 cr</td><td class="num" data-label="Operating">+₹0.18 cr</td><td class="num" data-label="Acquisition">₹1.80 cr</td></tr>
@@ -509,7 +534,7 @@ td.range b{color:var(--ink)}
     <li><span>5</span><p><b>Legal opinion first.</b> Doctors may supply medicines to their own patients without a shop licence only within limits<a class="cite" href="#ref-7" aria-label="Source 7">[7]</a>; 1Heath will not take title to medicines without wholesale licences, and the whole model goes to counsel before the first order.</p></li>
   </ul>
 </section>
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">ANI via The Tribune. Indian pharma market reached Rs 2.40 lakh crore with 8.1% growth in 2025 (Pharmarack report). <a href="https://www.tribuneindia.com/news/indian-pharma-market/indian-pharma-market-reached-rs-2-40-lakh-crore-with-8-1-growth-in-2025-report">www.tribuneindia.com</a></li><li id="ref-2">BioSpectrum India. Can phased trade margin rationalisation boost pharma growth? (channel margins by route). <a href="https://www.biospectrumindia.com/public/news/73/25168/can-phased-trade-margin-rationalisation-boost-pharma-growth.html">www.biospectrumindia.com</a></li><li id="ref-3">Union Health Minister, written reply in the Rajya Sabha, 2 December 2025, as reported by Deccan Herald. <a href="https://www.deccanherald.com/amp/story/india%2Fdoctor-population-ratio-1811-in-india-union-health-minister-j-p-nadda-3817146">www.deccanherald.com</a></li><li id="ref-4">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in</a></li><li id="ref-5">Lakshmikumaran and Sridharan. No tax exemption on gifts to doctors by pharma companies (Apex Laboratories v. DCIT, Supreme Court, 22 February 2022). <a href="https://lakshmisri.com/newsroom/news-briefings/no-tax-exemption-on-gifts-to-doctors-by-pharma-companies">lakshmisri.com</a></li><li id="ref-6">LiveLaw. Pharma companies distributed Rs 1,000 crore freebies among doctors to prescribe Dolo-650: FMRAI tells Supreme Court, 18 August 2022. <a href="https://livelaw.in/top-stories/dolo-650-pharma-companies-freebies-to-doctors-supreme-court-206870">livelaw.in</a></li><li id="ref-7">LiveLaw. Doctor can't be punished under Drugs and Cosmetics Act for storing small quantities of medicines: Supreme Court (S. Athilakshmi, 15 March 2023). <a href="https://www.livelaw.in/amp/top-stories/doctor-cant-be-punished-under-drugs-cosmetics-act-for-storing-small-quantities-of-medicines-supreme-court-223932">www.livelaw.in</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-go-to-market.html"><span>← Previous</span>Go to Market</a><a class="next" href="1heath-roadmap.html"><span>Next →</span>Roadmap</a></nav></main></div>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">ANI via The Tribune. Indian pharma market reached Rs 2.40 lakh crore with 8.1% growth in 2025 (Pharmarack report). <a class="ref-link" href="https://www.tribuneindia.com/news/indian-pharma-market/indian-pharma-market-reached-rs-2-40-lakh-crore-with-8-1-growth-in-2025-report">tribuneindia.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-2"><span class="ref-body">BioSpectrum India. Can phased trade margin rationalisation boost pharma growth? (channel margins by route). <a class="ref-link" href="https://www.biospectrumindia.com/public/news/73/25168/can-phased-trade-margin-rationalisation-boost-pharma-growth.html">biospectrumindia.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-3"><span class="ref-body">Union Health Minister, written reply in the Rajya Sabha, 2 December 2025, as reported by Deccan Herald. <a class="ref-link" href="https://www.deccanherald.com/amp/story/india%2Fdoctor-population-ratio-1811-in-india-union-health-minister-j-p-nadda-3817146">deccanherald.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-4"><span class="ref-body">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a class="ref-link" href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-5"><span class="ref-body">Lakshmikumaran and Sridharan. No tax exemption on gifts to doctors by pharma companies (Apex Laboratories v. DCIT, Supreme Court, 22 February 2022). <a class="ref-link" href="https://lakshmisri.com/newsroom/news-briefings/no-tax-exemption-on-gifts-to-doctors-by-pharma-companies">lakshmisri.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-6"><span class="ref-body">LiveLaw. Pharma companies distributed Rs 1,000 crore freebies among doctors to prescribe Dolo-650: FMRAI tells Supreme Court, 18 August 2022. <a class="ref-link" href="https://livelaw.in/top-stories/dolo-650-pharma-companies-freebies-to-doctors-supreme-court-206870">livelaw.in<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-7"><span class="ref-body">LiveLaw. Doctor can't be punished under Drugs and Cosmetics Act for storing small quantities of medicines: Supreme Court (S. Athilakshmi, 15 March 2023). <a class="ref-link" href="https://www.livelaw.in/amp/top-stories/doctor-cant-be-punished-under-drugs-cosmetics-act-for-storing-small-quantities-of-medicines-supreme-court-223932">livelaw.in<span aria-hidden="true"> ↗</span></a></span></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-go-to-market.html"><span>← Previous</span>Go to Market</a><a class="next" href="1heath-roadmap.html"><span>Next →</span>Roadmap</a></nav></main></div>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');

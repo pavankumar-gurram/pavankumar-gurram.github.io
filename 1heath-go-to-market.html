@@ -373,6 +373,31 @@ figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
 td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.range b{color:var(--ink)}
 @media (max-width:520px){td.range{white-space:normal}}
+.refs .ref-body{min-width:0}
+.refs .ref-link{font-size:.92em}
+
+/* 5-step flowcharts never fit side by side in the reading column: always a vertical step list */
+.flowchart[style*="--n:5"]{grid-template-columns:1fr}
+.flowchart[style*="--n:5"] li+li::before{content:"↓";left:2.6rem;top:-.3rem;transform:translate(-50%,-50%)}
+.flowchart[style*="--n:5"] li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+.flowchart[style*="--n:5"] li .k{grid-row:1 / span 2;padding-top:.2rem}
+.flowchart[style*="--n:5"] li b, .flowchart[style*="--n:5"] li span:not(.k){grid-column:2}
+@media (max-width:760px){
+  .flowchart li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+  .flowchart li .k{grid-row:1 / span 2;padding-top:.2rem}
+  .flowchart li b, .flowchart li span:not(.k){grid-column:2}
+  .flowchart li+li::before{left:2.6rem}
+}
+/* tables: the first column is the row's name; never let it collapse to one word per line */
+@media (min-width:601px){ table.stack td:first-child{min-width:8.5rem} }
+td .tag{white-space:nowrap}
+@media (max-width:420px){ .tldr{padding:1rem .9rem} .tldr ul{padding-left:1rem} }
+/* news items are running text with inline links: never a flex column */
+.dated p.what{display:block}
+@media (max-width:700px){.project-visual{max-width:none}}
+td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
+th.num{white-space:normal}
+@media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How 1Heath Reaches Doctors", "description": "Doctors first, then patients: who adopts first, where we meet them, the funnel in numbers, the rules we keep, and what the pilot must prove.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -524,7 +549,7 @@ td.range b{color:var(--ink)}
     </tbody>
   </table></div>
 </section>
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">Union Health Minister, written reply in the Rajya Sabha, 2 December 2025, as reported by Deccan Herald. <a href="https://www.deccanherald.com/amp/story/india%2Fdoctor-population-ratio-1811-in-india-union-health-minister-j-p-nadda-3817146">www.deccanherald.com</a></li><li id="ref-2">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in</a></li><li id="ref-3">Ambient AI scribes in clinical practice: a randomized trial. NEJM AI, December 2025 (238 physicians, 14 specialties). <a href="https://pubmed.ncbi.nlm.nih.gov/41497288/">pubmed.ncbi.nlm.nih.gov</a></li><li id="ref-4">Nishith Desai Associates. From code to compliance: decoding India's medical device software guidance (CDSCO guidance of 21 July 2026). <a href="https://nishithdesai.com/research-and-articles/hotline/pharma-healthcare-update/from-code-to-compliance-decoding-indias-medical-device-software-guidance-15623">nishithdesai.com</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-security-privacy.html"><span>← Previous</span>Security and Privacy</a><a class="next" href="1heath-business.html"><span>Next →</span>Business Model</a></nav></main></div>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">Union Health Minister, written reply in the Rajya Sabha, 2 December 2025, as reported by Deccan Herald. <a class="ref-link" href="https://www.deccanherald.com/amp/story/india%2Fdoctor-population-ratio-1811-in-india-union-health-minister-j-p-nadda-3817146">deccanherald.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-2"><span class="ref-body">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a class="ref-link" href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-3"><span class="ref-body">Ambient AI scribes in clinical practice: a randomized trial. NEJM AI, December 2025 (238 physicians, 14 specialties). <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/41497288/">pubmed.ncbi.nlm.nih.gov<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-4"><span class="ref-body">Nishith Desai Associates. From code to compliance: decoding India's medical device software guidance (CDSCO guidance of 21 July 2026). <a class="ref-link" href="https://nishithdesai.com/research-and-articles/hotline/pharma-healthcare-update/from-code-to-compliance-decoding-indias-medical-device-software-guidance-15623">nishithdesai.com<span aria-hidden="true"> ↗</span></a></span></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-security-privacy.html"><span>← Previous</span>Security and Privacy</a><a class="next" href="1heath-business.html"><span>Next →</span>Business Model</a></nav></main></div>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');

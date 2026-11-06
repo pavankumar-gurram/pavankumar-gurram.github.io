@@ -373,6 +373,31 @@ figure.fig + p, figure.fig + ul, .table-wrap + p{margin-top:1.25rem}
 td.range{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.range b{color:var(--ink)}
 @media (max-width:520px){td.range{white-space:normal}}
+.refs .ref-body{min-width:0}
+.refs .ref-link{font-size:.92em}
+
+/* 5-step flowcharts never fit side by side in the reading column: always a vertical step list */
+.flowchart[style*="--n:5"]{grid-template-columns:1fr}
+.flowchart[style*="--n:5"] li+li::before{content:"↓";left:2.6rem;top:-.3rem;transform:translate(-50%,-50%)}
+.flowchart[style*="--n:5"] li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+.flowchart[style*="--n:5"] li .k{grid-row:1 / span 2;padding-top:.2rem}
+.flowchart[style*="--n:5"] li b, .flowchart[style*="--n:5"] li span:not(.k){grid-column:2}
+@media (max-width:760px){
+  .flowchart li{display:grid;grid-template-columns:4.2rem minmax(0,1fr);column-gap:.6rem;row-gap:.15rem;align-items:start}
+  .flowchart li .k{grid-row:1 / span 2;padding-top:.2rem}
+  .flowchart li b, .flowchart li span:not(.k){grid-column:2}
+  .flowchart li+li::before{left:2.6rem}
+}
+/* tables: the first column is the row's name; never let it collapse to one word per line */
+@media (min-width:601px){ table.stack td:first-child{min-width:8.5rem} }
+td .tag{white-space:nowrap}
+@media (max-width:420px){ .tldr{padding:1rem .9rem} .tldr ul{padding-left:1rem} }
+/* news items are running text with inline links: never a flex column */
+.dated p.what{display:block}
+@media (max-width:700px){.project-visual{max-width:none}}
+td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
+th.num{white-space:normal}
+@media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "The Visit Writes the History", "description": "What 1Heath does, how each part answers a root cause, the alternatives we compared it against, and why we chose this design.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -416,7 +441,7 @@ td.range b{color:var(--ink)}
 <section id="visit" aria-labelledby="visit-h">
   <h2 id="visit-h">One Visit, Step by Step</h2>
   <figure class="fig" style="margin-top:0">
-    <ol class="flowchart">
+    <ol class="flowchart" style="--n:5">
       <li><span class="k">DESK</span><b>Register and consent</b><span>Patient found or registered, ABHA linked, recording consent, vitals</span></li>
       <li><span class="k">DOCTOR</span><b>Talk</b><span>Swipe to start; the doctor and patient talk as usual</span></li>
       <li><span class="k">1HEATH</span><b>Draft and verify</b><span>Note and prescription drafted, every line checked</span></li>
@@ -493,7 +518,7 @@ td.range b{color:var(--ink)}
     <li>Not ready for real patients yet: see <a href="1heath-security-privacy.html#before">what must happen first</a>.</li>
   </ul>
 </section>
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1">1Heath internal benchmarks, October to November 2026. Synthetic consultations; method described on the Models and data page. <a href="https://pawankalyan.dev/1heath-models-data">pawankalyan.dev</a></li><li id="ref-2">Tam VC, Knowles SR, Cornish PL, et al. Frequency, type and clinical importance of medication history errors at admission to hospital: a systematic review. CMAJ, 2005;173(5):510. <a href="https://www.cmaj.ca/content/173/5/510">www.cmaj.ca</a></li><li id="ref-3">Sarvam AI. How HealthPlix turns doctor consultations into medical records with Sarvam, 4 June 2026. <a href="https://www.sarvam.ai/stories/healthplix">www.sarvam.ai</a></li><li id="ref-4">Jaiswal SD, Krithi S, Makani A, Datta S, Sitaram S, Jain M. Evaluating ambient clinical scribes in India: the need for multilingual real-world clinical conversation data. arXiv:2609.17355, September 2026. <a href="https://arxiv.org/pdf/2609.17355">arxiv.org</a></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-impact.html"><span>← Previous</span>The Impact</a><a class="next" href="1heath-design.html"><span>Next →</span>Product Design</a></nav></main></div>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">1Heath internal benchmarks, October to November 2026. Synthetic consultations; method described on the Models and data page. <a class="ref-link" href="https://pawankalyan.dev/1heath-models-data">pawankalyan.dev<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-2"><span class="ref-body">Tam VC, Knowles SR, Cornish PL, et al. Frequency, type and clinical importance of medication history errors at admission to hospital: a systematic review. CMAJ, 2005;173(5):510. <a class="ref-link" href="https://www.cmaj.ca/content/173/5/510">cmaj.ca<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-3"><span class="ref-body">Sarvam AI. How HealthPlix turns doctor consultations into medical records with Sarvam, 4 June 2026. <a class="ref-link" href="https://www.sarvam.ai/stories/healthplix">sarvam.ai<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-4"><span class="ref-body">Jaiswal SD, Krithi S, Makani A, Datta S, Sitaram S, Jain M. Evaluating ambient clinical scribes in India: the need for multilingual real-world clinical conversation data. arXiv:2609.17355, September 2026. <a class="ref-link" href="https://arxiv.org/pdf/2609.17355">arxiv.org<span aria-hidden="true"> ↗</span></a></span></li></ol></section><nav class="pager" aria-label="Series"><a class="prev" href="1heath-impact.html"><span>← Previous</span>The Impact</a><a class="next" href="1heath-design.html"><span>Next →</span>Product Design</a></nav></main></div>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
 <script>
 (function(){var d=document.documentElement,b=document.getElementById('theme');
