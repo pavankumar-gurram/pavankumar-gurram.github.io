@@ -444,6 +444,27 @@ td.range b{white-space:nowrap}
 .calc .res{white-space:normal;max-width:16rem;overflow-wrap:anywhere}
 .photo picture{display:block;width:100%;height:100%}
 @media (max-width:700px){.hero .photo{width:8.5rem;height:10.6rem}}
+
+/* two-minute pitch and product screens */
+.pitch{display:grid;gap:0;margin:0;border-top:1px solid var(--rule)}
+.pitch>div{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.25rem;padding:.9rem 0;border-bottom:1px solid var(--rule)}
+.pitch dt{font-weight:650}
+.pitch dd{margin:0}
+@media (max-width:600px){.pitch>div{grid-template-columns:1fr;gap:.25rem}}
+.screen-row{display:flex;gap:1rem;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.screen-row img{width:208px;max-width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--rule-strong);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+.screen-row picture{flex:0 1 208px;min-width:0}
+@media (max-width:520px){.screen-row picture{flex-basis:calc(50% - .5rem)}.screen-row picture:nth-child(3){display:none}}
+.project-visual.shot{padding:0;background:none;border:0;display:flex;justify-content:center}
+.project-visual.shot img{width:100%;max-width:13rem;height:auto;display:block;border-radius:14px;border:1px solid var(--rule-strong);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+.now{border-left:3px solid var(--rx);padding:.15rem 0 .15rem .9rem;margin-top:1rem}
+
+table.compact th small{display:block;font-weight:400;color:var(--muted);font-size:.78rem;margin-top:.1rem}
+table.compact th,table.compact td{padding-inline:.55rem}
+@media (min-width:601px) and (max-width:760px){
+  table.compact th,table.compact td{padding-inline:.35rem;font-size:.86rem}
+  table.compact td:first-child{min-width:6.5rem}
+}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "image": "https://pawankalyan.dev/pawan-kalyan.jpg", "jobTitle": "ML/AI Engineer, Full-Stack Engineer, Founder of 1Heath", "sameAs": ["https://github.com/pawankalyan-gurram"]}</script>
 </head>
@@ -457,9 +478,10 @@ td.range b{white-space:nowrap}
   <div class="who">
     <h1>Pawan Kalyan</h1>
     <p class="role">ML/AI Engineer · Full-Stack Engineer · Founder, 1Heath</p>
-    <p>I build software for one of Indian healthcare's oldest problems: the doctor treating a patient almost never has that patient's medical history.</p>
-    <p>My main project is <a href="1heath.html">1Heath</a>. It listens to a consultation in English or any of 22 Indian languages, including the mixes doctors actually speak, such as Telugu or Hindi with English. It writes the note and prescription, checks every line for safety, and lets the doctor sign with one slide.</p>
-    <p class="linkrow"><a href="#projects">Projects</a><span aria-hidden="true">/</span><a href="#writing">Writing</a><span aria-hidden="true">/</span><a href="https://github.com/pawankalyan-gurram">GitHub</a><span aria-hidden="true">/</span><a href="#contact">Email</a></p>
+    <p>I am a senior software engineer working on AI/ML and full-stack products, and the founder of <a href="1heath.html">1Heath</a>, a medical scribe and shared health record for India's small clinics.</p>
+    <p>I built 1Heath's working Doctor app myself: speech recognition in English and 22 Indian languages, including the mixes doctors actually speak, a rules engine that checks every line of the note and prescription, and the Android app the doctor signs on.</p>
+    <p class="now"><b>Now:</b> testing the Doctor app against 131 clinical test cases in eight languages, and preparing the first clinic pilot with practising doctors.</p>
+    <p class="linkrow"><a href="mailto:hello@pawankalyan.dev">Email</a><span aria-hidden="true">/</span><a href="https://github.com/pawankalyan-gurram">GitHub</a><span aria-hidden="true">/</span><a href="1heath.html">1Heath</a><span aria-hidden="true">/</span><a href="#writing">Writing</a></p>
   </div>
   <div class="photo">
     <picture><source srcset="pawan-kalyan.webp?v=5" type="image/webp"><img src="pawan-kalyan.jpg?v=5" alt="Pawan Kalyan" width="460" height="575" decoding="async" fetchpriority="high"></picture>
@@ -470,12 +492,8 @@ td.range b{white-space:nowrap}
   <h2 id="projects-h">Projects</h2>
 
   <article class="project">
-    <div class="project-visual" aria-hidden="true">
-      <div class="mini-rx">
-        <div class="mini-line"><div><b>Tab. Dolo 650</b><span>PARACETAMOL 650 mg · 1-0-1 · 3 days</span></div><i class="state ok">Verified</i></div>
-        <div class="mini-line"><div><b>Tab. Pan</b><span>PANTOPRAZOLE · strength not said</span></div><i class="state amber">Confirm</i></div>
-        <div class="mini-line"><div><b>Cap. Mox 500</b><span>Allergy: penicillin</span></div><i class="state block">Blocked</i></div>
-      </div>
+    <div class="project-visual shot">
+      <a href="1heath.html#two-minutes"><picture><source srcset="screen-review.webp?v=3" type="image/webp"><img src="screen-review.jpg?v=3" width="393" height="706" alt="1Heath review screen before the doctor signs: a warning that two regular medicines, Glycomet 500 and Telma 40, are missing from today's note"></picture></a>
     </div>
     <div class="project-body">
       <div class="tags"><span class="tag wip">In Development</span><span class="tag">Flutter</span><span class="tag">Kotlin</span><span class="tag">Python</span><span class="tag">Speech</span><span class="tag">LLM</span></div>
@@ -485,9 +503,9 @@ td.range b{white-space:nowrap}
         <li>Listens in English and 22 Indian languages, including mixed speech, and writes the note and prescription; tested so far on simulated consultations in eight languages.</li>
         <li>A language model drafts; a rules engine verifies every line against what was said.</li>
         <li>On unseen simulated tests, no invented allergy, refused medicine or wrong dose reached a note unflagged.</li>
-        <li>Four apps on one record: Doctor (working demo), Desk, Pharmacy and Patient (designed).</li>
+        <li>Four apps on one record: Doctor (working on Android), Desk, Pharmacy and Patient (designed). Not yet used with real patients.</li>
       </ul>
-      <p class="small"><a href="1heath.html">Overview</a> · <a href="1heath-burden.html">Burden</a> · <a href="1heath-impact.html">Impact</a> · <a href="1heath-architecture.html">Architecture</a> · <a href="1heath-business.html">Business Model</a> · <a href="1heath-design.html">Design and Prototype</a></p>
+      <p class="small"><a href="1heath.html#two-minutes">In two minutes</a> · <a href="1heath.html">Overview</a> · <a href="1heath-burden.html">Burden</a> · <a href="1heath-impact.html">Impact</a> · <a href="1heath-architecture.html">Architecture</a> · <a href="1heath-business.html">Business Model</a> · <a href="1heath-design.html">Design and Prototype</a></p>
     </div>
   </article>
 
@@ -535,7 +553,7 @@ td.range b{white-space:nowrap}
 <section id="writing" aria-labelledby="writing-h">
   <h2 id="writing-h">Writing</h2>
   <ul class="dated">
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="1heath-burden.html">How Much Harm Does Missing Medical History Cause in India?</a></h3><p class="small muted">A burden estimate built like a disease-burden study: about 6,400 hospital deaths a year, with formulas, ranges and sources.</p></div></li>
+    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="1heath-burden.html">How Much Harm Does Missing Medical History Cause in India?</a></h3><p class="small muted">A burden estimate built like a disease-burden study: about 6,400 hospital deaths a year, worked step by step, with ranges and sources.</p></div></li>
     <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-pharma-industry.html">How Medicines and Money Move in India's Pharma Industry</a></h3><p class="small muted">Distribution margins, how companies reach doctors, price control, and how new medicines are funded.</p></div></li>
     <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-diseases.html">India's Biggest Diseases: Why They Are High, and What Works</a></h3><p class="small muted">Diabetes, blood pressure, TB, cancer and anaemia, compared with the countries that do better.</p></div></li>
     <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-medicines.html">Medicines in India: Quality, Antibiotics, Prices and the Pharmacy</a></h3><p class="small muted">Why 76% of pharmacies in one city sold antibiotics without a prescription, and what that costs.</p></div></li>
@@ -549,7 +567,7 @@ td.range b{white-space:nowrap}
 <section id="news" aria-labelledby="news-h">
   <h2 id="news-h">News</h2>
   <ul class="dated tight">
-    <li><span class="when">Nov 2026</span><p class="what">Published the <a href="1heath-burden.html">burden estimate</a>, the <a href="1heath-impact.html">impact model</a> and the <a href="1heath-business.html">business model</a>, each with its formulas, sources and <a href="1heath-model.txt">model code</a>.</p></li>
+    <li><span class="when">Nov 2026</span><p class="what">Published the <a href="1heath-burden.html">burden estimate</a>, the <a href="1heath-impact.html">impact model</a> and the <a href="1heath-business.html">business model</a>, each worked step by step, with sources and <a href="1heath-model.txt">model code</a>.</p></li>
     <li><span class="when">Nov 2026</span><p class="what">Published the full <a href="1heath.html">1Heath write-up</a>, with the product design and an interactive prototype.</p></li>
     <li><span class="when">Nov 2026</span><p class="what">Rebuilding the Doctor app's outpatient flow against a frozen set of 131 clinical test cases in eight languages.</p></li>
     <li><span class="when">Nov 2026</span><p class="what">Settled the scribe design by measurement: a language model drafts, a rules engine verifies. <a href="1heath-models-data.html#results">Results</a></p></li>
@@ -565,21 +583,18 @@ td.range b{white-space:nowrap}
   </div>
 </section>
 
-<section id="principles" aria-labelledby="principles-h">
-  <h2 id="principles-h">How I Work</h2>
-  <ul class="principles">
-    <li><span>1</span><p><b>Research, then specify, then build.</b> No code until the behaviour is written down.</p></li>
-    <li><span>2</span><p><b>Measure before deciding.</b> Design choices are settled on the same test cases, not by opinion.</p></li>
-    <li><span>3</span><p><b>Done means tested on the device.</b> Passing tests on a laptop is necessary, never enough.</p></li>
-    <li><span>4</span><p><b>Never invent clinical information.</b> If the system is unsure, the doctor sees a choice, not a guess.</p></li>
-  </ul>
-</section>
 
 <section id="contact" aria-labelledby="contact-h">
-  <h2 id="contact-h">Contact</h2>
-  <div class="flow">
-    <p>I would like to hear from doctors, pharmacists, people working on Indian-language speech or clinical safety, and anyone harmed by a missing medical history.</p>
-    <p class="email"><span class="mono" id="email">hello@pawankalyan.dev</span><button class="copy" type="button" id="copy-email" hidden>Copy</button></p>
+  <h2 id="contact-h">What I'm Looking For</h2>
+  <ul class="principles">
+    <li><span>1</span><p><b>Doctors</b> in general practice, paediatrics or gynaecology who would try 1Heath in their own clinic during the pilot.</p></li>
+    <li><span>2</span><p><b>Pharmacists and clinic pharmacies</b> who want signed, legible prescriptions with allergy flags.</p></li>
+    <li><span>3</span><p><b>People working on Indian-language speech or clinical safety</b>, to compare notes.</p></li>
+    <li><span>4</span><p><b>A first investor</b> who sees healthcare as a service first and a business second.</p></li>
+  </ul>
+  <div class="flow" style="margin-top:1.25rem">
+    <p>And anyone who has been harmed because a doctor did not have their history. Your story helps.</p>
+    <p class="email"><a class="mono" id="email" href="mailto:hello@pawankalyan.dev">hello@pawankalyan.dev</a><button class="copy" type="button" id="copy-email" hidden>Copy</button></p>
   </div>
 </section>
 

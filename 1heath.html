@@ -444,6 +444,27 @@ td.range b{white-space:nowrap}
 .calc .res{white-space:normal;max-width:16rem;overflow-wrap:anywhere}
 .photo picture{display:block;width:100%;height:100%}
 @media (max-width:700px){.hero .photo{width:8.5rem;height:10.6rem}}
+
+/* two-minute pitch and product screens */
+.pitch{display:grid;gap:0;margin:0;border-top:1px solid var(--rule)}
+.pitch>div{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.25rem;padding:.9rem 0;border-bottom:1px solid var(--rule)}
+.pitch dt{font-weight:650}
+.pitch dd{margin:0}
+@media (max-width:600px){.pitch>div{grid-template-columns:1fr;gap:.25rem}}
+.screen-row{display:flex;gap:1rem;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.screen-row img{width:208px;max-width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--rule-strong);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+.screen-row picture{flex:0 1 208px;min-width:0}
+@media (max-width:520px){.screen-row picture{flex-basis:calc(50% - .5rem)}.screen-row picture:nth-child(3){display:none}}
+.project-visual.shot{padding:0;background:none;border:0;display:flex;justify-content:center}
+.project-visual.shot img{width:100%;max-width:13rem;height:auto;display:block;border-radius:14px;border:1px solid var(--rule-strong);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+.now{border-left:3px solid var(--rx);padding:.15rem 0 .15rem .9rem;margin-top:1rem}
+
+table.compact th small{display:block;font-weight:400;color:var(--muted);font-size:.78rem;margin-top:.1rem}
+table.compact th,table.compact td{padding-inline:.55rem}
+@media (min-width:601px) and (max-width:760px){
+  table.compact th,table.compact td{padding-inline:.35rem;font-size:.86rem}
+  table.compact td:first-child{min-width:6.5rem}
+}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "1Heath", "applicationCategory": "MedicalApplication", "operatingSystem": "Android", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "image": "https://pawankalyan.dev/pawan-kalyan.jpg"}}</script>
 </head>
@@ -475,8 +496,29 @@ td.range b{white-space:nowrap}
   </ul>
 </div>
 
+<section id="two-minutes" aria-labelledby="two-minutes-h">
+  <h2 id="two-minutes-h">1Heath in Two Minutes</h2>
+  <dl class="pitch">
+    <div><dt>The problem</dt><dd>An Indian primary-care visit lasts about two minutes<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>, the history lives on paper slips the patient may not bring, and about half of Indians also use AYUSH or home remedies<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a>, which rarely appear in any record. Medication errors from an incomplete history cause, by our estimate, about 6,400 hospital deaths a year in India (<a href="1heath-burden.html">how we estimated it</a>).</dd></div>
+    <div><dt>What it does</dt><dd>The doctor talks to the patient as usual, in any Indian language or a mix with English. 1Heath writes the note and prescription, checks every line against what was said and against the patient's record (allergies, current medicines from every system), and the doctor slides to sign. The pharmacy and the patient get the signed prescription; the record follows the patient to the next clinic.</dd></div>
+    <div><dt>Why it is different</dt><dd>A language model drafts, but a rules engine decides: nothing reaches the note unless it was said, and anything uncertain is shown as a choice, never a guess. It is built for small Indian clinics, not hospitals: works on the doctor's phone, in Indian languages, and records traditional medicines alongside modern ones.</dd></div>
+    <div><dt>Where it stands</dt><dd>The Doctor app works end to end on an Android phone. It has been tested on 131 simulated consultations in eight languages, not yet on real patients. The Desk, Pharmacy and Patient apps are designed, not built. Next: the first clinic pilot with real voices, with patient consent.</dd></div>
+    <div><dt>How it earns</dt><dd>Free for patients, front desks and pharmacies; ₹199 a month for doctors. Most revenue comes from medicines ordered by clinic pharmacies and lab tests booked from the prescription, never from influencing what is prescribed (<a href="1heath-business.html">the numbers, both cases</a>).</dd></div>
+    <div><dt>Who is building it</dt><dd>Pawan Kalyan, a senior AI/ML and full-stack engineer, built the working Doctor app himself. Practising doctors give clinical input: a physician with an MD in general medicine, a paediatrician, and doctors in postgraduate training. A small engineering team is lined up to join once the company is funded.</dd></div>
+    <div><dt>What we need</dt><dd>General physicians, paediatricians and gynaecologists willing to try it in their clinic; pharmacists; and a first investor who sees healthcare as a service. <a href="index.html#contact">Get in touch</a>.</dd></div>
+  </dl>
+  <figure class="fig screens">
+    <div class="screen-row">
+      <picture><source srcset="screen-home.webp?v=3" type="image/webp"><img src="screen-home.jpg?v=3" width="393" height="706" loading="lazy" alt="Doctor app home screen: patients waiting, the next patient with a sulfa allergy warning, and items needing the doctor's attention"></picture>
+      <picture><source srcset="screen-review.webp?v=3" type="image/webp"><img src="screen-review.jpg?v=3" width="393" height="706" loading="lazy" alt="Review screen before signing: a warning that two medicines from the last prescription, Glycomet 500 and Telma 40, are not in this note, above the complaints, findings and diagnosis"></picture>
+      <picture><source srcset="screen-patient.webp?v=3" type="image/webp"><img src="screen-patient.jpg?v=3" width="393" height="650" loading="lazy" alt="Patient app medicine list, including an Ayurvedic medicine alongside modern ones"></picture>
+    </div>
+    <figcaption><b>Figure 1.</b> Screens from the clickable <a href="1heath-prototype.html">1Heath prototype</a>, with fictional patients: the doctor's day, the review before signing (it notices two regular medicines missing from today's note), and the patient's own medicine list. The prototype shows the design; the working Android app follows it.</figcaption>
+  </figure>
+</section>
+
 <section id="read" aria-labelledby="read-h">
-  <h2 id="read-h">Read It Section by Section</h2>
+  <h2 id="read-h">The Full Story, Section by Section</h2>
   <p class="muted small" style="margin-bottom:1.1rem">Each card is a short summary. Open it for the full detail, sources and figures.</p>
   <div class="cards">
     <a class="card" href="1heath-problem.html"><span class="num">01 · Problem</span><h3>Doctors Treat Patients Without Their History</h3><p>Two-minute visits, paper slips, care split across clinics and systems of medicine, and no shared record.</p><span class="go">Read the problem →</span></a>
@@ -489,7 +531,7 @@ td.range b{white-space:nowrap}
     <a class="card" href="1heath-architecture.html"><span class="num">08 · Architecture</span><h3>High-Level and Low-Level Design</h3><p>Components, the path of one consultation, the data model, the verification rules and the stack.</p><span class="go">Read the design →</span></a>
     <a class="card" href="1heath-security-privacy.html"><span class="num">09 · Security and privacy</span><h3>How Patient Data Is Protected</h3><p>Who sees what, encryption, consent-based sharing, patient rights, threats and the laws that apply.</p><span class="go">Read more →</span></a>
     <a class="card" href="1heath-go-to-market.html"><span class="num">10 · Go to market</span><h3>Doctors First, Then Patients</h3><p>Who adopts first, where we meet them, the funnel in numbers, and what the pilot must prove.</p><span class="go">Read more →</span></a>
-    <a class="card" href="1heath-business.html"><span class="num">11 · Business model</span><h3>Revenue, with Every Formula</h3><p>Two cases at 1,000 doctors, unit economics, levers, a five-year path, and the firewall between money and medicine.</p><span class="go">See the numbers →</span></a>
+    <a class="card" href="1heath-business.html"><span class="num">11 · Business model</span><h3>Revenue, Worked Step by Step</h3><p>Two cases at 1,000 doctors, unit economics, levers, a five-year path, and the firewall between money and medicine.</p><span class="go">See the numbers →</span></a>
     <a class="card" href="1heath-roadmap.html"><span class="num">12 · Roadmap</span><h3>From Scribe to Health Research Company</h3><p>Prevention features to come, and research on consented data that is never sold.</p><span class="go">See the roadmap →</span></a>
   </div>
 </section>
@@ -518,7 +560,7 @@ td.range b{white-space:nowrap}
       <tr><td><a href="https://abha.abdm.gov.in/abha/v3/">ABHA</a></td><td>Create or find your 14-digit Ayushman Bharat Health Account</td></tr>
       <tr><td><a href="https://nhpr.abdm.gov.in/nhpr/v4/home">National Healthcare Providers Registry</a></td><td>Registries of verified healthcare professionals (HPR) and health facilities (HFR)</td></tr>
       <tr><td><a href="https://sandbox.abdm.gov.in/sandbox/v3">ABDM Sandbox</a></td><td>Where software like 1Heath is tested and certified for ABDM integration</td></tr>
-      <tr><td><a href="https://dashboard.abdm.gov.in/abdm/">ABDM Insights dashboard</a></td><td>Live counts: 98.9 crore ABHA accounts, 127.5 crore linked records, 6.09 lakh verified facilities and 13.98 lakh verified professionals on 5 November 2026<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a></td></tr>
+      <tr><td><a href="https://dashboard.abdm.gov.in/abdm/">ABDM Insights dashboard</a></td><td>Live counts: 98.9 crore ABHA accounts, 127.5 crore linked records, 6.09 lakh verified facilities and 13.98 lakh verified professionals on 5 November 2026<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td></tr>
       <tr><td><a href="https://www.nrces.in/">NRCeS</a></td><td>National Resource Centre for EHR Standards: FHIR profiles and SNOMED CT for India</td></tr>
       <tr><td><a href="https://cdsco.gov.in/opencms/opencms/en/Home/">CDSCO</a></td><td>India's drug and medical-device regulator, including software as a medical device</td></tr>
       <tr><td><a href="https://janaushadhi.gov.in/">Jan Aushadhi</a></td><td>Government generic medicine stores and price list</td></tr>
@@ -580,7 +622,7 @@ td.range b{white-space:nowrap}
   <p>I am looking for general physicians, paediatricians and gynaecologists willing to try the demo; native Telugu and Hindi speakers to review patient instructions; and pharmacists who can explain how clinic dispensaries really work. <a href="index.html#contact">Get in touch →</a></p>
 </section>
 
-<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a class="ref-link" href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in<span aria-hidden="true"> ↗</span></a></span></li></ol></section>
+<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">Sources</h2><ol class="refs"><li id="ref-1"><span class="ref-body">Irving G, Neves AL, Dambha-Miller H, et al. International variations in primary care physician consultation time: a systematic review of 67 countries. BMJ Open, 2017. India figure as reported by Fierce Healthcare. <a class="ref-link" href="https://bmjopen.bmj.com/content/7/10/e017902">bmjopen.bmj.com<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-2"><span class="ref-body">Ministry of Statistics and Programme Implementation. Press note: Survey on Ayush, NSS 79th round (July 2022 to June 2023), 13 June 2024. <a class="ref-link" href="https://mospi.gov.in/sites/default/files/press_release/PressNote_Ayush_13062024N.pdf">mospi.gov.in<span aria-hidden="true"> ↗</span></a></span></li><li id="ref-3"><span class="ref-body">National Health Authority. ABDM Insights public dashboard, figures last updated 5 November 2026, 8:33 PM. <a class="ref-link" href="https://dashboard.abdm.gov.in/abdm/">dashboard.abdm.gov.in<span aria-hidden="true"> ↗</span></a></span></li></ol></section>
 </div>
 </main>
 <footer class="pad"><div class="wide"><span>© 2026 Pawan Kalyan · Updated 6 November 2026</span><span>1Heath is in development and not approved for clinical use. Not affiliated with any public figure of the same name.</span></div></footer>
