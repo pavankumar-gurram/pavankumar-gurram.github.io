@@ -466,6 +466,81 @@ table.compact th,table.compact td{padding-inline:.55rem}
   table.compact td:first-child{min-width:6.5rem}
 }
 small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
+
+/* ===== UX pass, 6 Nov: hero, buttons, lists, labels ===== */
+.hero2{display:flex;flex-direction:column;gap:1rem;max-width:40rem}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.hero-name{min-width:0;display:flex;flex-direction:column;gap:.35rem}
+.hero2 .role{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:var(--s-1);color:var(--muted);line-height:1.4;margin:0}
+.hero2 .photo{flex:0 0 auto;width:8.5rem;height:10.6rem}
+.hero2 .lede{font-size:1.2em;line-height:1.55;color:var(--ink)}
+.hero2 .now{margin-top:.25rem}
+@media (max-width:640px){
+  .hero-top{align-items:flex-start;gap:1rem}
+  .hero2 .photo{width:5.75rem;height:7.2rem;border-radius:10px}
+  .hero2 h1{font-size:2.1rem}
+  .hero2 .role{font-size:1rem}
+  .hero2 .lede{font-size:1.12em}
+}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.35rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;padding:.45rem 1.05rem;border:1px solid var(--rule-strong);border-radius:999px;color:var(--ink);background:var(--surface);text-decoration:none;font-weight:600;font-size:var(--s-sm);line-height:1.2}
+.btn:hover{border-color:var(--rx);color:var(--rx)}
+.btn.primary{background:var(--rx);border-color:var(--rx);color:#fff}
+.btn.primary:hover{filter:brightness(1.1);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0d1424}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#0d1424}}
+.btn:focus-visible{outline:2px solid var(--rx);outline-offset:2px}
+.status{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:0}
+.pill{display:inline-block;font-size:var(--s-xs);font-weight:600;line-height:1.4;padding:.15rem .6rem;border-radius:999px;background:var(--wash);color:var(--muted);border:1px solid var(--rule)}
+.pill.wip{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.project-body .built{margin-top:.25rem}
+.project-body .btns{margin-top:.5rem}
+.project-body h3{font-size:1.3rem}
+/* compact link list for writing */
+h3.group{font-family:var(--f-body);font-size:var(--s-xs);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:1.6rem 0 .4rem}
+h2+h3.group{margin-top:.4rem}
+.linklist{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.linklist li{border-bottom:1px solid var(--rule)}
+.linklist a{display:flex;flex-direction:column;gap:.15rem;padding:.85rem 0;text-decoration:none;color:inherit}
+.linklist .t{font-family:var(--f-display);font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.35}
+.linklist .t::after{content:" →";color:var(--rx);font-family:var(--f-body)}
+.linklist .d{font-size:var(--s-sm);color:var(--muted);line-height:1.5}
+.linklist a:hover .t{color:var(--rx)}
+/* progress timeline */
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9rem}
+.timeline li{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:1rem}
+.timeline .when{font-size:var(--s-xs);font-weight:600;color:var(--muted);padding-top:.3rem;font-variant-numeric:tabular-nums}
+.timeline p{margin:0}
+@media (max-width:640px){.timeline li{grid-template-columns:1fr;gap:.1rem}.timeline .when{padding-top:0}}
+/* calmer labels everywhere: body font, not typewriter */
+.label{font-family:var(--f-body);font-weight:700;letter-spacing:.05em}
+.dated .when{font-family:var(--f-body);font-weight:600}
+.card .num{font-family:var(--f-body);font-weight:700;letter-spacing:.02em}
+.principles li>span{font-family:var(--f-body);font-weight:700;font-size:var(--s-sm);padding-top:.15rem}
+/* list titles: ink, not a wall of blue */
+.dated .what h3 a{color:var(--ink);text-decoration:none}
+.dated .what h3 a:hover{color:var(--rx);text-decoration:underline}
+/* screen labels on 1Heath */
+.screen-row figure{margin:0;display:flex;flex-direction:column;gap:.45rem;align-items:center;flex:0 1 208px;min-width:0}
+.screen-row figure picture{flex:none;width:100%}
+.screen-row figcaption{font-size:var(--s-xs);font-weight:600;color:var(--ink);text-align:center}
+@media (max-width:520px){.screen-row figure{flex-basis:calc(50% - .5rem)}.screen-row figure:nth-child(3){display:none}}
+
+.hero2{max-width:none}
+.hero2 .lede,.hero2>p{max-width:40rem}
+.linklist .t::after{content:"\00a0→"}
+@media (max-width:640px){.btn{padding:.45rem .8rem;font-size:.875rem}.btns{gap:.45rem}.project-visual.shot img{max-width:11rem}}
+@media (max-width:640px){
+  .hero2 .btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+  .hero2 .btns .btn.primary{grid-column:1/-1}
+  .hero2 .btns .btn{padding:.45rem .4rem}
+}
+.tag{font-family:var(--f-body);font-weight:600;font-size:.75rem}
+.dl-pitch-gap{}
+.screens{margin-bottom:1.5rem}
+.hero2 .role .nowrap{display:inline-block;white-space:normal;max-width:100%}
+.hero-top{flex-wrap:wrap}.hero-name{flex:1 1 9em;min-width:min(9em,100%)}.hero2 h1{overflow-wrap:normal;word-break:normal}
+@media (max-width:640px){.hero2 .btns{grid-template-columns:repeat(auto-fit,minmax(min(100%,5.2em),1fr))}.hero2 .btns .btn{overflow-wrap:anywhere}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "image": "https://pawankalyan.dev/pawan-kalyan.jpg", "jobTitle": "ML/AI Engineer, Full-Stack Engineer, Founder of 1Heath", "sameAs": ["https://github.com/pawankalyan-gurram", "https://www.linkedin.com/in/pavankumar-gurram/", "https://www.instagram.com/pawan_kalyan.official/"]}</script>
 </head>
@@ -475,19 +550,34 @@ small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
 <main id="main" class="pad">
 <div class="col">
 
-<div class="hero">
-  <div class="who">
-    <h1>Pawan Kalyan</h1>
-    <p class="role">ML/AI Engineer · Full-Stack Engineer · Founder, 1Heath</p>
-    <p>I am a senior software engineer working on AI/ML and full-stack products, and the founder of <a href="1heath.html">1Heath</a>, a medical scribe and shared health record for India's small clinics.</p>
-    <p>I built 1Heath's working Doctor app myself: speech recognition in English and 22 Indian languages, including the mixes doctors actually speak, a rules engine that checks every line of the note and prescription, and the Android app the doctor signs on.</p>
-    <p class="now"><b>Now:</b> testing the Doctor app against 131 clinical test cases in eight languages, and preparing the first clinic pilot with practising doctors.</p>
-    <p class="linkrow"><a href="mailto:hello@pawankalyan.dev">Email</a><span aria-hidden="true">/</span><a href="https://www.linkedin.com/in/pavankumar-gurram/">LinkedIn</a><span aria-hidden="true">/</span><a href="https://github.com/pawankalyan-gurram">GitHub</a><span aria-hidden="true">/</span><a href="https://www.instagram.com/pawan_kalyan.official/">Instagram</a><span aria-hidden="true">/</span><a href="1heath.html">1Heath</a></p>
+<div class="hero2">
+  <div class="hero-top">
+    <div class="hero-name">
+      <h1>Pawan Kalyan</h1>
+      <p class="role"><span class="nowrap">ML/AI Engineer ·</span> <span class="nowrap">Full-Stack Engineer ·</span> <span class="nowrap">Founder, 1Heath</span></p>
+    </div>
+    <div class="photo">
+      <picture><source srcset="pawan-kalyan.webp?v=5" type="image/webp"><img src="pawan-kalyan.jpg?v=5" alt="Pawan Kalyan" width="460" height="575" decoding="async" fetchpriority="high"></picture>
+    </div>
   </div>
-  <div class="photo">
-    <picture><source srcset="pawan-kalyan.webp?v=5" type="image/webp"><img src="pawan-kalyan.jpg?v=5" alt="Pawan Kalyan" width="460" height="575" decoding="async" fetchpriority="high"></picture>
+  <p class="lede">I'm building <a href="1heath.html">1Heath</a> so that no doctor in India has to treat a patient blind. It listens to the consultation in any Indian language, writes a checked prescription, and keeps the patient's history for the next doctor.</p>
+  <p>I'm a senior software engineer working on AI/ML and full-stack products, and I built 1Heath's working Doctor app myself.</p>
+  <p class="now"><b>Now:</b> testing the Doctor app against 131 clinical cases and preparing the first clinic pilot.</p>
+  <div class="btns">
+    <a class="btn primary" href="mailto:hello@pawankalyan.dev">Email me</a>
+    <a class="btn" href="https://www.linkedin.com/in/pavankumar-gurram/">LinkedIn</a>
+    <a class="btn" href="https://github.com/pawankalyan-gurram">GitHub</a>
+    <a class="btn" href="https://www.instagram.com/pawan_kalyan.official/">Instagram</a>
   </div>
 </div>
+
+<section id="why" aria-labelledby="why-h">
+  <h2 id="why-h">Why This Problem</h2>
+  <div class="flow">
+    <p>Years ago I was given a medicine that harmed me. I still do not know what it was, so no doctor can make sure it never happens again. My grandmother takes Ayurvedic medicines, and none of her doctors know.</p>
+    <p>A primary-care visit in India lasts about two minutes, and about half of Indians use Ayurveda, homeopathy or home remedies. No doctor can take a full history in two minutes, and today no record carries it for them.</p>
+  </div>
+</section>
 
 <section id="projects" aria-labelledby="projects-h">
   <h2 id="projects-h">Projects</h2>
@@ -497,16 +587,19 @@ small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
       <a href="1heath.html#two-minutes"><picture><source srcset="screen-review.webp?v=3" type="image/webp"><img src="screen-review.jpg?v=3" width="393" height="706" alt="1Heath review screen before the doctor signs: a warning that two regular medicines, Glycomet 500 and Telma 40, are missing from today's note"></picture></a>
     </div>
     <div class="project-body">
-      <div class="tags"><span class="tag wip">In Development</span><span class="tag">Flutter</span><span class="tag">Kotlin</span><span class="tag">Python</span><span class="tag">Speech</span><span class="tag">LLM</span></div>
+      <p class="status"><span class="pill wip">In development</span><span class="muted small">Not yet used with real patients</span></p>
       <h3><a href="1heath.html">1Heath: The Visit Writes the History</a></h3>
-      <p>A medical scribe and shared record for India's small clinics, built for every system of medicine.</p>
+      <p>A medical scribe and shared health record for India's small clinics, built for every system of medicine.</p>
       <ul class="plain small">
-        <li>Listens in English and 22 Indian languages, including mixed speech, and writes the note and prescription; tested so far on simulated consultations in Hindi, Telugu and English; a fixed set of 131 cases in eight languages is next.</li>
-        <li>A language model drafts; a rules engine verifies every line against what was said.</li>
-        <li>On unseen simulated tests, no invented allergy, refused medicine or wrong dose reached a note unflagged.</li>
-        <li>Four apps on one record: Doctor (working on Android), Desk, Pharmacy and Patient (designed). Not yet used with real patients.</li>
+        <li>Listens in English and 22 Indian languages, including mixed speech, and writes the note and prescription.</li>
+        <li>A language model drafts; a rules engine checks every line against what was actually said.</li>
+        <li>In tests on unseen simulated consultations, no invented allergy, refused medicine or wrong dose reached a note unflagged.</li>
       </ul>
-      <p class="small"><a href="1heath.html#two-minutes">In two minutes</a> · <a href="1heath.html">Overview</a> · <a href="1heath-burden.html">Burden</a> · <a href="1heath-impact.html">Impact</a> · <a href="1heath-architecture.html">Architecture</a> · <a href="1heath-business.html">Business Model</a> · <a href="1heath-design.html">Design and Prototype</a></p>
+      <div class="btns">
+        <a class="btn primary" href="1heath.html#two-minutes">1Heath in two minutes</a>
+        <a class="btn" href="1heath.html#read">The full write-up</a>
+      </div>
+      <p class="built muted small">Built with Flutter, Kotlin, Python, speech recognition and language models.</p>
     </div>
   </article>
 
@@ -522,13 +615,12 @@ small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
       </div>
     </div>
     <div class="project-body">
-      <div class="tags"><span class="tag">Speech</span><span class="tag">Matching</span><span class="tag">Part of 1Heath</span></div>
+      <p class="status"><span class="pill">Part of 1Heath</span></p>
       <h3><a href="1heath-architecture.html#matcher">Medicine Names from Indian Speech</a></h3>
-      <p>A matcher that turns spoken brand names into catalogue entries without ever guessing.</p>
+      <p>Turns spoken brand names into the right medicine, and asks instead of guessing when it is not sure.</p>
       <ul class="plain small">
-        <li>A name is accepted only when it matches in both spelling and sound and clearly beats the next candidate.</li>
         <li>About 500 common brands, with spoken forms in English, Hindi and Telugu and 4,649 spellings in five Indian scripts.</li>
-        <li>54 of 85 spoken lines correct with zero invented medicines, where brand hints to the speech model invented drugs.</li>
+        <li>54 of 85 spoken prescription lines correct, with no invented medicines; giving the speech model brand hints instead made it invent drugs.</li>
       </ul>
     </div>
   </article>
@@ -540,12 +632,11 @@ small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
       </div>
     </div>
     <div class="project-body">
-      <div class="tags"><span class="tag">Prototype</span><span class="tag">3D</span><span class="tag">Medical Imaging</span></div>
+      <p class="status"><span class="pill">Prototype</span></p>
       <h3>CT and MRI 3D Viewer</h3>
-      <p>Turns a CT or MRI series into a 3D model a doctor can rotate and peel layer by layer, so patients can understand their own scans.</p>
+      <p>Turns a CT or MRI scan into a 3D model a doctor can rotate and peel layer by layer, so patients can understand their own scans.</p>
       <ul class="plain small">
-        <li>Keeps three things visibly apart: what was reconstructed, what a radiologist verified, and what is illustration.</li>
-        <li>A research prototype, not a medical device.</li>
+        <li>Keeps apart what was reconstructed, what a radiologist verified, and what is only illustration. A research prototype, not a medical device.</li>
       </ul>
     </div>
   </article>
@@ -553,39 +644,34 @@ small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
 
 <section id="writing" aria-labelledby="writing-h">
   <h2 id="writing-h">Writing</h2>
-  <ul class="dated">
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="1heath-burden.html">How Much Harm Does Missing Medical History Cause in India?</a></h3><p class="small muted">A burden estimate built like a disease-burden study: about 6,400 hospital deaths a year, worked step by step, with ranges and sources.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-food-and-health.html">Why Indians Fall Ill: Food, Habits and the System</a></h3><p class="small muted">From the thin-fat baby to adult diabetes, adulterated food and fake paneer, and what the government must change.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-health.html#deaths">How Many Indians Die, and of What</a></h3><p class="small muted">About 89 lakh deaths a year, split by cause, with snakebite, cancer, TB, suicide and road deaths counted one by one.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-health-schemes.html">Government Health Schemes, Step by Step</a></h3><p class="small muted">What Ayushman Bharat and ten states pay for, and how a family gets a heart bypass under Aarogyasri.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-pharma-industry.html">How Medicines and Money Move in India's Pharma Industry</a></h3><p class="small muted">Distribution margins, how companies reach doctors, price control, and how new medicines are funded.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-diseases.html">India's Biggest Diseases: Why They Are High, and What Works</a></h3><p class="small muted">Diabetes, blood pressure, TB, cancer and anaemia, compared with the countries that do better.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-medicines.html">Medicines in India: Quality, Antibiotics, Prices and the Pharmacy</a></h3><p class="small muted">Why 76% of pharmacies in one city sold antibiotics without a prescription, and what that costs.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="traditional-medicine.html">Ayurveda, Homeopathy and Traditional Medicine</a></h3><p class="small muted">Use, evidence and safety, in India and around the world.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="india-health.html">India's Health in Numbers</a></h3><p class="small muted">What Indians fall ill and die from, and who pays for care.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="health-systems-compared.html">What India Can Learn from Other Health Systems</a></h3><p class="small muted">Which systems do best at emergencies, cancer and coverage, and why.</p></div></li>
-    <li><span class="when">Nov 2026</span><div class="what"><h3><a href="1heath-models-data.html">How Far to Trust a Medical Scribe</a></h3><p class="small muted">What we measured, and what synthetic tests cannot tell you.</p></div></li>
+  <h3 class="group">The Problem 1Heath Solves</h3>
+  <ul class="linklist">
+      <li><a href="1heath-burden.html"><span class="t">How much harm does missing medical history cause in India?</span><span class="d">About 6,400 hospital deaths a year, worked out step by step with ranges and sources.</span></a></li>
+      <li><a href="1heath-impact.html"><span class="t">What changes when the doctor has the history</span><span class="d">Harm avoided for every 1,000 doctors, and across India.</span></a></li>
+      <li><a href="1heath-models-data.html"><span class="t">How far to trust a medical scribe</span><span class="d">What we measured, and what simulated tests cannot tell you.</span></a></li>
+  </ul>
+  <h3 class="group">Health in India</h3>
+  <ul class="linklist">
+      <li><a href="india-health.html#deaths"><span class="t">How many Indians die, and of what</span><span class="d">About 89 lakh deaths a year, split by cause, with cancer, TB, snakebite and road deaths counted one by one.</span></a></li>
+      <li><a href="india-food-and-health.html"><span class="t">Why Indians fall ill: food, habits and the system</span><span class="d">From the thin-fat baby to adult diabetes, adulterated food and fake paneer.</span></a></li>
+      <li><a href="india-health-schemes.html"><span class="t">Government health schemes, step by step</span><span class="d">What Ayushman Bharat and ten states pay for, and how to get a heart bypass under Aarogyasri.</span></a></li>
+      <li><a href="india-diseases.html"><span class="t">India's biggest diseases</span><span class="d">Diabetes, blood pressure, TB, cancer and anaemia, and the countries that do better.</span></a></li>
+      <li><a href="india-medicines.html"><span class="t">Medicines in India</span><span class="d">Quality, antibiotic misuse, prices and the pharmacy.</span></a></li>
+      <li><a href="india-pharma-industry.html"><span class="t">How India's pharma industry works</span><span class="d">Margins, how companies reach doctors, price control and how new medicines are funded.</span></a></li>
+      <li><a href="traditional-medicine.html"><span class="t">Ayurveda, homeopathy and traditional medicine</span><span class="d">Who uses them, the evidence and safety, in India and the world.</span></a></li>
+      <li><a href="health-systems-compared.html"><span class="t">What India can learn from other countries</span><span class="d">Emergency care, cancer, coverage and records, with India beside six countries.</span></a></li>
   </ul>
 </section>
 
-<section id="news" aria-labelledby="news-h">
-  <h2 id="news-h">News</h2>
-  <ul class="dated tight">
-    <li><span class="when">Nov 2026</span><p class="what">Published the <a href="1heath-burden.html">burden estimate</a>, the <a href="1heath-impact.html">impact model</a> and the <a href="1heath-business.html">business model</a>, each worked step by step, with sources and <a href="1heath-model.txt">model code</a>.</p></li>
-    <li><span class="when">Nov 2026</span><p class="what">Published the full <a href="1heath.html">1Heath write-up</a>, with the product design and an interactive prototype.</p></li>
-    <li><span class="when">Nov 2026</span><p class="what">Rebuilding the Doctor app's outpatient flow against a frozen set of 131 clinical test cases in eight languages.</p></li>
-    <li><span class="when">Nov 2026</span><p class="what">Settled the scribe design by measurement: a language model drafts, a rules engine verifies. <a href="1heath-models-data.html#results">Results</a></p></li>
-    <li><span class="when">Oct 2026</span><p class="what">The Doctor app runs end to end on an Android phone: listen, note, prescription, slide to sign, PDF.</p></li>
+<section id="updates" aria-labelledby="updates-h">
+  <h2 id="updates-h">Progress</h2>
+  <ul class="timeline">
+    <li><span class="when">Nov 2026</span><p>Testing the Doctor app's outpatient flow against a frozen set of 131 clinical cases in eight languages.</p></li>
+    <li><span class="when">Nov 2026</span><p>Settled the scribe design by measurement: a language model drafts, a rules engine verifies. <a href="1heath-models-data.html#results">See the results</a></p></li>
+    <li><span class="when">Oct 2026</span><p>The Doctor app runs end to end on an Android phone: listen, note, prescription, slide to sign, PDF.</p></li>
   </ul>
 </section>
 
-<section id="why" aria-labelledby="why-h">
-  <h2 id="why-h">Why This Problem</h2>
-  <div class="flow">
-    <p>Years ago I was given a medicine that harmed me. I still do not know what it was, so no doctor can make sure it never happens again. My grandmother takes Ayurvedic medicines, and none of her doctors know.</p>
-    <p>A primary-care visit in India lasts about two minutes, and about half of Indians used Ayurveda, homeopathy or another traditional system in the past year. No doctor can take a full history in two minutes. I think no doctor should have to treat a patient blind.</p>
-  </div>
-</section>
 
 
 <section id="contact" aria-labelledby="contact-h">
@@ -598,6 +684,7 @@ small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
   </ul>
   <div class="flow" style="margin-top:1.25rem">
     <p>And anyone who has been harmed because a doctor did not have their history. Your story helps.</p>
+    <div class="btns"><a class="btn primary" href="mailto:hello@pawankalyan.dev">Email me</a></div>
     <p class="email"><a class="mono" id="email" href="mailto:hello@pawankalyan.dev">hello@pawankalyan.dev</a><button class="copy" type="button" id="copy-email" hidden>Copy</button></p>
   </div>
 </section>

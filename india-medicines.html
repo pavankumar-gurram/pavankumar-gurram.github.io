@@ -466,6 +466,81 @@ table.compact th,table.compact td{padding-inline:.55rem}
   table.compact td:first-child{min-width:6.5rem}
 }
 small.block{display:block;font-size:.82rem;font-weight:400;margin-top:.1rem}
+
+/* ===== UX pass, 6 Nov: hero, buttons, lists, labels ===== */
+.hero2{display:flex;flex-direction:column;gap:1rem;max-width:40rem}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.hero-name{min-width:0;display:flex;flex-direction:column;gap:.35rem}
+.hero2 .role{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:var(--s-1);color:var(--muted);line-height:1.4;margin:0}
+.hero2 .photo{flex:0 0 auto;width:8.5rem;height:10.6rem}
+.hero2 .lede{font-size:1.2em;line-height:1.55;color:var(--ink)}
+.hero2 .now{margin-top:.25rem}
+@media (max-width:640px){
+  .hero-top{align-items:flex-start;gap:1rem}
+  .hero2 .photo{width:5.75rem;height:7.2rem;border-radius:10px}
+  .hero2 h1{font-size:2.1rem}
+  .hero2 .role{font-size:1rem}
+  .hero2 .lede{font-size:1.12em}
+}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.35rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;padding:.45rem 1.05rem;border:1px solid var(--rule-strong);border-radius:999px;color:var(--ink);background:var(--surface);text-decoration:none;font-weight:600;font-size:var(--s-sm);line-height:1.2}
+.btn:hover{border-color:var(--rx);color:var(--rx)}
+.btn.primary{background:var(--rx);border-color:var(--rx);color:#fff}
+.btn.primary:hover{filter:brightness(1.1);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0d1424}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#0d1424}}
+.btn:focus-visible{outline:2px solid var(--rx);outline-offset:2px}
+.status{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:0}
+.pill{display:inline-block;font-size:var(--s-xs);font-weight:600;line-height:1.4;padding:.15rem .6rem;border-radius:999px;background:var(--wash);color:var(--muted);border:1px solid var(--rule)}
+.pill.wip{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.project-body .built{margin-top:.25rem}
+.project-body .btns{margin-top:.5rem}
+.project-body h3{font-size:1.3rem}
+/* compact link list for writing */
+h3.group{font-family:var(--f-body);font-size:var(--s-xs);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:1.6rem 0 .4rem}
+h2+h3.group{margin-top:.4rem}
+.linklist{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.linklist li{border-bottom:1px solid var(--rule)}
+.linklist a{display:flex;flex-direction:column;gap:.15rem;padding:.85rem 0;text-decoration:none;color:inherit}
+.linklist .t{font-family:var(--f-display);font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.35}
+.linklist .t::after{content:" →";color:var(--rx);font-family:var(--f-body)}
+.linklist .d{font-size:var(--s-sm);color:var(--muted);line-height:1.5}
+.linklist a:hover .t{color:var(--rx)}
+/* progress timeline */
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9rem}
+.timeline li{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:1rem}
+.timeline .when{font-size:var(--s-xs);font-weight:600;color:var(--muted);padding-top:.3rem;font-variant-numeric:tabular-nums}
+.timeline p{margin:0}
+@media (max-width:640px){.timeline li{grid-template-columns:1fr;gap:.1rem}.timeline .when{padding-top:0}}
+/* calmer labels everywhere: body font, not typewriter */
+.label{font-family:var(--f-body);font-weight:700;letter-spacing:.05em}
+.dated .when{font-family:var(--f-body);font-weight:600}
+.card .num{font-family:var(--f-body);font-weight:700;letter-spacing:.02em}
+.principles li>span{font-family:var(--f-body);font-weight:700;font-size:var(--s-sm);padding-top:.15rem}
+/* list titles: ink, not a wall of blue */
+.dated .what h3 a{color:var(--ink);text-decoration:none}
+.dated .what h3 a:hover{color:var(--rx);text-decoration:underline}
+/* screen labels on 1Heath */
+.screen-row figure{margin:0;display:flex;flex-direction:column;gap:.45rem;align-items:center;flex:0 1 208px;min-width:0}
+.screen-row figure picture{flex:none;width:100%}
+.screen-row figcaption{font-size:var(--s-xs);font-weight:600;color:var(--ink);text-align:center}
+@media (max-width:520px){.screen-row figure{flex-basis:calc(50% - .5rem)}.screen-row figure:nth-child(3){display:none}}
+
+.hero2{max-width:none}
+.hero2 .lede,.hero2>p{max-width:40rem}
+.linklist .t::after{content:"\00a0→"}
+@media (max-width:640px){.btn{padding:.45rem .8rem;font-size:.875rem}.btns{gap:.45rem}.project-visual.shot img{max-width:11rem}}
+@media (max-width:640px){
+  .hero2 .btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+  .hero2 .btns .btn.primary{grid-column:1/-1}
+  .hero2 .btns .btn{padding:.45rem .4rem}
+}
+.tag{font-family:var(--f-body);font-weight:600;font-size:.75rem}
+.dl-pitch-gap{}
+.screens{margin-bottom:1.5rem}
+.hero2 .role .nowrap{display:inline-block;white-space:normal;max-width:100%}
+.hero-top{flex-wrap:wrap}.hero-name{flex:1 1 9em;min-width:min(9em,100%)}.hero2 h1{overflow-wrap:normal;word-break:normal}
+@media (max-width:640px){.hero2 .btns{grid-template-columns:repeat(auto-fit,minmax(min(100%,5.2em),1fr))}.hero2 .btns .btn{overflow-wrap:anywhere}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Medicines in India: Quality, Antibiotics, Prices and the Pharmacy", "description": "How good, rational and affordable the medicines Indians take are, how antibiotics are misused, and what a signed prescription changes.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "image": "https://pawankalyan.dev/pawan-kalyan.jpg"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
