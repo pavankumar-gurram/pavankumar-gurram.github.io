@@ -398,6 +398,42 @@ td .tag{white-space:nowrap}
 td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
 th.num{white-space:normal}
 @media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
+
+/* ---- readability pass (6 Nov) ---- */
+/* table headers: readable sentence case, not tiny uppercase code font */
+th{font-family:var(--f-body);font-size:.84rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);line-height:1.35}
+@media (max-width:600px){
+  table.stack td[data-label]::before{font-family:var(--f-body);font-size:.78rem;letter-spacing:0;text-transform:none;font-weight:600;margin-bottom:.05rem}
+}
+/* value with its range underneath */
+td.range{white-space:normal;min-width:7.5rem}
+td.range b{display:block;font-size:1.02em}
+td.range small{display:block;color:var(--muted);font-size:.82em;margin-top:.1rem}
+/* formulas in words */
+.formula-line{margin:1rem 0 .75rem;line-height:1.65}
+.formula-line b{color:var(--ink)}
+.formula{font-family:var(--f-body);font-size:.95rem}
+/* calculation ladder: one step per line with a running total */
+.calc{border:1px solid var(--rule);border-radius:12px;background:var(--surface);padding:.9rem 1rem 1rem;margin:1rem 0 1.25rem}
+.calc-title{margin:0 0 .6rem;font-size:.84rem;font-weight:600;color:var(--muted)}
+.calc ol{list-style:none;margin:0;padding:0}
+.calc li{display:grid;grid-template-columns:minmax(4.5rem,auto) minmax(0,1fr) auto;column-gap:.85rem;align-items:baseline;padding:.45rem 0;border-top:1px solid var(--rule)}
+.calc li.start{border-top:0}
+.calc .op{font-family:var(--f-mono);font-size:.84rem;color:var(--rx);white-space:nowrap}
+.calc .what{font-size:.95rem;line-height:1.45;color:var(--ink)}
+.calc .res{font-variant-numeric:tabular-nums;font-weight:600;text-align:right;white-space:nowrap}
+.calc li.total{border-top:2px solid var(--ink)}
+.calc li.total .res{color:var(--rx);font-size:1.05rem}
+.calc-note{margin:.7rem 0 0;font-size:.85rem;color:var(--muted);line-height:1.55}
+.calc-pair{display:grid;gap:1rem}
+.calc-pair .calc{margin:0}
+@media (max-width:520px){
+  .calc li{grid-template-columns:minmax(0,1fr) auto;row-gap:.1rem}
+  .calc .op{grid-column:1 / -1}
+  .calc .res{white-space:normal}
+}
+td.range{min-width:9.5rem}
+td.range b{white-space:nowrap}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How Much Harm Missing Medical History Causes in India", "description": "An estimate of deaths and severe harm from medication errors caused by an incomplete history, built the way epidemiologists estimate disease burden, with every formula, input and source shown.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -430,20 +466,15 @@ th.num{white-space:normal}
 
 <section id="hospital" aria-labelledby="hospital-h">
   <h2 id="hospital-h">Channel 1: Patients Admitted to Hospital</h2>
-  <div class="formula">
-    <span class="eq"><b>Deaths</b> = Population × Share hospitalised × Preventable medication harm × Share due to missing history × Deaths per harm</span>
-    <span class="eq">= 146.39 crore × 2.9% × 2.5% × 15% × 3%</span>
-    <span class="eq">= 4.25 crore patients × 2.5% × 15% × 3% = <b>4,776 deaths</b> (worked example at the most likely values)</span>
-    <span class="note">The Monte Carlo median (6,370) is higher than this worked example because several ranges are wider on the high side.</span>
-  </div>
+  <p class="formula-line"><b>Formula:</b> deaths = people × share hospitalised × share harmed by a preventable medicine error × share of those errors caused by missing history × share who die.</p><div class="calc"><p class="calc-title">Worked example, using the most likely value at each step</p><ol><li class="start"><span class="op"></span><span class="what">People in India</span><span class="res">146.39 crore</span></li><li><span class="op">× 2.9%</span><span class="what">are treated in hospital in a year</span><span class="res">4.25 crore</span></li><li><span class="op">× 2.5%</span><span class="what">suffer preventable harm from a medicine</span><span class="res">10.6 lakh</span></li><li><span class="op">× 15%</span><span class="what">of those errors come from a missing history</span><span class="res">1.59 lakh</span></li><li class="total"><span class="op">× 3%</span><span class="what">of those patients die</span><span class="res">4,776 deaths</span></li></ol><p class="calc-note">The full model gives a median of 6,370 rather than 4,776, because several ranges stretch further on the high side than the low side.</p></div>
   <div class="table-wrap"><table class="stack">
-    <thead><tr><th scope="col">Input</th><th scope="col">Low · <b>likely</b> · high</th><th scope="col">Source and reasoning</th></tr></thead>
+    <thead><tr><th scope="col">Input</th><th scope="col">Value used</th><th scope="col">Source and reasoning</th></tr></thead>
     <tbody>
-      <tr><td>Population, 2025</td><td class="range" data-label="Range"><b>146.39 crore</b> (fixed)</td><td data-label="Source">UNFPA, 2025<a class="cite" href="#ref-6" aria-label="Source 6">[6]</a></td></tr>
-      <tr><td>Share of people treated as in-patients in a year</td><td class="range" data-label="Range">2.6% · <b>2.9%</b> · 3.4%</td><td data-label="Source">2.6% rural, 3.4% urban, NSS 75th round<a class="cite" href="#ref-7" aria-label="Source 7">[7]</a></td></tr>
-      <tr><td>In-patients with preventable medication-related harm</td><td class="range" data-label="Range">1.5% · <b>2.5%</b> · 4.1%</td><td data-label="Source">WHO: about 1 in 10 patients harmed, over half preventable, half of that medication-related, so 10% × 50% × 50% = 2.5%<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>. Mumbai: 6.89% of admissions caused by drug reactions, 59.6% avoidable, so 4.1%<a class="cite" href="#ref-8" aria-label="Source 8">[8]</a>. Low value is our assumption.</td></tr>
-      <tr><td>Share of those errors caused by an incomplete medication history</td><td class="range" data-label="Range">5% · <b>15%</b> · 27%</td><td data-label="Source">"Up to 27%" of hospital prescribing errors come from incomplete histories at admission<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a>. Low and likely values are our assumptions, deliberately below that ceiling.</td></tr>
-      <tr><td>Deaths per harm event</td><td class="range" data-label="Range">1.9% · <b>3%</b> · 6.4%</td><td data-label="Source">WHO: 2.6 million deaths from 134 million adverse events in low- and middle-income hospitals = 1.9%<a class="cite" href="#ref-9" aria-label="Source 9">[9]</a>. Mumbai: 17 deaths among 265 patients with drug reactions = 6.4%<a class="cite" href="#ref-8" aria-label="Source 8">[8]</a>.</td></tr>
+      <tr><td>Population, 2025</td><td class="range" data-label="Value used"><b>146.39 crore</b><small>fixed</small></td><td data-label="Source">UNFPA, 2025<a class="cite" href="#ref-6" aria-label="Source 6">[6]</a></td></tr>
+      <tr><td>Share of people treated as in-patients in a year</td><td class="range" data-label="Value used"><b>2.9%</b><small>range 2.6% to 3.4%</small></td><td data-label="Source">2.6% rural, 3.4% urban, NSS 75th round<a class="cite" href="#ref-7" aria-label="Source 7">[7]</a></td></tr>
+      <tr><td>In-patients with preventable medication-related harm</td><td class="range" data-label="Value used"><b>2.5%</b><small>range 1.5% to 4.1%</small></td><td data-label="Source">WHO: about 1 in 10 patients harmed, over half preventable, half of that medication-related, so 10% × 50% × 50% = 2.5%<a class="cite" href="#ref-1" aria-label="Source 1">[1]</a>. Mumbai: 6.89% of admissions caused by drug reactions, 59.6% avoidable, so 4.1%<a class="cite" href="#ref-8" aria-label="Source 8">[8]</a>. Low value is our assumption.</td></tr>
+      <tr><td>Share of those errors caused by an incomplete medication history</td><td class="range" data-label="Value used"><b>15%</b><small>range 5% to 27%</small></td><td data-label="Source">"Up to 27%" of hospital prescribing errors come from incomplete histories at admission<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a>. Low and likely values are our assumptions, deliberately below that ceiling.</td></tr>
+      <tr><td>Deaths per harm event</td><td class="range" data-label="Value used"><b>3%</b><small>range 1.9% to 6.4%</small></td><td data-label="Source">WHO: 2.6 million deaths from 134 million adverse events in low- and middle-income hospitals = 1.9%<a class="cite" href="#ref-9" aria-label="Source 9">[9]</a>. Mumbai: 17 deaths among 265 patients with drug reactions = 6.4%<a class="cite" href="#ref-8" aria-label="Source 8">[8]</a>.</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -451,21 +482,15 @@ th.num{white-space:normal}
 <section id="clinic" aria-labelledby="clinic-h">
   <h2 id="clinic-h">Channel 2: Clinics and Outpatient Care</h2>
   <p>Most Indians are treated in clinics, not hospitals. Here the studies measure safety incidents per consultation and the share causing severe harm, but not deaths, so this channel reports severe harm only.</p>
-  <div class="formula">
-    <span class="eq"><b>Consultations</b> = Population × Share ill in 15 days × (365 ÷ 15) = 146.39 crore × 7.5% × 24.3 = 267 crore a year</span>
-    <span class="eq"><b>History-related medication incidents</b> = Consultations × Incidents per consultation × Share that are medication × Share due to missing history</span>
-    <span class="eq">= 267 crore × 2.5% × 35% × 15% = <b>35 lakh</b></span>
-    <span class="eq"><b>Severe harm</b> = 35 lakh × 4% = <b>1.4 lakh</b> a year (worked example)</span>
-    <span class="note">Counting one consultation per illness is conservative: many illnesses need more than one visit.</span>
-  </div>
+  <p class="formula-line"><b>Formula:</b> severe harm = consultations × safety incidents per consultation × share involving medicines × share caused by missing history × share that are severe.</p><div class="calc"><p class="calc-title">Worked example, using the most likely value at each step</p><ol><li class="start"><span class="op"></span><span class="what">People in India</span><span class="res">146.39 crore</span></li><li><span class="op">× 7.5%</span><span class="what">are ill in any 15-day period</span><span class="res">10.98 crore</span></li><li><span class="op">× 24.3</span><span class="what">a year has 24.3 fifteen-day periods (365 ÷ 15), so consultations a year</span><span class="res">267 crore</span></li><li><span class="op">× 2.5%</span><span class="what">consultations with a safety incident</span><span class="res">6.68 crore</span></li><li><span class="op">× 35%</span><span class="what">incidents involving medicines</span><span class="res">2.34 crore</span></li><li><span class="op">× 15%</span><span class="what">caused by a missing history</span><span class="res">35 lakh</span></li><li class="total"><span class="op">× 4%</span><span class="what">cause severe harm</span><span class="res">1.4 lakh a year</span></li></ol><p class="calc-note">Counting one consultation per illness is conservative: many illnesses need more than one visit.</p></div>
   <div class="table-wrap"><table class="stack">
-    <thead><tr><th scope="col">Input</th><th scope="col">Low · <b>likely</b> · high</th><th scope="col">Source and reasoning</th></tr></thead>
+    <thead><tr><th scope="col">Input</th><th scope="col">Value used</th><th scope="col">Source and reasoning</th></tr></thead>
     <tbody>
-      <tr><td>Share reporting an illness in the last 15 days</td><td class="range" data-label="Range">7% · <b>7.5%</b> · 9%</td><td data-label="Source">About 7% rural and 9% urban<a class="cite" href="#ref-7" aria-label="Source 7">[7]</a></td></tr>
-      <tr><td>Safety incidents per consultation</td><td class="range" data-label="Range">1.5% · <b>2.5%</b> · 3.5%</td><td data-label="Source">Median 2 to 3 per 100 consultations in record-review studies worldwide<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td></tr>
-      <tr><td>Share of incidents involving medicines</td><td class="range" data-label="Range">25% · <b>35%</b> · 50%</td><td data-label="Source">Our assumption: prescribing and diagnosis are the incidents most linked to harm<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a>, but the review gives no single share</td></tr>
-      <tr><td>Share due to missing history</td><td class="range" data-label="Range">5% · <b>15%</b> · 27%</td><td data-label="Source">Same range as the hospital channel<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a></td></tr>
-      <tr><td>Share of incidents causing severe harm</td><td class="range" data-label="Range">1% · <b>4%</b> · 8%</td><td data-label="Source">Median 4% (range under 1% to 44%)<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td></tr>
+      <tr><td>Share reporting an illness in the last 15 days</td><td class="range" data-label="Value used"><b>7.5%</b><small>range 7% to 9%</small></td><td data-label="Source">About 7% rural and 9% urban<a class="cite" href="#ref-7" aria-label="Source 7">[7]</a></td></tr>
+      <tr><td>Safety incidents per consultation</td><td class="range" data-label="Value used"><b>2.5%</b><small>range 1.5% to 3.5%</small></td><td data-label="Source">Median 2 to 3 per 100 consultations in record-review studies worldwide<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td></tr>
+      <tr><td>Share of incidents involving medicines</td><td class="range" data-label="Value used"><b>35%</b><small>range 25% to 50%</small></td><td data-label="Source">Our assumption: prescribing and diagnosis are the incidents most linked to harm<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a>, but the review gives no single share</td></tr>
+      <tr><td>Share due to missing history</td><td class="range" data-label="Value used"><b>15%</b><small>range 5% to 27%</small></td><td data-label="Source">Same range as the hospital channel<a class="cite" href="#ref-2" aria-label="Source 2">[2]</a></td></tr>
+      <tr><td>Share of incidents causing severe harm</td><td class="range" data-label="Value used"><b>4%</b><small>range 1% to 8%</small></td><td data-label="Source">Median 4% (range under 1% to 44%)<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a></td></tr>
     </tbody>
   </table></div>
 </section>
@@ -494,11 +519,7 @@ th.num{white-space:normal}
 <section id="children" aria-labelledby="children-h">
   <h2 id="children-h">Children, Adults and Older People</h2>
   <p>Harm is not spread evenly by age. To split it, each age group's share of the population is weighted by how much more likely its members are to be harmed by medicines (a relative risk, RR), compared with adults aged 15 to 64.</p>
-  <div class="formula">
-    <span class="eq"><b>Share of harm in group g</b> = (Population share<sub>g</sub> × RR<sub>g</sub>) ÷ Σ (Population share × RR) over all groups</span>
-    <span class="eq">Hospital deaths, at the most likely values: children 0.24 × 1, adults 0.69 × 1, over-65s 0.07 × 6.8</span>
-    <span class="eq">Over-65s = 0.476 ÷ (0.24 + 0.69 + 0.476) = <b>34%</b>; children = 0.24 ÷ 1.406 = <b>17%</b>; adults = <b>49%</b></span>
-  </div>
+  <p class="formula-line"><b>Formula:</b> a group's share of the harm = its share of the population × its relative risk, divided by the same product added up over all groups.</p><div class="calc"><p class="calc-title">Worked example for hospital deaths, at the most likely values</p><ol><li class="start"><span class="op"></span><span class="what">Children: 0.24 of people × risk 1</span><span class="res">0.24</span></li><li><span class="op">+</span><span class="what">Adults 15 to 64: 0.69 × risk 1</span><span class="res">0.69</span></li><li><span class="op">+</span><span class="what">Over 65: 0.07 × risk 6.8</span><span class="res">0.476</span></li><li><span class="op">=</span><span class="what">Total</span><span class="res">1.406</span></li><li class="total"><span class="op">→</span><span class="what">Shares: over 65 = 0.476 ÷ 1.406; children = 0.24 ÷ 1.406; adults = 0.69 ÷ 1.406</span><span class="res">34% · 17% · 49%</span></li></ol></div>
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">Group</th><th class="num" scope="col">Share of people</th><th scope="col">Relative risk used</th><th scope="col">Source and reasoning</th></tr></thead>
     <tbody>
@@ -522,11 +543,7 @@ th.num{white-space:normal}
 <section id="lasting" aria-labelledby="lasting-h">
   <h2 id="lasting-h">Lasting Harm: People Still Suffering After Treatment</h2>
   <p>Many people harmed by a medication error are treated and recover. Some are not. The best long-term evidence on what happens to hospital patients after an adverse event is the Harvard Medical Practice Study, which reviewed 30,121 records from 51 New York hospitals in 1984: 70.5% of adverse events caused disability lasting under six months, 2.6% caused permanent disability and 13.6% led to death<a class="cite" href="#ref-5" aria-label="Source 5">[5]</a>.</p>
-  <div class="formula">
-    <span class="eq"><b>Permanently disabled</b> = In-patients harmed × 2.6% = 1,76,000 × 2.6% = <b>about 4,600 a year</b> (range 2,300 to 7,900)</span>
-    <span class="eq"><b>Recovered within six months</b> = 1,76,000 × 70.5% = <b>about 1.24 lakh a year</b></span>
-    <span class="note">The Harvard study found 13.6% of adverse events led to death; our model uses 1.9% to 6.4%, so our death estimate is conservative by this comparison.</span>
-  </div>
+  <div class="calc"><p class="calc-title">Worked example</p><ol><li class="start"><span class="op"></span><span class="what">Hospital patients harmed a year (median)</span><span class="res">1,76,000</span></li><li><span class="op">× 70.5%</span><span class="what">recover within six months</span><span class="res">1.24 lakh</span></li><li class="total"><span class="op">× 2.6%</span><span class="what">are left permanently disabled</span><span class="res">about 4,600</span></li></ol><p class="calc-note">Range for permanent disability: 2,300 to 7,900 a year. The Harvard study found 13.6% of adverse events led to death; our model uses 1.9% to 6.4%, so our death estimate is conservative by this comparison.</p></div>
   <p>In clinics, the 1.6 lakh severe harms a year are by definition the ones that cause serious or lasting damage<a class="cite" href="#ref-3" aria-label="Source 3">[3]</a>. Combined with the hospital figures, an incomplete medical history leaves about <b>1.6 lakh Indians a year</b> with severe or permanent harm from a medicine error, on top of the deaths.</p>
 </section>
 

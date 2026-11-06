@@ -398,6 +398,42 @@ td .tag{white-space:nowrap}
 td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
 th.num{white-space:normal}
 @media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
+
+/* ---- readability pass (6 Nov) ---- */
+/* table headers: readable sentence case, not tiny uppercase code font */
+th{font-family:var(--f-body);font-size:.84rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);line-height:1.35}
+@media (max-width:600px){
+  table.stack td[data-label]::before{font-family:var(--f-body);font-size:.78rem;letter-spacing:0;text-transform:none;font-weight:600;margin-bottom:.05rem}
+}
+/* value with its range underneath */
+td.range{white-space:normal;min-width:7.5rem}
+td.range b{display:block;font-size:1.02em}
+td.range small{display:block;color:var(--muted);font-size:.82em;margin-top:.1rem}
+/* formulas in words */
+.formula-line{margin:1rem 0 .75rem;line-height:1.65}
+.formula-line b{color:var(--ink)}
+.formula{font-family:var(--f-body);font-size:.95rem}
+/* calculation ladder: one step per line with a running total */
+.calc{border:1px solid var(--rule);border-radius:12px;background:var(--surface);padding:.9rem 1rem 1rem;margin:1rem 0 1.25rem}
+.calc-title{margin:0 0 .6rem;font-size:.84rem;font-weight:600;color:var(--muted)}
+.calc ol{list-style:none;margin:0;padding:0}
+.calc li{display:grid;grid-template-columns:minmax(4.5rem,auto) minmax(0,1fr) auto;column-gap:.85rem;align-items:baseline;padding:.45rem 0;border-top:1px solid var(--rule)}
+.calc li.start{border-top:0}
+.calc .op{font-family:var(--f-mono);font-size:.84rem;color:var(--rx);white-space:nowrap}
+.calc .what{font-size:.95rem;line-height:1.45;color:var(--ink)}
+.calc .res{font-variant-numeric:tabular-nums;font-weight:600;text-align:right;white-space:nowrap}
+.calc li.total{border-top:2px solid var(--ink)}
+.calc li.total .res{color:var(--rx);font-size:1.05rem}
+.calc-note{margin:.7rem 0 0;font-size:.85rem;color:var(--muted);line-height:1.55}
+.calc-pair{display:grid;gap:1rem}
+.calc-pair .calc{margin:0}
+@media (max-width:520px){
+  .calc li{grid-template-columns:minmax(0,1fr) auto;row-gap:.1rem}
+  .calc .op{grid-column:1 / -1}
+  .calc .res{white-space:normal}
+}
+td.range{min-width:9.5rem}
+td.range b{white-space:nowrap}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "jobTitle": "ML/AI Engineer, Full-Stack Engineer, Founder of 1Heath", "sameAs": ["https://github.com/pavankumar-gurram"]}</script>
 </head>

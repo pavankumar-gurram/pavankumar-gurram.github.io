@@ -398,6 +398,42 @@ td .tag{white-space:nowrap}
 td.num small{display:block;color:var(--muted);font-size:.8em;margin-top:.1rem}
 th.num{white-space:normal}
 @media (max-width:700px){.hero .photo{width:5.5rem;height:6.9rem}.hero .photo .mark{font-size:1.6rem}}
+
+/* ---- readability pass (6 Nov) ---- */
+/* table headers: readable sentence case, not tiny uppercase code font */
+th{font-family:var(--f-body);font-size:.84rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);line-height:1.35}
+@media (max-width:600px){
+  table.stack td[data-label]::before{font-family:var(--f-body);font-size:.78rem;letter-spacing:0;text-transform:none;font-weight:600;margin-bottom:.05rem}
+}
+/* value with its range underneath */
+td.range{white-space:normal;min-width:7.5rem}
+td.range b{display:block;font-size:1.02em}
+td.range small{display:block;color:var(--muted);font-size:.82em;margin-top:.1rem}
+/* formulas in words */
+.formula-line{margin:1rem 0 .75rem;line-height:1.65}
+.formula-line b{color:var(--ink)}
+.formula{font-family:var(--f-body);font-size:.95rem}
+/* calculation ladder: one step per line with a running total */
+.calc{border:1px solid var(--rule);border-radius:12px;background:var(--surface);padding:.9rem 1rem 1rem;margin:1rem 0 1.25rem}
+.calc-title{margin:0 0 .6rem;font-size:.84rem;font-weight:600;color:var(--muted)}
+.calc ol{list-style:none;margin:0;padding:0}
+.calc li{display:grid;grid-template-columns:minmax(4.5rem,auto) minmax(0,1fr) auto;column-gap:.85rem;align-items:baseline;padding:.45rem 0;border-top:1px solid var(--rule)}
+.calc li.start{border-top:0}
+.calc .op{font-family:var(--f-mono);font-size:.84rem;color:var(--rx);white-space:nowrap}
+.calc .what{font-size:.95rem;line-height:1.45;color:var(--ink)}
+.calc .res{font-variant-numeric:tabular-nums;font-weight:600;text-align:right;white-space:nowrap}
+.calc li.total{border-top:2px solid var(--ink)}
+.calc li.total .res{color:var(--rx);font-size:1.05rem}
+.calc-note{margin:.7rem 0 0;font-size:.85rem;color:var(--muted);line-height:1.55}
+.calc-pair{display:grid;gap:1rem}
+.calc-pair .calc{margin:0}
+@media (max-width:520px){
+  .calc li{grid-template-columns:minmax(0,1fr) auto;row-gap:.1rem}
+  .calc .op{grid-column:1 / -1}
+  .calc .res{white-space:normal}
+}
+td.range{min-width:9.5rem}
+td.range b{white-space:nowrap}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "What Changes When the History Is There", "description": "How many errors, severe harms and deaths a shared record could prevent, per 1,000 doctors, at scale and nationally, and how the health system changes.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -414,12 +450,7 @@ th.num{white-space:normal}
 </ul></div><div class="toc-top"><nav class="toc" aria-label="On this page"><span class="label">On This Page</span><ol><li><a href="#formula-h">The Impact Formula</a></li><li><a href="#per-doctor-h">Per 1,000 Doctors</a></li><li><a href="#scale-h">At Scale</a></li><li><a href="#system-h">How the System Changes</a></li><li><a href="#measure-h">How We Will Measure the Real Impact</a></li><li><a href="#sources">Sources</a></li></ol></nav></div>
 <section id="formula" aria-labelledby="formula-h">
   <h2 id="formula-h">The Impact Formula</h2>
-  <div class="formula">
-    <span class="eq"><b>Harm avoided</b> = Harm expected × Coverage × Effect</span>
-    <span class="eq"><b>Harm expected</b> = Consultations × 2.5% incidents × 35% medication × 15% missing history (the same rates as the <a href="1heath-burden.html">burden page</a>)</span>
-    <span class="eq"><b>Coverage</b> = share of consultations where the relevant history is already on record</span>
-    <span class="eq"><b>Effect</b> = how much having the history, checked by software, reduces history-related errors</span>
-  </div>
+  <p class="formula-line"><b>Formula:</b> harm avoided = harm that would happen × <b>coverage</b> (share of visits where the history is already on record) × <b>effect</b> (how much having the history, checked by software, cuts these errors). Harm that would happen uses the same rates as the <a href="1heath-burden.html">burden page</a>.</p>
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">Input</th><th class="num" scope="col">Value</th><th scope="col">Basis</th></tr></thead>
     <tbody>
@@ -434,12 +465,7 @@ th.num{white-space:normal}
 
 <section id="per-doctor" aria-labelledby="per-doctor-h">
   <h2 id="per-doctor-h">Per 1,000 Doctors</h2>
-  <div class="formula">
-    <span class="eq">Consultations = 1,000 × 9,000 = 90 lakh a year</span>
-    <span class="eq">History-related medication incidents expected = 90 lakh × 2.5% × 35% × 15% = <b>11,812</b></span>
-    <span class="eq">Avoided in year three = 11,812 × 70% coverage × 48% effect = <b>3,969</b>; severe harm avoided = 3,969 × 4% = <b>159</b></span>
-    <span class="eq">Hospital deaths avoided = 30 lakh patients × 2.9% admitted × 2.5% × 15% × 3% × 70% × 48% = <b>3.3</b></span>
-  </div>
+  <div class="calc"><p class="calc-title">Worked example: 1,000 doctors in year three</p><ol><li class="start"><span class="op"></span><span class="what">1,000 doctors × 9,000 consultations each</span><span class="res">90 lakh</span></li><li><span class="op">× 2.5%</span><span class="what">consultations with a safety incident</span><span class="res">2.25 lakh</span></li><li><span class="op">× 35%</span><span class="what">involving medicines</span><span class="res">78,750</span></li><li><span class="op">× 15%</span><span class="what">caused by a missing history</span><span class="res">11,812</span></li><li><span class="op">× 70%</span><span class="what">where the history is on record (coverage)</span><span class="res">8,269</span></li><li class="total"><span class="op">× 48%</span><span class="what">prevented by having it checked (effect)</span><span class="res">3,969 avoided</span></li></ol><p class="calc-note">Of these, 4% would have been severe: about 159 severe harms avoided. Hospital deaths avoided, through the 30 lakh patients of these clinics: 30 lakh × 2.9% admitted × 2.5% × 15% × 3% × 70% × 48% ≈ 3.</p></div>
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">Avoided each year (median, 90% range)</th><th class="num" scope="col">Year one</th><th class="num" scope="col">Year three</th></tr></thead>
     <tbody>
