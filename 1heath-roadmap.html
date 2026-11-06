@@ -541,6 +541,21 @@ h2+h3.group{margin-top:.4rem}
 .hero2 .role .nowrap{display:inline-block;white-space:normal;max-width:100%}
 .hero-top{flex-wrap:wrap}.hero-name{flex:1 1 9em;min-width:min(9em,100%)}.hero2 h1{overflow-wrap:normal;word-break:normal}
 @media (max-width:640px){.hero2 .btns{grid-template-columns:repeat(auto-fit,minmax(min(100%,5.2em),1fr))}.hero2 .btns .btn{overflow-wrap:anywhere}}
+
+/* experience and skills */
+.cv{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.cv li{padding:1rem 0;border-bottom:1px solid var(--rule)}
+.cv-head{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:1rem;row-gap:.1rem;align-items:baseline}
+.cv-head h3{margin:0;font-size:1.15rem}
+.cv-org{grid-column:1;color:var(--muted);font-weight:600;font-size:var(--s-sm)}
+.cv-when{grid-column:2;grid-row:1;font-size:var(--s-xs);font-weight:600;color:var(--muted);white-space:nowrap}
+.cv p{margin:.5rem 0 0;font-size:var(--s-sm)}
+.skills{margin:0;border-top:1px solid var(--rule)}
+.skills>div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--rule)}
+.skills dt{font-weight:700;font-size:var(--s-sm)}
+.skills dd{margin:0;font-size:var(--s-sm);color:var(--ink)}
+@media (max-width:640px){.skills>div{grid-template-columns:1fr;gap:.15rem}}
+.cv{border-top:0}.cv li:first-child{padding-top:.25rem}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Roadmap: From Scribe to Health Research Company", "description": "The four stages, the prevention features to come, and how 1Heath becomes a research and development company without ever selling patient data.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "image": "https://pawankalyan.dev/pawan-kalyan.jpg"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>

@@ -541,6 +541,21 @@ h2+h3.group{margin-top:.4rem}
 .hero2 .role .nowrap{display:inline-block;white-space:normal;max-width:100%}
 .hero-top{flex-wrap:wrap}.hero-name{flex:1 1 9em;min-width:min(9em,100%)}.hero2 h1{overflow-wrap:normal;word-break:normal}
 @media (max-width:640px){.hero2 .btns{grid-template-columns:repeat(auto-fit,minmax(min(100%,5.2em),1fr))}.hero2 .btns .btn{overflow-wrap:anywhere}}
+
+/* experience and skills */
+.cv{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.cv li{padding:1rem 0;border-bottom:1px solid var(--rule)}
+.cv-head{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:1rem;row-gap:.1rem;align-items:baseline}
+.cv-head h3{margin:0;font-size:1.15rem}
+.cv-org{grid-column:1;color:var(--muted);font-weight:600;font-size:var(--s-sm)}
+.cv-when{grid-column:2;grid-row:1;font-size:var(--s-xs);font-weight:600;color:var(--muted);white-space:nowrap}
+.cv p{margin:.5rem 0 0;font-size:var(--s-sm)}
+.skills{margin:0;border-top:1px solid var(--rule)}
+.skills>div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--rule)}
+.skills dt{font-weight:700;font-size:var(--s-sm)}
+.skills dd{margin:0;font-size:var(--s-sm);color:var(--ink)}
+@media (max-width:640px){.skills>div{grid-template-columns:1fr;gap:.15rem}}
+.cv{border-top:0}.cv li:first-child{padding-top:.25rem}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/", "image": "https://pawankalyan.dev/pawan-kalyan.jpg", "jobTitle": "ML/AI Engineer, Full-Stack Engineer, Founder of 1Heath", "sameAs": ["https://github.com/pawankalyan-gurram", "https://www.linkedin.com/in/pavankumar-gurram/", "https://www.instagram.com/pawan_kalyan.official/"]}</script>
 </head>
@@ -561,7 +576,7 @@ h2+h3.group{margin-top:.4rem}
     </div>
   </div>
   <p class="lede">I'm building <a href="1heath.html">1Heath</a> so that no doctor in India has to treat a patient blind. It listens to the consultation in any Indian language, writes a checked prescription, and keeps the patient's history for the next doctor.</p>
-  <p>I'm a senior software engineer working on AI/ML and full-stack products, and I built 1Heath's working Doctor app myself.</p>
+  <p>By day I'm a senior AI/ML and full-stack engineer (Member of Technical Staff) at a large Indian software company, and I interned at DRDO. I built 1Heath's working Doctor app myself.</p>
   <p class="now"><b>Now:</b> testing the Doctor app against 131 clinical cases and preparing the first clinic pilot.</p>
   <div class="btns">
     <a class="btn primary" href="mailto:hello@pawankalyan.dev">Email me</a>
@@ -640,6 +655,32 @@ h2+h3.group{margin-top:.4rem}
       </ul>
     </div>
   </article>
+</section>
+
+<section id="experience" aria-labelledby="experience-h">
+  <h2 id="experience-h">Experience</h2>
+  <ol class="cv">
+    <li>
+      <div class="cv-head"><h3>Founder</h3><span class="cv-org">1Heath</span><span class="cv-when">Present</span></div>
+      <p>Building a medical scribe and shared health record for India's small clinics, from research and safety rules to the Android app. Designed and built the working Doctor app: speech recognition in Indian languages, a language model that drafts the note, and a rules engine that verifies every line.</p>
+    </li>
+    <li>
+      <div class="cv-head"><h3>Member of Technical Staff</h3><span class="cv-org">A large Indian software company</span><span class="cv-when">Present</span></div>
+      <p>Senior AI/ML and full-stack engineer on a recruitment software product used by businesses, working across product, architecture, AI features and hands-on development in Java.</p>
+    </li>
+    <li>
+      <div class="cv-head"><h3>Intern</h3><span class="cv-org">DRDO, Defence Research and Development Organisation</span></div>
+      <p>Internship at India's defence research organisation.</p>
+    </li>
+  </ol>
+
+  <h3 class="group">Skills</h3>
+  <dl class="skills">
+    <div><dt>AI and ML</dt><dd>Speech recognition pipelines for Indian languages and mixed speech; language-model drafting checked by rule engines; evaluation on held-out test sets; medicine-name matching by spelling and sound</dd></div>
+    <div><dt>Mobile</dt><dd>Flutter, Kotlin, Android; encrypted on-device storage</dd></div>
+    <div><dt>Backend</dt><dd>Python, Java, PostgreSQL; Cloudflare Workers, D1 and KV for an API proxy with key rotation, metering and limits</dd></div>
+    <div><dt>Health data</dt><dd>Indian drug catalogues across modern, Ayurvedic and homeopathic medicine; allergy, dose and banned-combination rules; CT and MRI 3D reconstruction</dd></div>
+  </dl>
 </section>
 
 <section id="writing" aria-labelledby="writing-h">
