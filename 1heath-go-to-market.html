@@ -434,6 +434,14 @@ td.range small{display:block;color:var(--muted);font-size:.82em;margin-top:.1rem
 }
 td.range{min-width:9.5rem}
 td.range b{white-space:nowrap}
+/* plain-language ladder: sentence on the left, answer on the right */
+.calc li{grid-template-columns:minmax(0,1fr) auto;column-gap:1.25rem;padding:.6rem 0}
+.calc .what{font-size:.98rem;line-height:1.5}
+.calc .what small{display:block;color:var(--muted);font-size:.8rem;margin-top:.15rem}
+.calc .res{font-size:1rem}
+.calc li.start .what{font-weight:600}
+@media (max-width:520px){ .calc li{grid-template-columns:minmax(0,1fr);row-gap:.15rem} .calc .res{text-align:left} }
+.calc .res{white-space:normal;max-width:16rem;overflow-wrap:anywhere}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How 1Heath Reaches Doctors", "description": "Doctors first, then patients: who adopts first, where we meet them, the funnel in numbers, the rules we keep, and what the pilot must prove.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
@@ -506,7 +514,7 @@ td.range b{white-space:nowrap}
 
 <section id="funnel" aria-labelledby="funnel-h">
   <h2 id="funnel-h">The Funnel, in Numbers</h2>
-  <div class="calc"><p class="calc-title">The funnel to 1,000 active doctors (targets)</p><ol><li class="start"><span class="op"></span><span class="what">Demos given</span><span class="res">5,000</span></li><li><span class="op">× 1 in 3</span><span class="what">start a free trial</span><span class="res">1,667</span></li><li class="total"><span class="op">× 6 in 10</span><span class="what">still active after four weeks</span><span class="res">1,000 doctors</span></li></ol><p class="calc-note">Cost per active doctor = total sales and support spend ÷ active doctors; target under ₹20,000.</p></div>
+  <div class="calc"><p class="calc-title">From demo to active doctor (targets)</p><ol><li class="start"><span class="what">Doctors shown a 15-minute demo</span><span class="res">5,000</span></li><li><span class="what">1 in 3 start a free trial</span><span class="res">1,667</span></li><li class="total"><span class="what">6 in 10 of those still use it after four weeks</span><span class="res">1,000 doctors</span></li></ol><p class="calc-note">The cost of winning each active doctor (all sales and support spending divided by active doctors) should stay under ₹20,000.</p></div>
   <p>These ratios are targets until the pilot measures them. If trials convert at 1 in 5 instead of 1 in 3, the same 1,000 doctors need about 8,300 demos, and the cost per doctor rises accordingly; the <a href="1heath-business.html#unit">business model</a> shows what that does to payback.</p>
 </section>
 

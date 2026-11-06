@@ -434,6 +434,14 @@ td.range small{display:block;color:var(--muted);font-size:.82em;margin-top:.1rem
 }
 td.range{min-width:9.5rem}
 td.range b{white-space:nowrap}
+/* plain-language ladder: sentence on the left, answer on the right */
+.calc li{grid-template-columns:minmax(0,1fr) auto;column-gap:1.25rem;padding:.6rem 0}
+.calc .what{font-size:.98rem;line-height:1.5}
+.calc .what small{display:block;color:var(--muted);font-size:.8rem;margin-top:.15rem}
+.calc .res{font-size:1rem}
+.calc li.start .what{font-weight:600}
+@media (max-width:520px){ .calc li{grid-template-columns:minmax(0,1fr);row-gap:.15rem} .calc .res{text-align:left} }
+.calc .res{white-space:normal;max-width:16rem;overflow-wrap:anywhere}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "What India Can Learn from Other Health Systems", "description": "Which countries do best on emergency care, cancer, coverage and records, why, and what India can take from them. Every comparison is sourced.", "author": {"@type": "Person", "name": "Pawan Kalyan", "alternateName": "Pavan Kumar Gurram", "url": "https://pawankalyan.dev/"}, "dateModified": "2026-11-06", "inLanguage": "en-IN"}</script>
 </head>
